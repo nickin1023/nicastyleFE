@@ -1,6 +1,6 @@
 import { Button } from "@/components/atoms/button/Button";
 
-export default function blogs() {
+export default function Blogs() {
   return (
     <>
       <p>blogs</p>

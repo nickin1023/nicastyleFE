@@ -1,4 +1,4 @@
-export default function contact() {
+export default function Contact() {
   return (
     <>
       <p>contact</p>

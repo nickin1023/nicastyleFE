@@ -1,5 +1,5 @@
 import clsx from "clsx";
 
-export const cn = (name: String) => {
+export const cn = (name: string) => {
   return clsx(name);
 };
