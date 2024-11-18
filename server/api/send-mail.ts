@@ -1,6 +1,6 @@
 import { Credentials, OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { IncomingMessage, ServerResponse } from "http";
 
 const clientSecret = process.env.GMAIL_CLIENT_SECRET;
 const clientId = process.env.GMAIL_CLIENT_ID;
@@ -54,18 +54,25 @@ const send = async () => {
       raw: raw,
     },
   });
+
   //結果を表示
-  // console.log(response!.data);
+  return response.data;
 };
 
-type Data = {
-  name: string;
-};
+// type AdministratorGetResponse = {
+//   name: string;
+// };
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  send();
-  res.status(200).json({ name: "send mail" });
+export default function sendMail(req: IncomingMessage, res: ServerResponse) {
+  const gmailRes = send();
+
+  console.log(gmailRes);
+
+  const responseBody = {
+    data: gmailRes,
+  };
+
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(responseBody));
 }

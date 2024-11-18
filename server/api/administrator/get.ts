@@ -1,12 +1,18 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { IncomingMessage, ServerResponse } from "http";
 
-type Data = {
+type AdministratorGetResponse = {
   name: string;
 };
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+export default function administratorGet(
+  req: IncomingMessage,
+  res: ServerResponse
 ) {
-  res.status(200).json({ name: "admin/get" });
+  const responseBody: AdministratorGetResponse = {
+    name: "admin/get",
+  };
+
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(responseBody));
 }
