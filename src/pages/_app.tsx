@@ -1,5 +1,5 @@
-import { Layout } from "@/components/templates";
-import "@/styles/globals.css";
+import { Layout } from "@/src/components/templates";
+import "@/src/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 

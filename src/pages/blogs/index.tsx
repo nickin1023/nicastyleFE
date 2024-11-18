@@ -1,4 +1,4 @@
-import { Button } from "@/components/atoms/button/Button";
+import { Button } from "@/src/components/atoms/button/Button";
 
 export default function Blogs() {
   return (
