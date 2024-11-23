@@ -3,13 +3,20 @@ import next from "next";
 import { parse } from "url";
 import administratorGet from "./api/administrator/get";
 import sendMail from "./api/send-mail";
+import { createEnvMap } from "./envMap/createEnvMap";
+import { EnvMap } from "./envMap/envMap";
 
 const port = parseInt(process.env.PORT || "3000", 10);
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
+export let envMap: EnvMap;
+
 app.prepare().then(() => {
+  // 変数の読み込み、createServerよりも前で行うこと
+  envMap = createEnvMap();
+
   createServer((req, res) => {
     const parsedUrl = parse(req.url!, true);
 
