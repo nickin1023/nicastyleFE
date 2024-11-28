@@ -1,8 +1,8 @@
 import { createServer } from "http";
 import next from "next";
 import { parse } from "url";
-import administratorGet from "./api/administrator/get";
-import sendMail from "./api/send-mail";
+import { administratorGet } from "./api/administrator/get";
+import { sendMail } from "./api/send-mail";
 import { createEnvMap } from "./envMap/createEnvMap";
 import { EnvMap } from "./envMap/envMap";
 

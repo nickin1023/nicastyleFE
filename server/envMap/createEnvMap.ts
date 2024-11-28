@@ -22,17 +22,20 @@ export const createEnvMap = (): EnvMap => {
         ),
       },
       token: {
-        accessToken: validateEnv(
+        access_token: validateEnv(
           "GMAIL_ACCESS_TOKEN",
           process.env.GMAIL_ACCESS_TOKEN
         ),
-        refreshToken: validateEnv(
+        refresh_token: validateEnv(
           "GMAIL_REFRESH_TOKEN",
           process.env.GMAIL_REFRESH_TOKEN
         ),
         scope: validateEnv("GMAIL_TOKEN_SCOPE", process.env.GMAIL_TOKEN_SCOPE),
-        type: validateEnv("GMAIL_TOKEN_TYPE", process.env.GMAIL_TOKEN_TYPE),
-        expiryDate: Number(
+        token_type: validateEnv(
+          "GMAIL_TOKEN_TYPE",
+          process.env.GMAIL_TOKEN_TYPE
+        ),
+        expiry_date: Number(
           validateEnv(
             "GMAIL_TOKEN_EXPIRE_DATE",
             process.env.GMAIL_TOKEN_EXPIRE_DATE

@@ -1,3 +1,5 @@
+import { Credentials } from "google-auth-library";
+
 export type EnvMap = {
   ghost: {
     apiKey: string;
@@ -9,12 +11,6 @@ export type EnvMap = {
       clientSecret: string;
       redirectUri: string;
     };
-    token: {
-      accessToken: string;
-      refreshToken: string;
-      scope: string;
-      type: string;
-      expiryDate: number;
-    };
+    token: Credentials;
   };
 };

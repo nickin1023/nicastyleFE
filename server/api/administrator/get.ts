@@ -4,10 +4,10 @@ type AdministratorGetResponse = {
   name: string;
 };
 
-export default function administratorGet(
+export const administratorGet = async (
   req: IncomingMessage,
   res: ServerResponse
-) {
+) => {
   const responseBody: AdministratorGetResponse = {
     name: "admin/get",
   };
@@ -15,4 +15,4 @@ export default function administratorGet(
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(responseBody));
-}
+};

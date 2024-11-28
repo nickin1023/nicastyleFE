@@ -1,19 +1,14 @@
 import { Credentials, OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
 import { IncomingMessage, ServerResponse } from "http";
-
-const clientSecret = process.env.GMAIL_CLIENT_SECRET;
-const clientId = process.env.GMAIL_CLIENT_ID;
-const redirectUrl = process.env.GMAIL_REDIRECT_URI;
-const credentials: Credentials = {
-  refresh_token: process.env.GMAIL_REFRESH_TOKEN,
-  expiry_date: Number(process.env.GMAIL_TOKEN_EXPIRE_DATE),
-  access_token: process.env.GMAIL_ACCESS_TOKEN,
-  token_type: process.env.GMAIL_TOKEN_TYPE,
-  scope: process.env.GMAIL_TOKEN_SCOPE,
-};
+import { envMap } from "..";
 
 const send = async () => {
+  const clientSecret = envMap.gmail.client.clientSecret;
+  const clientId = envMap.gmail.client.clientId;
+  const redirectUrl = envMap.gmail.client.redirectUri;
+  const credentials: Credentials = envMap.gmail.token;
+
   //認証
   const oauth2Client = new OAuth2Client(clientId, clientSecret, redirectUrl);
   oauth2Client.credentials = credentials;
@@ -56,23 +51,34 @@ const send = async () => {
   });
 
   //結果を表示
-  return response.data;
+  return response;
 };
 
-// type AdministratorGetResponse = {
-//   name: string;
-// };
+export const sendMail = async (req: IncomingMessage, res: ServerResponse) => {
+  try {
+    const response = await send();
 
-export default function sendMail(req: IncomingMessage, res: ServerResponse) {
-  const gmailRes = send();
+    if (response.status != 200) {
+      console.warn("Gmail API error: ", response.data);
 
-  console.log(gmailRes);
-
-  const responseBody = {
-    data: gmailRes,
-  };
+      res.statusCode = 500;
+      res.setHeader("Content-Type", "application/json");
+      res.end(
+        JSON.stringify({ data: "Something error has occurred at gmail API." })
+      );
+      return;
+    }
+  } catch (e) {
+    console.warn("Gmail API error: ", e);
+    res.statusCode = 500;
+    res.setHeader("Content-Type", "application/json");
+    res.end(
+      JSON.stringify({ data: "Something error has occurred at gmail API." })
+    );
+    return;
+  }
 
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(responseBody));
-}
+  res.end(JSON.stringify({ data: "Success to send mail." }));
+};
