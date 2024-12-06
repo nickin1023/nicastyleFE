@@ -2,6 +2,7 @@ import { EnvMap } from "./envMap";
 
 export const createEnvMap = (): EnvMap => {
   const envMap: EnvMap = {
+    PORT: Number(process.env.PORT) || 3000,
     ghost: {
       apiKey: validateEnv("GHOST_API_KEY", process.env.GHOST_API_KEY),
       adminApiKey: validateEnv(

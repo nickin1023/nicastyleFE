@@ -1,48 +1,68 @@
-import { createServer } from "http";
+import express, { Request, Response } from "express";
+import http from "http";
 import next from "next";
-import { parse } from "url";
 import { administratorGet } from "./api/administrator/get";
-import { sendMail } from "./api/send-mail";
+import { sendMail } from "./api/contact";
 import { createEnvMap } from "./envMap/createEnvMap";
 import { EnvMap } from "./envMap/envMap";
 
-const port = parseInt(process.env.PORT || "3000", 10);
-const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
-const handle = app.getRequestHandler();
+const isDev = process.env.NODE_ENV !== "production";
 
 export let envMap: EnvMap;
 
-app.prepare().then(() => {
+const main = async () => {
+  const app = express();
+  const nextApp = next({ dev: isDev });
+  await nextApp.prepare();
+
   // 変数の読み込み、createServerよりも前で行うこと
   envMap = createEnvMap();
 
-  createServer((req, res) => {
-    const parsedUrl = parse(req.url!, true);
+  const nextRequestHandler = nextApp.getRequestHandler();
 
-    if (parsedUrl.pathname?.startsWith("/api/administrator")) {
-      if (!process.env.NODE_ENV.match("development")) {
-        // ローカル以外からのadminエンドポイントへの接続は404にする
-        console.warn("admin access from not local");
-        res.statusCode = 404;
-        res.end("Not Found");
-      }
+  app.use(express.json());
 
-      if (parsedUrl.pathname === "/api/administrator/get") {
-        administratorGet(req, res);
-      }
+  app.all("/api/administrator/*", (req: Request, res: Response, next) => {
+    if (!isDev) {
+      // ローカル以外からのadminエンドポイントへの接続は404にする
+      console.warn("admin access from not local");
+      res.redirect("/404");
+    }
+    next();
+  });
+
+  app.get("/api/administrator/get", (req: Request, res: Response) => {
+    administratorGet(req).then((r) => {
+      console.log("server side /api/administrator/get");
+      res.status(200).send(r);
+    });
+  });
+
+  app.post("/api/contact", (req: Request, res: Response) => {
+    sendMail(req).then((r) => {
+      console.log("server side /api/contact");
+      res.status(200).send(r);
+    });
+  });
+
+  app.all("*", (req: Request, res: Response) => {
+    return nextRequestHandler(req, res);
+  });
+
+  const httpServer = http.createServer(app);
+  app.set("port", envMap.PORT);
+
+  httpServer.listen(envMap.PORT, (err?: any) => {
+    if (err) {
+      process.exit(1);
     }
 
-    // エンドポイントごとの処理
-    if (parsedUrl.pathname === "/api/send-mail") {
-      sendMail(req, res);
-    }
-    handle(req, res, parsedUrl);
-  }).listen(port);
+    console.log(
+      `> Server listening at http://localhost:${envMap.PORT} as ${
+        isDev ? "development" : process.env.NODE_ENV
+      }`
+    );
+  });
+};
 
-  console.log(
-    `> Server listening at http://localhost:${port} as ${
-      dev ? "development" : process.env.NODE_ENV
-    }`
-  );
-});
+main();

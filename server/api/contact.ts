@@ -1,7 +1,8 @@
+import { Request } from "express";
 import { Credentials, OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
-import { IncomingMessage, ServerResponse } from "http";
 import { envMap } from "..";
+import { SendMailResponse } from "../types/entity/sendMail";
 
 const send = async () => {
   const clientSecret = envMap.gmail.client.clientSecret;
@@ -54,31 +55,22 @@ const send = async () => {
   return response;
 };
 
-export const sendMail = async (req: IncomingMessage, res: ServerResponse) => {
+export const sendMail = async (req: Request) => {
+  var res: SendMailResponse;
   try {
     const response = await send();
 
     if (response.status != 200) {
       console.warn("Gmail API error: ", response.data);
-
-      res.statusCode = 500;
-      res.setHeader("Content-Type", "application/json");
-      res.end(
-        JSON.stringify({ data: "Something error has occurred at gmail API." })
-      );
-      return;
+      res = { result: "Failure" };
+      return res;
     }
   } catch (e) {
     console.warn("Gmail API error: ", e);
-    res.statusCode = 500;
-    res.setHeader("Content-Type", "application/json");
-    res.end(
-      JSON.stringify({ data: "Something error has occurred at gmail API." })
-    );
-    return;
+    res = { result: "Failure" };
+    return res;
   }
 
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify({ data: "Success to send mail." }));
+  res = { result: "Success" };
+  return res;
 };
