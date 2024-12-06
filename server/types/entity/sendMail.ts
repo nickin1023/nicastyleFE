@@ -9,3 +9,7 @@ type MailMessage = {
   subject?: string | undefined;
   main: string;
 };
+
+export type SendMailResponse = {
+  result: "Success" | "Failure";
+};

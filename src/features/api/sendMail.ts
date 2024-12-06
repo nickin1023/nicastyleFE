@@ -4,6 +4,6 @@ import axios from "axios";
 export const sendMail = async (
   sendMailRequest: SendMailRequest
 ): Promise<any> => {
-  const res = await axios.post("/api/send-mail", sendMailRequest);
+  const res = await axios.post("/api/contact", sendMailRequest);
   return res.status;
 };

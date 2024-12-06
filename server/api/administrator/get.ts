@@ -1,18 +1,13 @@
-import { IncomingMessage, ServerResponse } from "http";
+import { Request } from "express";
 
 type AdministratorGetResponse = {
   name: string;
 };
 
-export const administratorGet = async (
-  req: IncomingMessage,
-  res: ServerResponse
-) => {
-  const responseBody: AdministratorGetResponse = {
+export const administratorGet = async (req: Request) => {
+  const response: AdministratorGetResponse = {
     name: "admin/get",
   };
 
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.end(JSON.stringify(responseBody));
+  return response;
 };
