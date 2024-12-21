@@ -1,19 +1,23 @@
 import { Request } from "express";
-import { Credentials, OAuth2Client } from "google-auth-library";
+import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
 import { envMap } from "..";
 import { SendMailRequest, SendMailResponse } from "../types/entity/sendMail";
 
+// OAuth2Clientの初期化
+const getOAuth2Client = () => {
+  const { client, token } = envMap.gmail;
+  const oauth2Client = new OAuth2Client(
+    client.clientId,
+    client.clientSecret,
+    client.redirectUri
+  );
+  oauth2Client.credentials = token;
+  return oauth2Client;
+};
+
 const send = async (req: SendMailRequest) => {
-  const clientSecret = envMap.gmail.client.clientSecret;
-  const clientId = envMap.gmail.client.clientId;
-  const redirectUrl = envMap.gmail.client.redirectUri;
-  const credentials: Credentials = envMap.gmail.token;
-
-  //認証
-  const oauth2Client = new OAuth2Client(clientId, clientSecret, redirectUrl);
-  oauth2Client.credentials = credentials;
-
+  const oauth2Client = getOAuth2Client();
   const gmail = google.gmail({ version: "v1", auth: oauth2Client });
 
   const makeBody = (params: any) => {
@@ -41,17 +45,15 @@ const send = async (req: SendMailRequest) => {
   本文\n
   ${req.message.main}`;
 
-  const raw = makeBody({
-    to: "nickin.entre@gmail.com",
-    subject: req.type,
-    message: messageBody,
-  });
-
   //API経由でシートにアクセス
   const response = await gmail.users.messages.send({
     userId: "me",
     requestBody: {
-      raw: raw,
+      raw: makeBody({
+        to: "nickin.entre@gmail.com",
+        subject: req.type,
+        message: messageBody,
+      }),
     },
   });
 
@@ -65,9 +67,7 @@ export const sendMail = async (req: Request) => {
     const response = await send(req.body);
 
     if (response.status != 200) {
-      console.warn("Gmail API error: ", response.data);
-      res = { result: "Failure" };
-      return res;
+      throw new Error(`Gmail API error: ${JSON.stringify(response.data)}`);
     }
   } catch (e) {
     console.warn("Gmail API error: ", e);
