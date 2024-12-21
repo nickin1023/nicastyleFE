@@ -5,14 +5,19 @@ import {
 } from "@/server/types/entity/sendMail";
 import { Button } from "@/src/components/atoms/button/Button";
 import { InputForm } from "@/src/components/molecules/inputForm/InputForm";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { sendMail } from "../../api/sendMail";
 
 export const ContactForm = () => {
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<MailMessage>();
 
   const onClickSend: SubmitHandler<MailMessage> = async (mailMessage) => {
@@ -26,16 +31,31 @@ export const ContactForm = () => {
       },
     };
     const res: SendMailResponse = await sendMail(mailRequest);
-    console.log(res);
+    if (res.result === "Success") {
+      setSnackbarMessage("送信に成功しました。");
+      reset();
+    } else {
+      setSnackbarMessage("送信に失敗しました。再度お試しください。");
+    }
+
+    setIsSnackbarVisible(true);
+    setTimeout(() => {
+      setIsSnackbarVisible(false);
+    }, 3000);
   };
 
   return (
-    <>
+    <div className="relative">
       <h1>お問い合わせ</h1>
       <p>
         当サイトへのご意見やお問い合わせは下記フォームよりお願いいたします。
         <br />
       </p>
+      {isSnackbarVisible && (
+        <div className="absolute top-0 left-0 right-0 bg-blue-500 text-black px-4 py-3 z-10">
+          <p>{snackbarMessage}</p>
+        </div>
+      )}
       <form onSubmit={handleSubmit(onClickSend)}>
         <InputForm
           variant={"primary"}
@@ -82,6 +102,6 @@ export const ContactForm = () => {
           送信
         </Button>
       </form>
-    </>
+    </div>
   );
 };
