@@ -1,19 +1,23 @@
 import { Request } from "express";
-import { Credentials, OAuth2Client } from "google-auth-library";
+import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
 import { envMap } from "..";
-import { SendMailResponse } from "../types/entity/sendMail";
+import { SendMailRequest, SendMailResponse } from "../types/entity/sendMail";
 
-const send = async () => {
-  const clientSecret = envMap.gmail.client.clientSecret;
-  const clientId = envMap.gmail.client.clientId;
-  const redirectUrl = envMap.gmail.client.redirectUri;
-  const credentials: Credentials = envMap.gmail.token;
+// OAuth2Clientの初期化
+const getOAuth2Client = () => {
+  const { client, token } = envMap.gmail;
+  const oauth2Client = new OAuth2Client(
+    client.clientId,
+    client.clientSecret,
+    client.redirectUri
+  );
+  oauth2Client.credentials = token;
+  return oauth2Client;
+};
 
-  //認証
-  const oauth2Client = new OAuth2Client(clientId, clientSecret, redirectUrl);
-  oauth2Client.credentials = credentials;
-
+const send = async (req: SendMailRequest) => {
+  const oauth2Client = getOAuth2Client();
   const gmail = google.gmail({ version: "v1", auth: oauth2Client });
 
   const makeBody = (params: any) => {
@@ -24,7 +28,6 @@ const send = async () => {
       `MIME-Version: 1.0\n`,
       `Content-Transfer-Encoding: 7bit\n`,
       `to: ${params.to} \n`,
-      `from: ${params.from} \n`,
       `subject: =?UTF-8?B?${params.subject}?= \n\n`,
       params.message,
     ].join("");
@@ -34,20 +37,23 @@ const send = async () => {
       .replace(/\//g, "_");
   };
 
-  const messageBody = `テスト body`;
-
-  const raw = makeBody({
-    to: "nickin.entre@gmail.com",
-    from: "nickin.entre@gmail.com",
-    subject: "test",
-    message: messageBody,
-  });
+  const messageBody = `${req.message.name}さんより お問い合わせ \n
+  メールアドレス: ${
+    req.message.address ? req.message.address : "アドレス記載なし"
+  }\n
+  タイトル: ${req.message.subject}\n
+  本文\n
+  ${req.message.main}`;
 
   //API経由でシートにアクセス
   const response = await gmail.users.messages.send({
     userId: "me",
     requestBody: {
-      raw: raw,
+      raw: makeBody({
+        to: "nickin.entre@gmail.com",
+        subject: req.type,
+        message: messageBody,
+      }),
     },
   });
 
@@ -58,12 +64,10 @@ const send = async () => {
 export const sendMail = async (req: Request) => {
   var res: SendMailResponse;
   try {
-    const response = await send();
+    const response = await send(req.body);
 
     if (response.status != 200) {
-      console.warn("Gmail API error: ", response.data);
-      res = { result: "Failure" };
-      return res;
+      throw new Error(`Gmail API error: ${JSON.stringify(response.data)}`);
     }
   } catch (e) {
     console.warn("Gmail API error: ", e);

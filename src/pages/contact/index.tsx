@@ -1,4 +1,4 @@
-import { ContactForm } from "@/src/features/contact/component/contactForm";
+import { ContactForm } from "@/src/features/contact/component/ContactForm";
 
 export default function Contact() {
   return (
