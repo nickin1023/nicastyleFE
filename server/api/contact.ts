@@ -24,7 +24,6 @@ const send = async (req: SendMailRequest) => {
       `MIME-Version: 1.0\n`,
       `Content-Transfer-Encoding: 7bit\n`,
       `to: ${params.to} \n`,
-      `from: ${params.from} \n`,
       `subject: =?UTF-8?B?${params.subject}?= \n\n`,
       params.message,
     ].join("");
@@ -44,7 +43,6 @@ const send = async (req: SendMailRequest) => {
 
   const raw = makeBody({
     to: "nickin.entre@gmail.com",
-    from: "nickin.entre@gmail.com",
     subject: req.type,
     message: messageBody,
   });
