@@ -3,7 +3,7 @@ export type SendMailRequest = {
   message: MailMessage;
 };
 
-type MailMessage = {
+export type MailMessage = {
   name?: string | undefined;
   address?: string | undefined;
   subject?: string | undefined;
