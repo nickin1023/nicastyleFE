@@ -2,9 +2,9 @@ import { Request } from "express";
 import { Credentials, OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
 import { envMap } from "..";
-import { SendMailResponse } from "../types/entity/sendMail";
+import { SendMailRequest, SendMailResponse } from "../types/entity/sendMail";
 
-const send = async () => {
+const send = async (req: SendMailRequest) => {
   const clientSecret = envMap.gmail.client.clientSecret;
   const clientId = envMap.gmail.client.clientId;
   const redirectUrl = envMap.gmail.client.redirectUri;
@@ -34,12 +34,18 @@ const send = async () => {
       .replace(/\//g, "_");
   };
 
-  const messageBody = `テスト body`;
+  const messageBody = `${req.message.name}さんより お問い合わせ \n
+  メールアドレス: ${
+    req.message.address ? req.message.address : "アドレス記載なし"
+  }\n
+  タイトル: ${req.message.subject}\n
+  本文\n
+  ${req.message.main}`;
 
   const raw = makeBody({
     to: "nickin.entre@gmail.com",
     from: "nickin.entre@gmail.com",
-    subject: "test",
+    subject: req.type,
     message: messageBody,
   });
 
@@ -58,7 +64,7 @@ const send = async () => {
 export const sendMail = async (req: Request) => {
   var res: SendMailResponse;
   try {
-    const response = await send();
+    const response = await send(req.body);
 
     if (response.status != 200) {
       console.warn("Gmail API error: ", response.data);
