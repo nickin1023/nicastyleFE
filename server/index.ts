@@ -33,14 +33,18 @@ const main = async () => {
 
   app.get("/api/administrator/get", (req: Request, res: Response) => {
     administratorGet(req).then((r) => {
+      console.log("=====request=====", req.body);
       console.log("server side /api/administrator/get");
+      console.log("=====response=====", r);
       res.status(200).send(r);
     });
   });
 
   app.post("/api/contact", (req: Request, res: Response) => {
     sendMail(req).then((r) => {
+      console.log("=====request=====", req.body);
       console.log("server side /api/contact");
+      console.log("=====response=====", r.result);
       res.status(200).send(r);
     });
   });
