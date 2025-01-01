@@ -1,10 +1,9 @@
-import { Button } from "@/src/components/atoms/button/Button";
+import { BlogList } from "@/src/features/blogs/component/blogList";
 
 export default function Blogs() {
   return (
     <>
-      <p>blogs</p>
-      <Button variant={"outline"}>button</Button>
+      <BlogList />
     </>
   );
 }
