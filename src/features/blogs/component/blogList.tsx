@@ -4,7 +4,7 @@ import {
   Post,
 } from "@/server/types/entity/post";
 import { useEffect, useState } from "react";
-import { getBlogs } from "../../api/getBlogs";
+import { getBlogs } from "../api/getBlogs";
 
 export const BlogList = () => {
   const [status, setStatus] = useState<string>();

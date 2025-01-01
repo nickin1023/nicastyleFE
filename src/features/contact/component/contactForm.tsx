@@ -7,7 +7,7 @@ import { Button } from "@/src/components/atoms/button/Button";
 import { InputForm } from "@/src/components/molecules/inputForm/InputForm";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { sendMail } from "../../api/sendMail";
+import { sendMail } from "../api/sendMail";
 
 export const ContactForm = () => {
   const [isSnackbarVisible, setIsSnackbarVisible] = useState<boolean>(false);
