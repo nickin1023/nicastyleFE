@@ -3,7 +3,7 @@ import http from "http";
 import next from "next";
 import { administratorGet } from "./api/administrator/get";
 import { sendMail } from "./api/contact";
-import { getBlogs } from "./api/post";
+import { getPosts } from "./api/post";
 import { createEnvMap } from "./envMap/createEnvMap";
 import { EnvMap } from "./envMap/envMap";
 
@@ -51,7 +51,7 @@ const main = async () => {
   });
 
   app.post("/api/blogs", (req: Request, res: Response) => {
-    getBlogs(req).then((r) => {
+    getPosts(req).then((r) => {
       console.log("=====request=====", req.body);
       console.log("server side /api/blogs");
       console.log("=====response=====", r);

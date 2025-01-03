@@ -1,5 +1,5 @@
 export type GetPostRequest = {
-  id?: number | null;
+  id?: string | null;
 };
 
 export type GetPostsResponse = {

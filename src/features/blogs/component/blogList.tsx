@@ -3,6 +3,7 @@ import {
   GetPostsResponse,
   Post,
 } from "@/server/types/entity/post";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getBlogs } from "../api/getBlogs";
 
@@ -11,7 +12,7 @@ export const BlogList = () => {
   const [posts, setPosts] = useState<Post[] | null>();
 
   const getData = async () => {
-    const req: GetPostRequest = { id: null };
+    const req: GetPostRequest = {};
     const res: GetPostsResponse = await getBlogs(req);
     setStatus(res.result);
     setPosts(res.posts);
@@ -19,7 +20,7 @@ export const BlogList = () => {
 
   useEffect(() => {
     getData();
-  }, [posts]);
+  }, []);
 
   return (
     <div className="relative">
@@ -28,7 +29,9 @@ export const BlogList = () => {
       {posts ? (
         <ul>
           {posts.map((post, index) => (
-            <li key={index}>{post.title}</li>
+            <li key={index}>
+              <Link href={`/blogs/${post.id}`}>{post.title}</Link>
+            </li>
           ))}
         </ul>
       ) : (
