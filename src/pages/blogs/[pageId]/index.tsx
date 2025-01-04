@@ -1,6 +1,9 @@
-import { useRouter } from "next/router";
+import { BlogDetail } from "@/src/features/blogs/component/blogDetail";
 
 export default function Page() {
-  const router = useRouter();
-  return <p>pageId: {router.query.pageId}</p>;
+  return (
+    <>
+      <BlogDetail />
+    </>
+  );
 }

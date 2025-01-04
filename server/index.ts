@@ -3,6 +3,7 @@ import http from "http";
 import next from "next";
 import { administratorGet } from "./api/administrator/get";
 import { sendMail } from "./api/contact";
+import { getPosts } from "./api/post";
 import { createEnvMap } from "./envMap/createEnvMap";
 import { EnvMap } from "./envMap/envMap";
 
@@ -45,6 +46,15 @@ const main = async () => {
       console.log("=====request=====", req.body);
       console.log("server side /api/contact");
       console.log("=====response=====", r.result);
+      res.status(200).send(r);
+    });
+  });
+
+  app.post("/api/blogs", (req: Request, res: Response) => {
+    getPosts(req).then((r) => {
+      console.log("=====request=====", req.body);
+      console.log("server side /api/blogs");
+      console.log("=====response=====", r);
       res.status(200).send(r);
     });
   });
