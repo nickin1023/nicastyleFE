@@ -3,11 +3,10 @@ import {
   GetPostsResponse,
   Post,
 } from "@/server/types/entity/post";
-import parse from "html-react-parser";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getBlogs } from "../api/getBlogs";
-import { options } from "../util/htmlReplacer";
+import { BlogContent } from "./blogContent";
 
 export const BlogDetail = () => {
   const [status, setStatus] = useState<string>();
@@ -28,17 +27,22 @@ export const BlogDetail = () => {
   }, [router.isReady, router.query]);
 
   return (
-    <div className="relative">
-      {post ? (
-        <>
-          <p>title: {post.title}</p>
-          <p>id: {post.id}</p>
-          <p>html</p>
-          {parse(post.html, options)}
-        </>
-      ) : (
-        <p>記事はありません。</p>
-      )}
+    <div className="relative bg-gray-500 flex flex-col">
+      <div className="container bg-white mx-auto my-5 px-5 py-5">
+        <p>other content</p>
+      </div>
+      <div className="container mx-auto my-5 px-5 py-5 bg-white">
+        {post ? (
+          <>
+            <p>title: {post.title}</p>
+            <p>id: {post.id}</p>
+            <p>html</p>
+            <BlogContent html={post.html} />
+          </>
+        ) : (
+          <p>記事はありません。</p>
+        )}
+      </div>
     </div>
   );
 };
