@@ -9,9 +9,9 @@ import {
   SendMailResponse,
 } from "@/server/types/entity/sendMail";
 import { Button } from "@/src/components/atoms/button/Button";
-import { InputForm } from "@/src/components/molecules/inputForm/InputForm";
+import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { KeyboardEventHandler, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { sendMail } from "../../contact/api/sendMail";
 import { getBlogs } from "../api/getBlogs";
@@ -44,7 +44,7 @@ export const BlogDetail = () => {
     getData(String(pageId));
   }, [router.isReady, router.query]);
 
-  const onClickSend: SubmitHandler<MailMessage> = async (mailMessage) => {
+  const onSubmit: SubmitHandler<MailMessage> = async (mailMessage) => {
     const mailRequest: SendMailRequest = {
       type: "Comment",
       message: {
@@ -67,6 +67,13 @@ export const BlogDetail = () => {
     setTimeout(() => {
       setIsSnackbarVisible(false);
     }, 3000);
+  };
+
+  const handleFormSubmit: KeyboardEventHandler = (e) => {
+    if (e.target instanceof HTMLTextAreaElement) return;
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -92,21 +99,26 @@ export const BlogDetail = () => {
             <p>{snackbarMessage}</p>
           </div>
         )}
-        <form onSubmit={handleSubmit(onClickSend)}>
-          <InputForm
+        <form onKeyDown={handleFormSubmit}>
+          <TextAreaForm
             variant={"primary"}
-            formName="main"
+            formName="comment"
             type="text"
-            placeholder="main"
-            labelName="本文"
+            labelName="コメント"
+            rows={5}
             {...register("main", {
-              required: "本文を入力してください",
+              required: "コメントを入力してください",
             })}
           />
           {errors.main?.message && (
             <p className="error-message">{errors.main?.message}</p>
           )}
-          <Button variant={"primary"} className="m-5" type="submit">
+          <Button
+            variant={"primary"}
+            className="m-5"
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+          >
             送信
           </Button>
         </form>

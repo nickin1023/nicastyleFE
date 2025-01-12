@@ -5,7 +5,8 @@ import {
 } from "@/server/types/entity/sendMail";
 import { Button } from "@/src/components/atoms/button/Button";
 import { InputForm } from "@/src/components/molecules/inputForm/InputForm";
-import { useState } from "react";
+import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
+import { KeyboardEventHandler, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { sendMail } from "../api/sendMail";
 
@@ -20,7 +21,7 @@ export const ContactForm = () => {
     reset,
   } = useForm<MailMessage>();
 
-  const onClickSend: SubmitHandler<MailMessage> = async (mailMessage) => {
+  const onSubmit: SubmitHandler<MailMessage> = async (mailMessage) => {
     const mailRequest: SendMailRequest = {
       type: "Contact",
       message: {
@@ -44,6 +45,13 @@ export const ContactForm = () => {
     }, 3000);
   };
 
+  const handleFormSubmit: KeyboardEventHandler = (e) => {
+    if (e.target instanceof HTMLTextAreaElement) return;
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div className="relative">
       <h1>お問い合わせ</h1>
@@ -56,7 +64,7 @@ export const ContactForm = () => {
           <p>{snackbarMessage}</p>
         </div>
       )}
-      <form onSubmit={handleSubmit(onClickSend)}>
+      <form onKeyDown={handleFormSubmit}>
         <InputForm
           variant={"primary"}
           formName="name"
@@ -88,17 +96,22 @@ export const ContactForm = () => {
           labelName="タイトル"
           {...register("subject")}
         />
-        <InputForm
+        <TextAreaForm
           variant={"primary"}
           formName="main"
           type="text"
-          placeholder="main"
           labelName="本文"
+          rows={5}
           {...register("main", {
             required: "本文を入力してください",
           })}
         />
-        <Button variant={"primary"} className="m-5" type="submit">
+        <Button
+          variant={"primary"}
+          className="m-5"
+          type="submit"
+          onClick={handleSubmit(onSubmit)}
+        >
           送信
         </Button>
       </form>
