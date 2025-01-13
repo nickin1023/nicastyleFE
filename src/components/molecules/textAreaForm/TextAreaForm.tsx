@@ -1,26 +1,30 @@
 import { HTMLInputTypeAttribute, forwardRef } from "react";
-import { Input } from "../../atoms/input/Input";
 import { Label } from "../../atoms/label/Label";
+import { TextArea } from "../../atoms/textArea/TextArea";
 
-type InputFormProps = {
+type TextAreaFormProps = {
   variant: "primary" | "outline" | "icon" | null | undefined;
   formName: string;
   type: HTMLInputTypeAttribute;
-  placeholder: string;
+  placeholder?: string;
   labelName: string;
+  rows?: number;
 };
 
-export const InputForm = forwardRef<HTMLInputElement, InputFormProps>(
-  ({ variant, formName, type, placeholder, labelName, ...props }, ref) => {
+export const TextAreaForm = forwardRef<HTMLTextAreaElement, TextAreaFormProps>(
+  (
+    { variant, formName, type, placeholder, labelName, rows, ...props },
+    ref
+  ) => {
     return (
       <div className="m-5">
         <Label variant={variant} name={formName}>
           {labelName}
         </Label>
-        <Input
+        <TextArea
           id={formName}
           variant={variant}
-          type={type}
+          rows={rows}
           placeholder={placeholder}
           {...props}
           ref={ref}
@@ -30,4 +34,4 @@ export const InputForm = forwardRef<HTMLInputElement, InputFormProps>(
   }
 );
 
-InputForm.displayName = "InputForm";
+TextAreaForm.displayName = "TextAreaForm";

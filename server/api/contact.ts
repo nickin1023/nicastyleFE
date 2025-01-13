@@ -37,22 +37,24 @@ const send = async (req: SendMailRequest) => {
       .replace(/\//g, "_");
   };
 
-  const messageBody = `${req.message.name}さんより お問い合わせ \n
-  メールアドレス: ${
-    req.message.address ? req.message.address : "アドレス記載なし"
-  }\n
-  タイトル: ${req.message.subject}\n
-  本文\n
-  ${req.message.main}`;
+  const messageBody = () => {
+    if (req.type === "Contact") {
+      return `${req.message.name}さんより お問い合わせ \nメールアドレス: ${
+        req.message.address ? req.message.address : "アドレス記載なし"
+      }\nタイトル: ${req.message.subject}\n本文\n ${req.message.main}`;
+    } else {
+      return `記事タイトル: ${req.message.commentInfo?.title}\nURL: http://localhost:${envMap.PORT}/blogs/${req.message.commentInfo?.id} \n本文\n${req.message.main}`;
+    }
+  };
 
   //API経由でシートにアクセス
   const response = await gmail.users.messages.send({
     userId: "me",
     requestBody: {
       raw: makeBody({
-        to: "nickin.entre@gmail.com",
+        to: envMap.MAIL_ADDRESS,
         subject: req.type,
-        message: messageBody,
+        message: messageBody(),
       }),
     },
   });

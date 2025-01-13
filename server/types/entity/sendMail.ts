@@ -8,6 +8,12 @@ export type MailMessage = {
   address?: string | undefined;
   subject?: string | undefined;
   main: string;
+  commentInfo?: CommentInfo;
+};
+
+export type CommentInfo = {
+  title: string;
+  id: string;
 };
 
 export type SendMailResponse = {
