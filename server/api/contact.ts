@@ -52,7 +52,7 @@ const send = async (req: SendMailRequest) => {
     userId: "me",
     requestBody: {
       raw: makeBody({
-        to: "nickin.entre@gmail.com",
+        to: envMap.MAIL_ADDRESS,
         subject: req.type,
         message: messageBody(),
       }),
