@@ -2,6 +2,8 @@ export type GhostPosts = {
   posts?: GhostPost[];
 };
 
+export type AdminGhostPost = GhostPost & { status: string };
+
 export type GhostPost = {
   slug?: string;
   id: string;

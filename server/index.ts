@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import http from "http";
 import next from "next";
-import { administratorGet } from "./api/administrator/get";
+import { administratorGet } from "./api/administrator/post";
 import { sendMail } from "./api/contact";
 import { getPosts } from "./api/post";
 import { createEnvMap } from "./envMap/createEnvMap";
@@ -32,10 +32,10 @@ const main = async () => {
     next();
   });
 
-  app.get("/api/administrator/get", (req: Request, res: Response) => {
+  app.post("/api/administrator/blogs", (req: Request, res: Response) => {
     administratorGet(req).then((r) => {
       console.log("=====request=====", req.body);
-      console.log("server side /api/administrator/get");
+      console.log("server side /api/administrator/blogs");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
