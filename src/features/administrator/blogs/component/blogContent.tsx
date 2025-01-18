@@ -1,11 +1,8 @@
-import { cn } from "@/src/utils/cn";
+import { Button } from "@/src/components/atoms/button/Button";
+import { Dialog } from "@/src/components/organisms/dialog/Dialog";
 import { cva } from "class-variance-authority";
-import parse, {
-  DOMNode,
-  Element,
-  HTMLReactParserOptions,
-  domToReact,
-} from "html-react-parser";
+import parse, { Element, HTMLReactParserOptions } from "html-react-parser";
+import { useState } from "react";
 import { AdminContentParams } from "../types/blogContent";
 
 const blogVariants = cva(
@@ -23,23 +20,44 @@ const blogVariants = cva(
   }
 );
 
-export const AdminBlogContent = (params: AdminContentParams) => {
-  return <>{parse(params.html, options)}</>;
-};
-
 const options: HTMLReactParserOptions = {
   replace: (domNode) => {
     const node = domNode as Element;
 
     if (!node.attribs) return;
 
-    if (node.name === "p") {
-      return (
-        <p className={cn(blogVariants({ variant: "primary" }))}>
-          {domToReact(node.children as DOMNode[], options)}
-        </p>
-      );
-    }
     return;
   },
+};
+
+export const AdminBlogContent = (params: AdminContentParams) => {
+  const { html, isEdit } = params;
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+  return (
+    <>
+      {isEdit ? (
+        <>
+          <div>
+            <>{html}</>
+            <Button variant={"primary"} onClick={() => setIsDialogOpen(true)}>
+              更新
+            </Button>
+          </div>
+          {isDialogOpen && (
+            <Dialog
+              variant={"primary"}
+              title="更新"
+              content="更新しても問題ないですか?"
+              isOpen={isDialogOpen}
+              setIsOpen={setIsDialogOpen}
+              onClickOk={() => setIsDialogOpen(false)}
+            />
+          )}
+        </>
+      ) : (
+        <>{parse(html, options)}</>
+      )}
+    </>
+  );
 };

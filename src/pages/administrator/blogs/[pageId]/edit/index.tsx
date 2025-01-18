@@ -3,7 +3,7 @@ import { AdminBlogDetail } from "@/src/features/administrator/blogs/component/bl
 export default function Page() {
   return (
     <>
-      <AdminBlogDetail isEdit={false} />
+      <AdminBlogDetail isEdit={true} />
     </>
   );
 }
