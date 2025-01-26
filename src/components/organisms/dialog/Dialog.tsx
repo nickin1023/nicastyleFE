@@ -2,13 +2,38 @@ import React from "react";
 import Modal from "react-modal";
 import { Button } from "../../atoms/button/Button";
 
-type DialogProps = {
+export const initialDialogArgs: DialogArgs = {
+  variant: "primary",
+  title: "",
+  content: "",
+  onClickOk: () => {},
+};
+
+export type DialogArgs = {
   variant: "primary" | "outline" | "icon" | null | undefined;
   title: string;
   content: string;
+  onClickOk: () => void;
+};
+
+type DialogProps = DialogArgs & {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onClickOk: () => void;
+};
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    background: "#FFFFFF",
+  },
+  overlay: {
+    background: "#00000099",
+  },
 };
 
 export const Dialog = (params: DialogProps) => {
@@ -16,7 +41,7 @@ export const Dialog = (params: DialogProps) => {
     params.setIsOpen(false);
   };
   return (
-    <Modal isOpen={params.isOpen}>
+    <Modal isOpen={params.isOpen} style={customStyles}>
       <div>
         <h3 className="text-lg leading-6 font-medium">{params.title}</h3>
         <p className="text-sm">{params.content}</p>
