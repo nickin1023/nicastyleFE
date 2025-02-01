@@ -1,3 +1,4 @@
+import { SetAdminPostParams } from "@/server/types/entity/adminPost";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import { envMap } from "../..";
@@ -32,6 +33,34 @@ export const requestGet = async <T = any>(
 
   return await axios
     .get(`${url}`, { headers })
+    .then((r: any) => {
+      return r;
+    })
+    .catch((err: any) => {
+      throw new Error(`Ghost Admin API error: ${JSON.stringify(err)}`);
+    });
+};
+
+export const requestSet = async <T = any>(
+  body: SetAdminPostParams
+): Promise<T> => {
+  var url = `${envMap.ghost.host}/ghost/api/admin/posts/${body.id}/?source=html`;
+
+  const headers = { Authorization: `Ghost ${generateToken()}` };
+  const reqBody = {
+    posts: [
+      {
+        title: body.title,
+        featureImageUrl: body.featureImageUrl,
+        html: body.html,
+        status: body.status,
+        updated_at: body.updated_at,
+      },
+    ],
+  };
+
+  return await axios
+    .put(`${url}`, reqBody, { headers: headers })
     .then((r: any) => {
       return r;
     })

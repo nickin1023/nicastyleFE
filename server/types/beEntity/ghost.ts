@@ -16,8 +16,8 @@ export type GhostPost = {
   feature_image_caption?: string;
   featured: boolean;
   visibility: string;
-  created_at?: string;
-  updated_at?: string;
+  created_at: string;
+  updated_at: string;
   published_at?: string;
   custom_excerpt?: string;
   codeinjection_head?: string;

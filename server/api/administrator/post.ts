@@ -4,8 +4,10 @@ import {
   AdminPost,
   GetAdminPostRequest,
   GetAdminPostsResponse,
+  SetAdminPostParams,
+  SetAdminPostsResponse,
 } from "../../types/entity/adminPost";
-import { requestGet } from "./requestGhostBase";
+import { requestGet, requestSet } from "./requestGhostBase";
 
 export const administratorGet = async (
   req: Request
@@ -29,6 +31,8 @@ export const administratorGet = async (
           featureImageUrl: element.feature_image,
           html: element.html,
           status: element.status,
+          published_at: element.published_at,
+          updated_at: element.updated_at,
         })
       );
       res = { result: "Success", posts: posts };
@@ -37,6 +41,23 @@ export const administratorGet = async (
     .catch((err: any) => {
       console.log(err);
       res = { result: "Failure", posts: null };
+      return res;
+    });
+};
+
+export const administratorSetPost = async (
+  req: Request
+): Promise<SetAdminPostsResponse> => {
+  const body: SetAdminPostParams = req.body;
+  var res: SetAdminPostsResponse;
+  return await requestSet(body)
+    .then(() => {
+      res = { result: "Success" };
+      return res;
+    })
+    .catch((err: any) => {
+      console.log(err);
+      res = { result: "Failure" };
       return res;
     });
 };
