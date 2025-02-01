@@ -84,13 +84,13 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       variant: "primary",
       title: "更新",
       content: "記事を更新しますか？",
-      onClickOk: () => onClickExecUpdate(),
+      onClickOk: () => onExecUpdate(),
     });
     setIsDialogOpen(true);
   };
 
   // 更新ダイアログ
-  const onClickExecUpdate = () => {
+  const onExecUpdate = () => {
     const setParams = compare({
       id: id,
       title: title,
@@ -114,7 +114,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       variant: "primary",
       title: "公開",
       content: "記事を公開しますか？",
-      onClickOk: () => setIsDialogOpen(false),
+      onClickOk: () => onExecSwitch("published"),
     });
     setIsDialogOpen(true);
   };
@@ -125,9 +125,21 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       variant: "primary",
       title: "非公開",
       content: "記事を非公開にしますか？",
-      onClickOk: () => setIsDialogOpen(false),
+      onClickOk: () => onExecSwitch("draft"),
     });
     setIsDialogOpen(true);
+  };
+
+  // 公開・非公開ダイアログ実行ボタン
+  const onExecSwitch = async (toBeStatus: "published" | "draft") => {
+    setIsDialogOpen(false);
+    const serverSetParams: SetAdminPostParams = {
+      id: id,
+      status: toBeStatus,
+      updated_at: updatedAt,
+    };
+    await setData(serverSetParams);
+    router.reload();
   };
 
   useEffect(() => {
