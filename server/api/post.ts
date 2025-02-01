@@ -4,7 +4,7 @@ import { envMap } from "..";
 import { GhostPost } from "../types/beEntity/ghost";
 import { GetPostRequest, GetPostsResponse, Post } from "../types/entity/post";
 
-export const getPosts = async (req: Request) => {
+export const getPosts = async (req: Request): Promise<GetPostsResponse> => {
   const body: GetPostRequest = req.body;
   var res: GetPostsResponse;
   var url: string;
