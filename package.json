@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
+    "@monaco-editor/react": "^4.6.0",
     "@types/jsonwebtoken": "^9.0.7",
     "axios": "^1.7.8",
     "class-variance-authority": "^0.7.0",
@@ -19,6 +20,7 @@
     "googleapis": "^144.0.0",
     "html-react-parser": "^5.2.2",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "next": "^14.2.21",
     "nodemailer": "^6.9.16",
     "react": "^18",
@@ -28,6 +30,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/lodash": "^4.17.14",
     "@types/node": "20.16.5",
     "@types/nodemailer": "^6.4.16",
     "@types/react": "18.3.8",
