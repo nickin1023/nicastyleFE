@@ -5,7 +5,7 @@ import {
 } from "@/server/types/entity/adminPost";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getBlogs } from "../api/getBlogs";
+import { getBlogs } from "../api/blogs";
 
 export const AdminBlogList = () => {
   const [status, setStatus] = useState<string>();
