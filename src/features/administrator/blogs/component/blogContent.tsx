@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { AdminContentParams } from "../types/blogContent";
 
 export const AdminBlogContent = (params: AdminContentParams) => {
-  const { html, setHtml, isEdit, isPreview } = params;
+  const { html, setHtml, title, setTitle, isEdit, isPreview } = params;
 
   const editorRef = useRef(null);
 
@@ -23,6 +23,15 @@ export const AdminBlogContent = (params: AdminContentParams) => {
     <>
       {isEdit && !isPreview ? (
         <>
+          <div className="py-2">
+            <p>title</p>
+            <input
+              className="border border-black w-full"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
           <p>contents</p>
           <div className="border border-black">
             <Editor
@@ -39,7 +48,10 @@ export const AdminBlogContent = (params: AdminContentParams) => {
           </div>
         </>
       ) : (
-        <HtmlContent html={html} />
+        <>
+          <p>title: {title}</p>
+          <HtmlContent html={html} />
+        </>
       )}
     </>
   );
