@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import http from "http";
 import next from "next";
 import {
+  administratorAddPost,
   administratorGet,
   administratorSetPost,
 } from "./api/administrator/post";
@@ -48,6 +49,15 @@ const main = async () => {
     administratorSetPost(req).then((r) => {
       console.log("=====request=====", req.body);
       console.log("server side /api/administrator/setBLog");
+      console.log("=====response=====", r);
+      res.status(200).send(r);
+    });
+  });
+
+  app.post("/api/administrator/addBlog", (req: Request, res: Response) => {
+    administratorAddPost(req).then((r) => {
+      console.log("=====request=====", req.body);
+      console.log("server side /api/administrator/addBLog");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });

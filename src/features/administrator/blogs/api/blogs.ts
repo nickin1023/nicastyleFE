@@ -1,8 +1,9 @@
 import {
+  AddAdminPostParams,
   GetAdminPostRequest,
   GetAdminPostsResponse,
+  MutateAdminPostsResponse,
   SetAdminPostParams,
-  SetAdminPostsResponse,
 } from "@/server/types/entity/adminPost";
 import axios from "axios";
 
@@ -15,7 +16,14 @@ export const getBlogs = async (
 
 export const setBlog = async (
   setParams: SetAdminPostParams
-): Promise<SetAdminPostsResponse> => {
+): Promise<MutateAdminPostsResponse> => {
   const res = await axios.post("/api/administrator/setBlog", setParams);
+  return res.data;
+};
+
+export const addBlog = async (
+  addParams: AddAdminPostParams
+): Promise<MutateAdminPostsResponse> => {
+  const res = await axios.post("/api/administrator/addBlog", addParams);
   return res.data;
 };
