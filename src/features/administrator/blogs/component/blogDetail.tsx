@@ -25,9 +25,6 @@ import { AdminBlogContent } from "./blogContent";
 export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
   const { isEdit } = params;
 
-  // 通信のステータス
-  const [status, setStatus] = useState<string>("");
-
   // 記事の情報
   const [title, setTitle] = useState<string>("");
   const [id, setId] = useState<string>("");
@@ -51,8 +48,6 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
   const getData = async (pageId: string) => {
     const req: GetAdminPostRequest = { id: pageId };
     const res: GetAdminPostsResponse = await getBlogs(req);
-
-    setStatus(res.result);
 
     setTitle(res.posts![0].title);
     setId(res.posts![0].id);
@@ -250,22 +245,11 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
               <p>status: {postStatus}</p>
             </div>
             <div className="container mx-auto my-2 px-5 py-5 bg-white">
-              {isEdit && !isPreview ? (
-                <div className="py-2">
-                  <p>title</p>
-                  <input
-                    className="border border-black w-full"
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                </div>
-              ) : (
-                <p>title: {title}</p>
-              )}
               <AdminBlogContent
                 html={html}
                 setHtml={setHtml}
+                title={title}
+                setTitle={setTitle}
                 isEdit={isEdit}
                 isPreview={isPreview}
               />
