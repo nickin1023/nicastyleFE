@@ -1,13 +1,14 @@
 import { Request } from "express";
 import { AdminGhostPost } from "../../types/beEntity/ghost";
 import {
+  AddAdminPostParams,
   AdminPost,
   GetAdminPostRequest,
   GetAdminPostsResponse,
+  MutateAdminPostsResponse,
   SetAdminPostParams,
-  SetAdminPostsResponse,
 } from "../../types/entity/adminPost";
-import { requestGet, requestSet } from "./requestGhostBase";
+import { requestAdd, requestGet, requestSet } from "./requestGhostBase";
 
 export const administratorGet = async (
   req: Request
@@ -47,10 +48,27 @@ export const administratorGet = async (
 
 export const administratorSetPost = async (
   req: Request
-): Promise<SetAdminPostsResponse> => {
+): Promise<MutateAdminPostsResponse> => {
   const body: SetAdminPostParams = req.body;
-  var res: SetAdminPostsResponse;
+  var res: MutateAdminPostsResponse;
   return await requestSet(body)
+    .then(() => {
+      res = { result: "Success" };
+      return res;
+    })
+    .catch((err: any) => {
+      console.log(err);
+      res = { result: "Failure" };
+      return res;
+    });
+};
+
+export const administratorAddPost = async (
+  req: Request
+): Promise<MutateAdminPostsResponse> => {
+  const body: AddAdminPostParams = req.body;
+  var res: MutateAdminPostsResponse;
+  return await requestAdd(body)
     .then(() => {
       res = { result: "Success" };
       return res;

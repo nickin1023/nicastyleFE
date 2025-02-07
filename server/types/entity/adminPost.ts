@@ -7,6 +7,12 @@ export type GetAdminPostsResponse = {
   posts: AdminPost[] | null;
 };
 
+export type AddAdminPostParams = {
+  title?: string;
+  featureImageUrl?: string;
+  html?: string;
+};
+
 export type SetAdminPostParams = {
   id: string;
   title?: string;
@@ -16,7 +22,7 @@ export type SetAdminPostParams = {
   updated_at: string;
 };
 
-export type SetAdminPostsResponse = {
+export type MutateAdminPostsResponse = {
   result: "Success" | "Failure";
 };
 
