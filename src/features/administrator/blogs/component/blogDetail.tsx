@@ -79,6 +79,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       variant: "primary",
       title: "更新",
       content: "記事を更新しますか？",
+      execButtonLabel: "更新",
       onClickOk: () => onExecUpdate(),
     });
     setIsDialogOpen(true);
@@ -109,6 +110,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       variant: "primary",
       title: "公開",
       content: "記事を公開しますか？",
+      execButtonLabel: "実行",
       onClickOk: () => onExecSwitch("published"),
     });
     setIsDialogOpen(true);
@@ -120,6 +122,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       variant: "primary",
       title: "非公開",
       content: "記事を非公開にしますか？",
+      execButtonLabel: "実行",
       onClickOk: () => onExecSwitch("draft"),
     });
     setIsDialogOpen(true);
@@ -262,6 +265,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
               content={dialogInfo.content}
               isOpen={isDialogOpen}
               setIsOpen={setIsDialogOpen}
+              execButtonLabel={dialogInfo.execButtonLabel}
               onClickOk={dialogInfo.onClickOk}
             />
           )}
