@@ -18,6 +18,7 @@ export const AdminBlogContent = (params: AdminContentParams) => {
     scrollbar: {
       alwaysConsumeMouseWheel: false,
     },
+    wordWrap: "on" as "on" | "off" | "wordWrapColumn" | "bounded",
   };
   return (
     <>
