@@ -1,21 +1,11 @@
-import parse, { Element, HTMLReactParserOptions } from "html-react-parser";
-
-const options: HTMLReactParserOptions = {
-  replace: (domNode) => {
-    const node = domNode as Element;
-
-    if (!node.attribs) return;
-
-    return;
-  },
-};
+import parse from "html-react-parser";
 
 type htmlContentParams = {
   html: string;
 };
 
 export const HtmlContent = (params: htmlContentParams) => {
-  return <>{parse(params.html, options)}</>;
+  return <article className="prose">{parse(params.html)}</article>;
 };
 
 HtmlContent.displayName = "HtmlContent";
