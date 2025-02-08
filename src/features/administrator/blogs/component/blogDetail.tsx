@@ -30,6 +30,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
   const [id, setId] = useState<string>("");
   const [postStatus, setPostStatus] = useState<string>("");
   const [html, setHtml] = useState<string>("");
+  const [publishedAt, setPublishedAt] = useState<string | undefined>("");
   const [updatedAt, setUpdatedAt] = useState<string>("");
   const [oldPost, setOldPost] = useState<ClientSetParams>(
     initialSetAdminPostParams
@@ -53,6 +54,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
     setId(res.posts![0].id);
     setPostStatus(res.posts![0].status);
     setHtml(res.posts![0].html);
+    setPublishedAt(res.posts![0].published_at);
     setUpdatedAt(res.posts![0].updated_at);
     setOldPost({
       title: res.posts![0].title,
@@ -255,6 +257,8 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
                 setTitle={setTitle}
                 isEdit={isEdit}
                 isPreview={isPreview}
+                publishedAt={publishedAt}
+                updatedAt={updatedAt}
               />
             </div>
           </div>

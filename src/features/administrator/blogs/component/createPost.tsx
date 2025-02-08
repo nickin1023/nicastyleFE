@@ -105,6 +105,8 @@ export const CreatePost = () => {
             setTitle={setTitle}
             isEdit={true}
             isPreview={isPreview}
+            publishedAt={undefined}
+            updatedAt={undefined}
           />
         </div>
       </div>

@@ -9,11 +9,11 @@ export const BlogContent = (params: ContentParams) => {
       <p>title: {title}</p>
       <p className="flex justify-end">
         <time dateTime={published_at} itemProp="datePublished">
-          公開日: {isoToDotDate(published_at)}
+          公開日: {published_at ? isoToDotDate(published_at) : "----"}
         </time>
         &ensp;
         <time dateTime={updated_at} itemProp="dateModified">
-          最終更新日: {isoToDotDate(updated_at)}
+          最終更新日: {updated_at ? isoToDotDate(updated_at) : "----"}
         </time>
       </p>
       <HtmlContent html={html} />
