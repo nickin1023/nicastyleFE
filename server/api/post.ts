@@ -22,6 +22,8 @@ export const getPosts = async (req: Request): Promise<GetPostsResponse> => {
           title: element.title,
           featureImageUrl: element.feature_image,
           html: element.html,
+          published_at: element.published_at!,
+          updated_at: element.updated_at,
         })
       );
       res = { result: "Success", posts: posts };

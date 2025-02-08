@@ -12,4 +12,6 @@ export type Post = {
   title: string;
   featureImageUrl?: string;
   html: string;
+  published_at: string;
+  updated_at: string;
 };

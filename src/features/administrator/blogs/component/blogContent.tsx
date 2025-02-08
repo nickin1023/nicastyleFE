@@ -1,10 +1,19 @@
-import { HtmlContent } from "@/src/components/organisms/htmlContent/HtmlContent";
+import { BlogContent } from "@/src/features/blogs/component/blogContent";
 import Editor from "@monaco-editor/react";
 import { useRef } from "react";
 import { AdminContentParams } from "../types/blogContent";
 
 export const AdminBlogContent = (params: AdminContentParams) => {
-  const { html, setHtml, title, setTitle, isEdit, isPreview } = params;
+  const {
+    html,
+    setHtml,
+    title,
+    setTitle,
+    isEdit,
+    isPreview,
+    publishedAt,
+    updatedAt,
+  } = params;
 
   const editorRef = useRef(null);
 
@@ -49,10 +58,12 @@ export const AdminBlogContent = (params: AdminContentParams) => {
           </div>
         </>
       ) : (
-        <>
-          <p>title: {title}</p>
-          <HtmlContent html={html} />
-        </>
+        <BlogContent
+          title={title}
+          html={html}
+          published_at={publishedAt}
+          updated_at={updatedAt}
+        />
       )}
     </>
   );

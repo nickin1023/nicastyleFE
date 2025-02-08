@@ -41,6 +41,7 @@ export const CreatePost = () => {
       variant: "primary",
       title: "作成",
       content: "記事を作成しますか？",
+      execButtonLabel: "作成",
       onClickOk: () => onExecCreate(),
     });
     setIsDialogOpen(true);
@@ -104,6 +105,8 @@ export const CreatePost = () => {
             setTitle={setTitle}
             isEdit={true}
             isPreview={isPreview}
+            publishedAt={undefined}
+            updatedAt={undefined}
           />
         </div>
       </div>
@@ -114,6 +117,7 @@ export const CreatePost = () => {
           content={dialogInfo.content}
           isOpen={isDialogOpen}
           setIsOpen={setIsDialogOpen}
+          execButtonLabel={dialogInfo.execButtonLabel}
           onClickOk={dialogInfo.onClickOk}
         />
       )}

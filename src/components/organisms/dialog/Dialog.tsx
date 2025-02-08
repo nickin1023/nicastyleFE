@@ -6,6 +6,7 @@ export const initialDialogArgs: DialogArgs = {
   variant: "primary",
   title: "",
   content: "",
+  execButtonLabel: "",
   onClickOk: () => {},
 };
 
@@ -13,6 +14,7 @@ export type DialogArgs = {
   variant: "primary" | "outline" | "icon" | null | undefined;
   title: string;
   content: string;
+  execButtonLabel: string;
   onClickOk: () => void;
 };
 
@@ -55,7 +57,7 @@ export const Dialog = (params: DialogProps) => {
           className="m-5"
           onClick={params.onClickOk}
         >
-          更新
+          {params.execButtonLabel}
         </Button>
       </div>
     </Modal>

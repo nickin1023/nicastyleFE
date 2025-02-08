@@ -83,12 +83,13 @@ export const BlogDetail = () => {
       </div>
       <div className="container mx-auto my-5 px-5 py-5 bg-white">
         {post ? (
-          <>
-            <p>title: {post.title}</p>
-            <p>id: {post.id}</p>
-            <p>html</p>
-            <BlogContent html={post.html} />
-          </>
+          <BlogContent
+            title={post.title}
+            featureImageUrl={post.featureImageUrl}
+            html={post.html}
+            published_at={post.published_at}
+            updated_at={post.updated_at}
+          />
         ) : (
           <p>記事はありません。</p>
         )}
