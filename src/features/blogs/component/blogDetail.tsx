@@ -100,6 +100,7 @@ export const BlogDetail = () => {
               type="text"
               labelName="コメント"
               rows={5}
+              required={false}
               {...register("main", {
                 required: "コメントを入力してください",
               })}

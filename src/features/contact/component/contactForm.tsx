@@ -62,10 +62,10 @@ export const ContactForm = () => {
             variant={"primary"}
             formName="name"
             type="text"
-            placeholder="name"
-            labelName="お名前"
+            labelName="お名前 (ニックネーム)"
+            required={true}
             {...register("name", {
-              required: "お名前を入力してください",
+              required: "お名前 (ニックネーム) を入力してください",
             })}
           />
           {errors.name?.message && (
@@ -75,8 +75,8 @@ export const ContactForm = () => {
             variant={"primary"}
             formName="address"
             type="text"
-            placeholder="address"
             labelName="メールアドレス"
+            required={true}
             {...register("address", {
               required: "アドレスを入力してください",
             })}
@@ -85,8 +85,8 @@ export const ContactForm = () => {
             variant={"primary"}
             formName="subject"
             type="text"
-            placeholder="subject"
             labelName="タイトル"
+            required={false}
             {...register("subject")}
           />
           <TextAreaForm
@@ -95,6 +95,7 @@ export const ContactForm = () => {
             type="text"
             labelName="本文"
             rows={5}
+            required={true}
             {...register("main", {
               required: "本文を入力してください",
             })}

@@ -6,15 +6,19 @@ type InputFormProps = {
   variant: "primary" | "outline" | "icon" | null | undefined;
   formName: string;
   type: HTMLInputTypeAttribute;
-  placeholder: string;
+  placeholder?: string;
   labelName: string;
+  required: boolean;
 };
 
 export const InputForm = forwardRef<HTMLInputElement, InputFormProps>(
-  ({ variant, formName, type, placeholder, labelName, ...props }, ref) => {
+  (
+    { variant, formName, type, placeholder, labelName, required, ...props },
+    ref
+  ) => {
     return (
       <div className="m-5">
-        <Label variant={variant} name={formName}>
+        <Label variant={variant} name={formName} required={required}>
           {labelName}
         </Label>
         <Input
