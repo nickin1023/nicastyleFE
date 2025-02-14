@@ -17,7 +17,7 @@ export const InputForm = forwardRef<HTMLInputElement, InputFormProps>(
     ref
   ) => {
     return (
-      <div className="m-5">
+      <div className="mx-5 my-1">
         <Label variant={variant} name={formName} required={required}>
           {labelName}
         </Label>

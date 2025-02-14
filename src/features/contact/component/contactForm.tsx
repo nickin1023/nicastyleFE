@@ -8,19 +8,48 @@ import { InputForm } from "@/src/components/molecules/inputForm/InputForm";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { KeyboardEventHandler } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { object, string } from "yup";
 import { sendMail } from "../api/sendMail";
 
 export const ContactForm = () => {
   const { isShow, message, variant, openSnackBar } = useSnackbar();
+  const MAX_NAME_LENGTH = 50;
+  const MAX_SUBJECT_LENGTH = 50;
+  const MAX_MAIN_LENGTH = 2500;
+
+  const schema = object({
+    name: string()
+      .label("名前")
+      .required("${label}は必須入力です")
+      .max(MAX_NAME_LENGTH, "${label}は${max}文字以内で入力してください。"),
+    address: string()
+      .label("メールアドレス")
+      .required("${label}は必須入力です")
+      .email("${label}の形式が不正です。"),
+    subject: string().max(
+      MAX_SUBJECT_LENGTH,
+      "${label}は${max}文字以内で入力してください。"
+    ),
+    main: string()
+      .label("本文")
+      .required("${label}は必須入力です")
+      .max(MAX_MAIN_LENGTH, "${label}は${max}文字以上で入力してください。"),
+  });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<MailMessage>();
+    watch,
+  } = useForm({ resolver: yupResolver(schema) });
+
+  const nameWatch = watch("name");
+  const subjectWatch = watch("subject");
+  const mainWatch = watch("main");
 
   const onSubmit: SubmitHandler<MailMessage> = async (mailMessage) => {
     const mailRequest: SendMailRequest = {
@@ -64,23 +93,25 @@ export const ContactForm = () => {
             type="text"
             labelName="お名前 (ニックネーム)"
             required={true}
-            {...register("name", {
-              required: "お名前 (ニックネーム) を入力してください",
-            })}
+            {...register("name")}
           />
           {errors.name?.message && (
             <p className="error-message">{errors.name?.message}</p>
           )}
+          <p className="flex justify-end px-5">
+            {nameWatch ? nameWatch.length : 0} / {MAX_NAME_LENGTH}
+          </p>
           <InputForm
             variant={"primary"}
             formName="address"
             type="text"
             labelName="メールアドレス"
             required={true}
-            {...register("address", {
-              required: "アドレスを入力してください",
-            })}
+            {...register("address")}
           />
+          {errors.address?.message && (
+            <p className="error-message">{errors.address?.message}</p>
+          )}
           <InputForm
             variant={"primary"}
             formName="subject"
@@ -89,6 +120,12 @@ export const ContactForm = () => {
             required={false}
             {...register("subject")}
           />
+          {errors.subject?.message && (
+            <p className="error-message">{errors.subject?.message}</p>
+          )}
+          <p className="flex justify-end px-5">
+            {subjectWatch ? subjectWatch.length : 0} / {MAX_SUBJECT_LENGTH}
+          </p>
           <TextAreaForm
             variant={"primary"}
             formName="main"
@@ -96,10 +133,14 @@ export const ContactForm = () => {
             labelName="本文"
             rows={5}
             required={true}
-            {...register("main", {
-              required: "本文を入力してください",
-            })}
+            {...register("main")}
           />
+          {errors.main?.message && (
+            <p className="error-message">{errors.main?.message}</p>
+          )}
+          <p className="flex justify-end px-5">
+            {mainWatch ? mainWatch.length : 0} / {MAX_MAIN_LENGTH}
+          </p>
           <Button
             variant={"primary"}
             className="m-5"
