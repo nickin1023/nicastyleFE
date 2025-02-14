@@ -6,20 +6,50 @@ import {
 import { Button } from "@/src/components/atoms/button/Button";
 import { InputForm } from "@/src/components/molecules/inputForm/InputForm";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
-import { KeyboardEventHandler, useState } from "react";
+import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
+import { useSnackbar } from "@/src/hooks/useSnackbar";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { KeyboardEventHandler } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { object, string } from "yup";
 import { sendMail } from "../api/sendMail";
 
 export const ContactForm = () => {
-  const [isSnackbarVisible, setIsSnackbarVisible] = useState<boolean>(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const { isShow, message, variant, openSnackBar } = useSnackbar();
+  const MAX_NAME_LENGTH = 50;
+  const MAX_SUBJECT_LENGTH = 50;
+  const MAX_MAIN_LENGTH = 2500;
+
+  const schema = object({
+    name: string()
+      .label("名前")
+      .required("${label}は必須入力です")
+      .max(MAX_NAME_LENGTH, "${label}は${max}文字以内で入力してください。"),
+    address: string()
+      .label("メールアドレス")
+      .required("${label}は必須入力です")
+      .email("${label}の形式が不正です。"),
+    subject: string().max(
+      MAX_SUBJECT_LENGTH,
+      "${label}は${max}文字以内で入力してください。"
+    ),
+    main: string()
+      .label("本文")
+      .required("${label}は必須入力です")
+      .max(MAX_MAIN_LENGTH, "${label}は${max}文字以上で入力してください。"),
+  });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<MailMessage>();
+    watch,
+  } = useForm({ resolver: yupResolver(schema) });
+
+  const nameWatch = watch("name");
+  const subjectWatch = watch("subject");
+  const mainWatch = watch("main");
 
   const onSubmit: SubmitHandler<MailMessage> = async (mailMessage) => {
     const mailRequest: SendMailRequest = {
@@ -33,16 +63,11 @@ export const ContactForm = () => {
     };
     const res: SendMailResponse = await sendMail(mailRequest);
     if (res.result === "Success") {
-      setSnackbarMessage("送信に成功しました。");
+      openSnackBar("送信に成功しました。", "success");
       reset();
     } else {
-      setSnackbarMessage("送信に失敗しました。再度お試しください。");
+      openSnackBar("送信に失敗しました。再度お試しください。。", "warn");
     }
-
-    setIsSnackbarVisible(true);
-    setTimeout(() => {
-      setIsSnackbarVisible(false);
-    }, 3000);
   };
 
   const handleFormSubmit: KeyboardEventHandler = (e) => {
@@ -53,68 +78,79 @@ export const ContactForm = () => {
   };
 
   return (
-    <div className="relative">
-      <h1>お問い合わせ</h1>
-      <p>
-        当サイトへのご意見やお問い合わせは下記フォームよりお願いいたします。
-        <br />
-      </p>
-      {isSnackbarVisible && (
-        <div className="absolute top-0 left-0 right-0 bg-blue-500 text-black px-4 py-3 z-10">
-          <p>{snackbarMessage}</p>
-        </div>
-      )}
-      <form onKeyDown={handleFormSubmit}>
-        <InputForm
-          variant={"primary"}
-          formName="name"
-          type="text"
-          placeholder="name"
-          labelName="お名前"
-          {...register("name", {
-            required: "お名前を入力してください",
-          })}
-        />
-        {errors.name?.message && (
-          <p className="error-message">{errors.name?.message}</p>
-        )}
-        <InputForm
-          variant={"primary"}
-          formName="address"
-          type="text"
-          placeholder="address"
-          labelName="メールアドレス"
-          {...register("address", {
-            required: "アドレスを入力してください",
-          })}
-        />
-        <InputForm
-          variant={"primary"}
-          formName="subject"
-          type="text"
-          placeholder="subject"
-          labelName="タイトル"
-          {...register("subject")}
-        />
-        <TextAreaForm
-          variant={"primary"}
-          formName="main"
-          type="text"
-          labelName="本文"
-          rows={5}
-          {...register("main", {
-            required: "本文を入力してください",
-          })}
-        />
-        <Button
-          variant={"primary"}
-          className="m-5"
-          type="submit"
-          onClick={handleSubmit(onSubmit)}
-        >
-          送信
-        </Button>
-      </form>
-    </div>
+    <>
+      <Snackbar isShow={isShow} message={message} variant={variant} />
+      <div className="relative">
+        <h1>お問い合わせ</h1>
+        <p>
+          当サイトへのご意見やお問い合わせは下記フォームよりお願いいたします。
+          <br />
+        </p>
+        <form onKeyDown={handleFormSubmit}>
+          <InputForm
+            variant={"primary"}
+            formName="name"
+            type="text"
+            labelName="お名前 (ニックネーム)"
+            required={true}
+            {...register("name")}
+          />
+          {errors.name?.message && (
+            <p className="error-message">{errors.name?.message}</p>
+          )}
+          <p className="flex justify-end px-5">
+            {nameWatch ? nameWatch.length : 0} / {MAX_NAME_LENGTH}
+          </p>
+          <InputForm
+            variant={"primary"}
+            formName="address"
+            type="text"
+            labelName="メールアドレス"
+            required={true}
+            {...register("address")}
+          />
+          {errors.address?.message && (
+            <p className="error-message">{errors.address?.message}</p>
+          )}
+          <InputForm
+            variant={"primary"}
+            formName="subject"
+            type="text"
+            labelName="タイトル"
+            required={false}
+            {...register("subject")}
+          />
+          {errors.subject?.message && (
+            <p className="error-message">{errors.subject?.message}</p>
+          )}
+          <p className="flex justify-end px-5">
+            {subjectWatch ? subjectWatch.length : 0} / {MAX_SUBJECT_LENGTH}
+          </p>
+          <TextAreaForm
+            variant={"primary"}
+            formName="main"
+            type="text"
+            labelName="本文"
+            rows={5}
+            required={true}
+            {...register("main")}
+          />
+          {errors.main?.message && (
+            <p className="error-message">{errors.main?.message}</p>
+          )}
+          <p className="flex justify-end px-5">
+            {mainWatch ? mainWatch.length : 0} / {MAX_MAIN_LENGTH}
+          </p>
+          <Button
+            variant={"primary"}
+            className="m-5"
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+          >
+            送信
+          </Button>
+        </form>
+      </div>
+    </>
   );
 };

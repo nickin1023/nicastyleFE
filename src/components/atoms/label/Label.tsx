@@ -23,10 +23,11 @@ interface LabelProps
     VariantProps<typeof labelVariants> {
   variant: "primary" | "outline" | "icon" | null | undefined;
   name: string;
+  required: boolean;
 }
 
 export const Label = React.forwardRef<HTMLElement, LabelProps>(
-  ({ className, variant, children, name, ...props }, ref) => {
+  ({ className, variant, children, name, required, ...props }, ref) => {
     return (
       <label
         className={cn(labelVariants({ variant }))}
@@ -34,6 +35,7 @@ export const Label = React.forwardRef<HTMLElement, LabelProps>(
         {...props}
       >
         {children}
+        {required && <span>必須</span>}
       </label>
     );
   }

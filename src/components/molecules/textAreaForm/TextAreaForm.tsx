@@ -9,16 +9,26 @@ type TextAreaFormProps = {
   placeholder?: string;
   labelName: string;
   rows?: number;
+  required: boolean;
 };
 
 export const TextAreaForm = forwardRef<HTMLTextAreaElement, TextAreaFormProps>(
   (
-    { variant, formName, type, placeholder, labelName, rows, ...props },
+    {
+      variant,
+      formName,
+      type,
+      placeholder,
+      labelName,
+      rows,
+      required,
+      ...props
+    },
     ref
   ) => {
     return (
       <div className="m-5">
-        <Label variant={variant} name={formName}>
+        <Label variant={variant} name={formName} required={required}>
           {labelName}
         </Label>
         <TextArea

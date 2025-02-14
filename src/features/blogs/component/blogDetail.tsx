@@ -10,6 +10,8 @@ import {
 } from "@/server/types/entity/sendMail";
 import { Button } from "@/src/components/atoms/button/Button";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
+import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
+import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { useRouter } from "next/router";
 import { KeyboardEventHandler, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -21,8 +23,7 @@ export const BlogDetail = () => {
   const [status, setStatus] = useState<string>();
   const [post, setPost] = useState<Post | null>();
   const router = useRouter();
-  const [isSnackbarVisible, setIsSnackbarVisible] = useState<boolean>(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const { isShow, message, variant, openSnackBar } = useSnackbar();
 
   const {
     register,
@@ -57,16 +58,11 @@ export const BlogDetail = () => {
     };
     const res: SendMailResponse = await sendMail(mailRequest);
     if (res.result === "Success") {
-      setSnackbarMessage("送信に成功しました。");
+      openSnackBar("送信に成功しました。", "success");
       reset();
     } else {
-      setSnackbarMessage("送信に失敗しました。再度お試しください。");
+      openSnackBar("送信に失敗しました。再度お試しください。", "warn");
     }
-
-    setIsSnackbarVisible(true);
-    setTimeout(() => {
-      setIsSnackbarVisible(false);
-    }, 3000);
   };
 
   const handleFormSubmit: KeyboardEventHandler = (e) => {
@@ -77,53 +73,52 @@ export const BlogDetail = () => {
   };
 
   return (
-    <div className="relative bg-gray-500 flex flex-col">
-      <div className="container bg-white mx-auto my-5 px-5 py-5">
-        <p>other content</p>
-      </div>
-      <div className="container mx-auto my-5 px-5 py-5 bg-white">
-        {post ? (
-          <BlogContent
-            title={post.title}
-            featureImageUrl={post.featureImageUrl}
-            html={post.html}
-            published_at={post.published_at}
-            updated_at={post.updated_at}
-          />
-        ) : (
-          <p>記事はありません。</p>
-        )}
-      </div>
-      <div className="container bg-white mx-auto my-5 px-5 py-5">
-        {isSnackbarVisible && (
-          <div className="absolute top-0 left-0 right-0 bg-blue-500 text-black px-4 py-3 z-10">
-            <p>{snackbarMessage}</p>
-          </div>
-        )}
-        <form onKeyDown={handleFormSubmit}>
-          <TextAreaForm
-            variant={"primary"}
-            formName="comment"
-            type="text"
-            labelName="コメント"
-            rows={5}
-            {...register("main", {
-              required: "コメントを入力してください",
-            })}
-          />
-          {errors.main?.message && (
-            <p className="error-message">{errors.main?.message}</p>
+    <>
+      <Snackbar isShow={isShow} message={message} variant={variant} />
+      <div className="relative bg-gray-500 flex flex-col">
+        <div className="container bg-white mx-auto my-5 px-5 py-5">
+          <p>other content</p>
+        </div>
+        <div className="container mx-auto my-5 px-5 py-5 bg-white">
+          {post ? (
+            <BlogContent
+              title={post.title}
+              featureImageUrl={post.featureImageUrl}
+              html={post.html}
+              published_at={post.published_at}
+              updated_at={post.updated_at}
+            />
+          ) : (
+            <p>記事はありません。</p>
           )}
-          <Button
-            variant={"primary"}
-            className="m-5"
-            type="submit"
-            onClick={handleSubmit(onSubmit)}
-          >
-            送信
-          </Button>
-        </form>
+        </div>
+        <div className="container bg-white mx-auto my-5 px-5 py-5">
+          <form onKeyDown={handleFormSubmit}>
+            <TextAreaForm
+              variant={"primary"}
+              formName="comment"
+              type="text"
+              labelName="コメント"
+              rows={5}
+              required={false}
+              {...register("main", {
+                required: "コメントを入力してください",
+              })}
+            />
+            {errors.main?.message && (
+              <p className="error-message">{errors.main?.message}</p>
+            )}
+            <Button
+              variant={"primary"}
+              className="m-5"
+              type="submit"
+              onClick={handleSubmit(onSubmit)}
+            >
+              送信
+            </Button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
