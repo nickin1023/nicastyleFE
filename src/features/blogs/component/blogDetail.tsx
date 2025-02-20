@@ -11,13 +11,14 @@ import {
 import { Button } from "@/src/components/atoms/button/Button";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
+import { getBlogs } from "@/src/features/blogs/api/getBlogs";
+import { BlogContent } from "@/src/features/blogs/component/blogContent";
+import { sendMail } from "@/src/features/contact/api/sendMail";
+import { NotFound } from "@/src/features/errors/notFound";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { useRouter } from "next/router";
 import { KeyboardEventHandler, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { sendMail } from "../../contact/api/sendMail";
-import { getBlogs } from "../api/getBlogs";
-import { BlogContent } from "./blogContent";
 
 export const BlogDetail = () => {
   const [status, setStatus] = useState<string>();
@@ -36,7 +37,7 @@ export const BlogDetail = () => {
     const req: GetPostRequest = { id: pageId };
     const res: GetPostsResponse = await getBlogs(req);
     setStatus(res.result);
-    setPost(res.posts![0]);
+    setPost(res.posts && res.posts[0]);
   };
 
   useEffect(() => {
@@ -75,12 +76,12 @@ export const BlogDetail = () => {
   return (
     <>
       <Snackbar isShow={isShow} message={message} variant={variant} />
-      <div className="relative bg-gray-500 flex flex-col">
-        <div className="container bg-white mx-auto my-5 px-5 py-5">
-          <p>other content</p>
-        </div>
-        <div className="container mx-auto my-5 px-5 py-5 bg-white">
-          {post ? (
+      {post ? (
+        <div className="relative bg-gray-500 flex flex-col">
+          <div className="container bg-white mx-auto my-5 px-5 py-5">
+            <p>other content</p>
+          </div>
+          <div className="container mx-auto my-5 px-5 py-5 bg-white">
             <BlogContent
               title={post.title}
               featureImageUrl={post.featureImageUrl}
@@ -88,37 +89,37 @@ export const BlogDetail = () => {
               published_at={post.published_at}
               updated_at={post.updated_at}
             />
-          ) : (
-            <p>記事はありません。</p>
-          )}
+          </div>
+          <div className="container bg-white mx-auto my-5 px-5 py-5">
+            <form onKeyDown={handleFormSubmit}>
+              <TextAreaForm
+                variant={"primary"}
+                formName="comment"
+                type="text"
+                labelName="コメント"
+                rows={5}
+                required={false}
+                {...register("main", {
+                  required: "コメントを入力してください",
+                })}
+              />
+              {errors.main?.message && (
+                <p className="error-message">{errors.main?.message}</p>
+              )}
+              <Button
+                variant={"primary"}
+                className="m-5"
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+              >
+                送信
+              </Button>
+            </form>
+          </div>
         </div>
-        <div className="container bg-white mx-auto my-5 px-5 py-5">
-          <form onKeyDown={handleFormSubmit}>
-            <TextAreaForm
-              variant={"primary"}
-              formName="comment"
-              type="text"
-              labelName="コメント"
-              rows={5}
-              required={false}
-              {...register("main", {
-                required: "コメントを入力してください",
-              })}
-            />
-            {errors.main?.message && (
-              <p className="error-message">{errors.main?.message}</p>
-            )}
-            <Button
-              variant={"primary"}
-              className="m-5"
-              type="submit"
-              onClick={handleSubmit(onSubmit)}
-            >
-              送信
-            </Button>
-          </form>
-        </div>
-      </div>
+      ) : (
+        <NotFound />
+      )}
     </>
   );
 };
