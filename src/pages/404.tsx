@@ -1,6 +1,6 @@
-import { NotFound } from "@/src/features/errors/notFound";
+import { NotFound } from "@/src/components/templates/notFound";
 
-export default function Blogs() {
+export default function Custom404() {
   return (
     <>
       <NotFound />

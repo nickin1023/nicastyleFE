@@ -11,10 +11,10 @@ import {
 import { Button } from "@/src/components/atoms/button/Button";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
+import { NotFound } from "@/src/components/templates/notFound";
 import { getBlogs } from "@/src/features/blogs/api/getBlogs";
 import { BlogContent } from "@/src/features/blogs/component/blogContent";
 import { sendMail } from "@/src/features/contact/api/sendMail";
-import { NotFound } from "@/src/features/errors/notFound";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { useRouter } from "next/router";
 import { KeyboardEventHandler, useEffect, useState } from "react";
