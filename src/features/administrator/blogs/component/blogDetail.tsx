@@ -72,6 +72,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       openSnackBar("更新に失敗しました。", "warn");
     } else {
       openSnackBar("更新に成功しました。", "success");
+      router.reload();
     }
   };
 
