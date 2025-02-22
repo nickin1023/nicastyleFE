@@ -1,7 +1,7 @@
 import {
   GetPostRequest,
   GetPostsResponse,
-  Post,
+  Post
 } from "@/server/types/entity/post";
 import Link from "next/link";
 import { useEffect, useState } from "react";

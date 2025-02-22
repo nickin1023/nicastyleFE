@@ -1,13 +1,13 @@
 import {
   GetAdminPostRequest,
   GetAdminPostsResponse,
-  SetAdminPostParams,
+  SetAdminPostParams
 } from "@/server/types/entity/adminPost";
 import { Button } from "@/src/components/atoms/button/Button";
 import {
   Dialog,
   DialogArgs,
-  initialDialogArgs,
+  initialDialogArgs
 } from "@/src/components/organisms/dialog/Dialog";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { getBlogs, setBlog } from "../api/blogs";
 import {
   ClientSetParams,
-  initialSetAdminPostParams,
+  initialSetAdminPostParams
 } from "../consts/blogContent";
 import { AdminBlogDetailParams } from "../types/blogDetail";
 import { AdminBlogContent } from "./blogContent";
@@ -59,7 +59,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
     setOldPost({
       title: res.posts![0].title,
       id: res.posts![0].id,
-      html: res.posts![0].html,
+      html: res.posts![0].html
     });
 
     setIsReady(true);
@@ -83,7 +83,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       title: "更新",
       content: "記事を更新しますか？",
       execButtonLabel: "更新",
-      onClickOk: () => onExecUpdate(),
+      onClickOk: () => onExecUpdate()
     });
     setIsDialogOpen(true);
   };
@@ -93,7 +93,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
     const setParams = compare({
       id: id,
       title: title,
-      html: html,
+      html: html
     });
     setIsDialogOpen(false);
     if (!setParams) {
@@ -102,7 +102,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
     }
     const serverSetParams: SetAdminPostParams = {
       ...setParams,
-      updated_at: updatedAt,
+      updated_at: updatedAt
     };
     setData(serverSetParams);
   };
@@ -114,7 +114,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       title: "公開",
       content: "記事を公開しますか？",
       execButtonLabel: "実行",
-      onClickOk: () => onExecSwitch("published"),
+      onClickOk: () => onExecSwitch("published")
     });
     setIsDialogOpen(true);
   };
@@ -126,7 +126,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       title: "非公開",
       content: "記事を非公開にしますか？",
       execButtonLabel: "実行",
-      onClickOk: () => onExecSwitch("draft"),
+      onClickOk: () => onExecSwitch("draft")
     });
     setIsDialogOpen(true);
   };
@@ -137,7 +137,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
     const serverSetParams: SetAdminPostParams = {
       id: id,
       status: toBeStatus,
-      updated_at: updatedAt,
+      updated_at: updatedAt
     };
     await setData(serverSetParams);
     router.reload();

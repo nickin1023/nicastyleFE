@@ -1,7 +1,7 @@
 import {
   AdminPost,
   GetAdminPostRequest,
-  GetAdminPostsResponse,
+  GetAdminPostsResponse
 } from "@/server/types/entity/adminPost";
 import { Button } from "@/src/components/atoms/button/Button";
 import Link from "next/link";

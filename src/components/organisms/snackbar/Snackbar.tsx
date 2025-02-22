@@ -7,12 +7,12 @@ const snackBarVariants = cva(
     variants: {
       variant: {
         success: `text-green-800 bg-green-50 dark:text-green-400`,
-        warn: `text-red-800 bg-red-50 dark:text-red-400`,
-      },
+        warn: `text-red-800 bg-red-50 dark:text-red-400`
+      }
     },
     defaultVariants: {
-      variant: "success",
-    },
+      variant: "success"
+    }
   }
 );
 

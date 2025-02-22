@@ -9,12 +9,12 @@ const inputVariants = cva(
       variant: {
         primary: `bg-white text-primaryWhite hover:opacity-75 border border-gray`,
         outline: `bg-blue-500 text-red-300 border border-accent hover:opacity-75`,
-        icon: `bg-transparent hover:bg-bg-gray rounded-full p-2 h-fit`,
-      },
+        icon: `bg-transparent hover:bg-bg-gray rounded-full p-2 h-fit`
+      }
     },
     defaultVariants: {
-      variant: "primary",
-    },
+      variant: "primary"
+    }
   }
 );
 

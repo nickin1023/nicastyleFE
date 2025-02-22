@@ -9,5 +9,5 @@ export type ClientSetParams = {
 export const initialSetAdminPostParams: ClientSetParams = {
   title: "",
   id: "",
-  html: "",
+  html: ""
 };

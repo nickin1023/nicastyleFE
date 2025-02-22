@@ -1,6 +1,6 @@
 import {
   SendMailRequest,
-  SendMailResponse,
+  SendMailResponse
 } from "@/server/types/entity/sendMail";
 import axios from "axios";
 

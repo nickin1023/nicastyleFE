@@ -1,5 +1,6 @@
 import { BlogContent } from "@/src/features/blogs/component/blogContent";
 import Editor from "@monaco-editor/react";
+import { editor } from "monaco-editor";
 import { useRef } from "react";
 import { AdminContentParams } from "../types/blogContent";
 
@@ -12,12 +13,12 @@ export const AdminBlogContent = (params: AdminContentParams) => {
     isEdit,
     isPreview,
     publishedAt,
-    updatedAt,
+    updatedAt
   } = params;
 
-  const editorRef = useRef(null);
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
-  function handleEditorDidMount(editor: any) {
+  function handleEditorDidMount(editor: editor.IStandaloneCodeEditor) {
     editorRef.current = editor;
   }
 
@@ -25,10 +26,11 @@ export const AdminBlogContent = (params: AdminContentParams) => {
     readOnly: false,
     minimap: { enabled: false },
     scrollbar: {
-      alwaysConsumeMouseWheel: false,
+      alwaysConsumeMouseWheel: false
     },
-    wordWrap: "on" as "on" | "off" | "wordWrapColumn" | "bounded",
+    wordWrap: "on" as "on" | "off" | "wordWrapColumn" | "bounded"
   };
+
   return (
     <>
       {isEdit && !isPreview ? (

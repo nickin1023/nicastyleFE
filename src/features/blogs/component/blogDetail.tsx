@@ -1,12 +1,12 @@
 import {
   GetPostRequest,
   GetPostsResponse,
-  Post,
+  Post
 } from "@/server/types/entity/post";
 import {
   MailMessage,
   SendMailRequest,
-  SendMailResponse,
+  SendMailResponse
 } from "@/server/types/entity/sendMail";
 import { Button } from "@/src/components/atoms/button/Button";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
@@ -21,7 +21,6 @@ import { KeyboardEventHandler, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export const BlogDetail = () => {
-  const [status, setStatus] = useState<string>();
   const [post, setPost] = useState<Post | null>();
   const router = useRouter();
   const { isShow, message, variant, openSnackBar } = useSnackbar();
@@ -30,13 +29,12 @@ export const BlogDetail = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    reset
   } = useForm<MailMessage>();
 
   const getData = async (pageId: string) => {
     const req: GetPostRequest = { id: pageId };
     const res: GetPostsResponse = await getBlogs(req);
-    setStatus(res.result);
     setPost(res.posts && res.posts[0]);
   };
 
@@ -52,10 +50,13 @@ export const BlogDetail = () => {
       message: {
         main: mailMessage.main,
         commentInfo: {
+          // ボタン自体、記事がないと表示されないので無視
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           title: post?.title!,
-          id: post?.id!,
-        },
-      },
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+          id: post?.id!
+        }
+      }
     };
     const res: SendMailResponse = await sendMail(mailRequest);
     if (res.result === "Success") {
@@ -100,7 +101,7 @@ export const BlogDetail = () => {
                 rows={5}
                 required={false}
                 {...register("main", {
-                  required: "コメントを入力してください",
+                  required: "コメントを入力してください"
                 })}
               />
               {errors.main?.message && (

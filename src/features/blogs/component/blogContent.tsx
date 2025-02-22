@@ -16,6 +16,7 @@ export const BlogContent = (params: ContentParams) => {
           最終更新日: {updated_at ? isoToDotDate(updated_at) : "----"}
         </time>
       </p>
+      <p>{featureImageUrl}</p>
       <HtmlContent html={html} />
     </>
   );

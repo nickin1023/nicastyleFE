@@ -14,16 +14,7 @@ type TextAreaFormProps = {
 
 export const TextAreaForm = forwardRef<HTMLTextAreaElement, TextAreaFormProps>(
   (
-    {
-      variant,
-      formName,
-      type,
-      placeholder,
-      labelName,
-      rows,
-      required,
-      ...props
-    },
+    { variant, formName, placeholder, labelName, rows, required, ...props },
     ref
   ) => {
     return (
