@@ -4,6 +4,8 @@ import {
   GetAdminPostsResponse
 } from "@/server/types/entity/adminPost";
 import { Button } from "@/src/components/atoms/button/Button";
+import { InternalServerError } from "@/src/components/templates/internalServerError";
+import { useErrorState } from "@/src/hooks/useErrorState";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -12,45 +14,55 @@ import { getBlogs } from "../api/blogs";
 export const AdminBlogList = () => {
   const router = useRouter();
 
-  const [status, setStatus] = useState<string>();
+  const { isError, setErrorState } = useErrorState();
+  const [isReady, setIsReady] = useState<boolean>(false);
   const [posts, setPosts] = useState<AdminPost[] | null>();
 
   const getData = async () => {
     const req: GetAdminPostRequest = {};
     const res: GetAdminPostsResponse = await getBlogs(req);
-    setStatus(res.result);
+    setErrorState(res.result);
     setPosts(res.posts);
+    setIsReady(true);
   };
 
   useEffect(() => {
     getData();
   }, []);
 
+  if (!isReady) return <p>loading</p>;
+  if (isError) return <InternalServerError />;
+
   return (
-    <div className="relative">
-      <h1>ブログ一覧</h1>
-      <p>status: {status}</p>
-      <Button
-        variant="primary"
-        onClick={() => {
-          router.push(`/administrator/blogs/createPost`);
-        }}
-      >
-        新規作成
-      </Button>
-      {posts ? (
-        <ul>
-          {posts.map((post, index) => (
-            <li key={index}>
-              <Link href={`/administrator/blogs/${post.id}`}>
-                {post.title}, {post.status}
-              </Link>
-            </li>
-          ))}
-        </ul>
+    <>
+      {!isError ? (
+        <div className="relative">
+          <h1>ブログ一覧</h1>
+          <Button
+            variant="primary"
+            onClick={() => {
+              router.push(`/administrator/blogs/createPost`);
+            }}
+          >
+            新規作成
+          </Button>
+          {posts ? (
+            <ul>
+              {posts.map((post, index) => (
+                <li key={index}>
+                  <Link href={`/administrator/blogs/${post.id}`}>
+                    {post.title}, {post.status}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>記事はありません。</p>
+          )}
+        </div>
       ) : (
-        <p>記事はありません。</p>
+        <InternalServerError />
       )}
-    </div>
+    </>
   );
 };

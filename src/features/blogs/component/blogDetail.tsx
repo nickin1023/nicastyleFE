@@ -11,16 +11,21 @@ import {
 import { Button } from "@/src/components/atoms/button/Button";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
+import { InternalServerError } from "@/src/components/templates/internalServerError";
 import { NotFound } from "@/src/components/templates/notFound";
 import { getBlogs } from "@/src/features/blogs/api/getBlogs";
 import { BlogContent } from "@/src/features/blogs/component/blogContent";
 import { sendMail } from "@/src/features/contact/api/sendMail";
+import { useErrorState } from "@/src/hooks/useErrorState";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { useRouter } from "next/router";
 import { KeyboardEventHandler, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export const BlogDetail = () => {
+  const { isError, setErrorState } = useErrorState();
+  const [isReady, setIsReady] = useState<boolean>(false);
+
   const [post, setPost] = useState<Post | null>();
   const router = useRouter();
   const { isShow, message, variant, openSnackBar } = useSnackbar();
@@ -35,7 +40,9 @@ export const BlogDetail = () => {
   const getData = async (pageId: string) => {
     const req: GetPostRequest = { id: pageId };
     const res: GetPostsResponse = await getBlogs(req);
+    setErrorState(res.result);
     setPost(res.posts && res.posts[0]);
+    setIsReady(true);
   };
 
   useEffect(() => {
@@ -73,6 +80,9 @@ export const BlogDetail = () => {
       e.preventDefault();
     }
   };
+
+  if (!isReady) return <p>loading</p>;
+  if (isError) return <InternalServerError />;
 
   return (
     <>

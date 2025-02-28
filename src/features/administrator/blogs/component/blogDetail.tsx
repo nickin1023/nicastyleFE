@@ -10,7 +10,9 @@ import {
   initialDialogArgs
 } from "@/src/components/organisms/dialog/Dialog";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
+import { InternalServerError } from "@/src/components/templates/internalServerError";
 import { NotFound } from "@/src/components/templates/notFound";
+import { useErrorState } from "@/src/hooks/useErrorState";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
 import _ from "lodash";
 import { useRouter } from "next/router";
@@ -27,7 +29,6 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
   const { isEdit } = params;
 
   // 記事の情報
-  const [notFound, setNotFound] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [id, setId] = useState<string>("");
   const [postStatus, setPostStatus] = useState<string>("");
@@ -40,6 +41,8 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
 
   // 描画準備がOKか
   const [isReady, setIsReady] = useState<boolean>(false);
+  const { isError, setErrorState } = useErrorState();
+  const [notFound, setNotFound] = useState<boolean>(false);
 
   const router = useRouter();
   const { isShow, message, variant, openSnackBar } = useSnackbar();
@@ -51,6 +54,8 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
   const getData = async (pageId: string) => {
     const req: GetAdminPostRequest = { id: pageId };
     const res: GetAdminPostsResponse = await getBlogs(req);
+
+    setErrorState(res.result);
 
     if (!res.posts) {
       setNotFound(true);
@@ -180,115 +185,112 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
     return operand;
   };
 
+  if (!isReady) return <p>loading</p>;
+  if (isError) return <InternalServerError />;
+
   return (
     <>
-      {isReady ? (
-        <>
-          <Snackbar isShow={isShow} message={message} variant={variant} />
-          {!notFound ? (
-            <div className="relative bg-gray-500 flex flex-col">
-              <div className="container mx-auto justify-between my-2 flex">
-                <div>
-                  {!isPreview && (
+      <Snackbar isShow={isShow} message={message} variant={variant} />
+      {!notFound ? (
+        <div className="relative bg-gray-500 flex flex-col">
+          <div className="container mx-auto justify-between my-2 flex">
+            <div>
+              {!isPreview && (
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    if (isEdit) {
+                      router.push(`/administrator/blogs/${id}`);
+                    } else {
+                      router.push(`/administrator/blogs`);
+                    }
+                  }}
+                >
+                  戻る
+                </Button>
+              )}
+            </div>
+            <div className="flex">
+              {isEdit ? (
+                <>
+                  {isPreview ? (
                     <Button
                       variant="primary"
                       onClick={() => {
-                        if (isEdit) {
-                          router.push(`/administrator/blogs/${id}`);
-                        } else {
-                          router.push(`/administrator/blogs`);
-                        }
+                        setIsPreview(false);
                       }}
                     >
-                      戻る
+                      プレビューをやめる
                     </Button>
-                  )}
-                </div>
-                <div className="flex">
-                  {isEdit ? (
-                    <>
-                      {isPreview ? (
-                        <Button
-                          variant="primary"
-                          onClick={() => {
-                            setIsPreview(false);
-                          }}
-                        >
-                          プレビューをやめる
-                        </Button>
-                      ) : (
-                        <>
-                          <Button variant="primary" onClick={onClickUpdate}>
-                            更新
-                          </Button>
-                          <Button
-                            variant="primary"
-                            onClick={() => {
-                              setIsPreview(true);
-                            }}
-                          >
-                            プレビュー
-                          </Button>
-                        </>
-                      )}
-                    </>
                   ) : (
                     <>
+                      <Button variant="primary" onClick={onClickUpdate}>
+                        更新
+                      </Button>
                       <Button
                         variant="primary"
                         onClick={() => {
-                          router.push(`/administrator/blogs/${id}/edit`);
+                          setIsPreview(true);
                         }}
                       >
-                        編集
+                        プレビュー
                       </Button>
-                      {postStatus === "draft" ? (
-                        <Button variant="primary" onClick={onClickPublish}>
-                          公開する
-                        </Button>
-                      ) : (
-                        <Button variant="primary" onClick={onClickUnpublish}>
-                          非公開にする
-                        </Button>
-                      )}
                     </>
                   )}
-                </div>
-              </div>
-              <div className="container bg-white mx-auto my-2 px-5 py-5">
-                <p>id: {id}</p>
-                <p>status: {postStatus}</p>
-              </div>
-              <div className="container mx-auto my-2 px-5 py-5 bg-white">
-                <AdminBlogContent
-                  html={html}
-                  setHtml={setHtml}
-                  title={title}
-                  setTitle={setTitle}
-                  isEdit={isEdit}
-                  isPreview={isPreview}
-                  publishedAt={publishedAt}
-                  updatedAt={updatedAt}
-                />
-              </div>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      router.push(`/administrator/blogs/${id}/edit`);
+                    }}
+                  >
+                    編集
+                  </Button>
+                  {postStatus === "draft" ? (
+                    <Button variant="primary" onClick={onClickPublish}>
+                      公開する
+                    </Button>
+                  ) : (
+                    <Button variant="primary" onClick={onClickUnpublish}>
+                      非公開にする
+                    </Button>
+                  )}
+                </>
+              )}
             </div>
-          ) : (
-            <NotFound />
-          )}
-          {isDialogOpen && (
-            <Dialog
-              variant={dialogInfo.variant}
-              title={dialogInfo.title}
-              content={dialogInfo.content}
-              isOpen={isDialogOpen}
-              setIsOpen={setIsDialogOpen}
-              execButtonLabel={dialogInfo.execButtonLabel}
-              onClickOk={dialogInfo.onClickOk}
+          </div>
+          <div className="container bg-white mx-auto my-2 px-5 py-5">
+            <p>id: {id}</p>
+            <p>status: {postStatus}</p>
+          </div>
+          <div className="container mx-auto my-2 px-5 py-5 bg-white">
+            <AdminBlogContent
+              html={html}
+              setHtml={setHtml}
+              title={title}
+              setTitle={setTitle}
+              isEdit={isEdit}
+              isPreview={isPreview}
+              publishedAt={publishedAt}
+              updatedAt={updatedAt}
             />
-          )}
-        </>
+          </div>
+        </div>
       ) : (
-        <p>loading</p>
+        <NotFound />
+      )}
+      {isDialogOpen && (
+        <Dialog
+          variant={dialogInfo.variant}
+          title={dialogInfo.title}
+          content={dialogInfo.content}
+          isOpen={isDialogOpen}
+          setIsOpen={setIsDialogOpen}
+          execButtonLabel={dialogInfo.execButtonLabel}
+          onClickOk={dialogInfo.onClickOk}
+        />
       )}
     </>
   );
