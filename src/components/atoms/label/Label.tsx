@@ -19,19 +19,20 @@ const labelVariants = cva(
 );
 
 interface LabelProps
-  extends React.HTMLAttributes<HTMLElement>,
+  extends React.LabelHTMLAttributes<HTMLLabelElement>,
     VariantProps<typeof labelVariants> {
   variant: "primary" | "outline" | "icon" | null | undefined;
   name: string;
   required: boolean;
 }
 
-export const Label = React.forwardRef<HTMLElement, LabelProps>(
-  ({ className, variant, children, name, required, ...props }) => {
+export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
+  ({ className, variant, children, name, required, ...props }, ref) => {
     return (
       <label
         className={cn(labelVariants({ variant, className }))}
         htmlFor={name}
+        ref={ref}
         {...props}
       >
         {children}
