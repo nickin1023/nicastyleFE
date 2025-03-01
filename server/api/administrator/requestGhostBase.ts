@@ -1,6 +1,6 @@
 import {
   AddAdminPostParams,
-  SetAdminPostParams,
+  SetAdminPostParams
 } from "@/server/types/entity/adminPost";
 import axios from "axios";
 import jwt from "jsonwebtoken";
@@ -15,7 +15,7 @@ const generateToken = () => {
     keyid: id,
     algorithm: "HS256",
     expiresIn: "5m",
-    audience: `/admin/`,
+    audience: `/admin/`
   });
 };
 
@@ -40,7 +40,7 @@ export const requestGet = async <T = any>(
       return r;
     })
     .catch((err: any) => {
-      throw new Error(`Ghost Admin API error: ${JSON.stringify(err)}`);
+      throw err;
     });
 };
 
@@ -57,9 +57,9 @@ export const requestSet = async <T = any>(
         featureImageUrl: body.featureImageUrl,
         html: body.html,
         status: body.status,
-        updated_at: body.updated_at,
-      },
-    ],
+        updated_at: body.updated_at
+      }
+    ]
   };
 
   return await axios
@@ -68,7 +68,7 @@ export const requestSet = async <T = any>(
       return r;
     })
     .catch((err: any) => {
-      throw new Error(`Ghost Admin API error: ${JSON.stringify(err)}`);
+      throw err;
     });
 };
 
@@ -84,9 +84,9 @@ export const requestAdd = async <T = any>(
         title: body.title,
         featureImageUrl: body.featureImageUrl,
         html: body.html,
-        status: "draft",
-      },
-    ],
+        status: "draft"
+      }
+    ]
   };
 
   return await axios
@@ -95,6 +95,6 @@ export const requestAdd = async <T = any>(
       return r;
     })
     .catch((err: any) => {
-      throw new Error(`Ghost Admin API error: ${JSON.stringify(err)}`);
+      throw err;
     });
 };

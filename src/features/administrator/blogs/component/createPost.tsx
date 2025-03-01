@@ -3,7 +3,7 @@ import { Button } from "@/src/components/atoms/button/Button";
 import {
   Dialog,
   DialogArgs,
-  initialDialogArgs,
+  initialDialogArgs
 } from "@/src/components/organisms/dialog/Dialog";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
@@ -42,7 +42,7 @@ export const CreatePost = () => {
       title: "作成",
       content: "記事を作成しますか？",
       execButtonLabel: "作成",
-      onClickOk: () => onExecCreate(),
+      onClickOk: () => onExecCreate()
     });
     setIsDialogOpen(true);
   };

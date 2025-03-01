@@ -4,7 +4,7 @@ import next from "next";
 import {
   administratorAddPost,
   administratorGet,
-  administratorSetPost,
+  administratorSetPost
 } from "./api/administrator/post";
 import { sendMail } from "./api/contact";
 import { getPosts } from "./api/post";
@@ -29,9 +29,10 @@ const main = async () => {
 
   app.all("/api/administrator/*", (req: Request, res: Response, next) => {
     if (!isDev) {
-      // ローカル以外からのadminエンドポイントへの接続は404にする
+      // ローカル以外からは基本的に接続されないはずだが、サーバーサイドでも塞ぐ
       console.warn("admin access from not local");
-      res.redirect("/404");
+      res.send(404).send();
+      return;
     }
     next();
   });

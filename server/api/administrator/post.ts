@@ -6,7 +6,7 @@ import {
   GetAdminPostRequest,
   GetAdminPostsResponse,
   MutateAdminPostsResponse,
-  SetAdminPostParams,
+  SetAdminPostParams
 } from "../../types/entity/adminPost";
 import { requestAdd, requestGet, requestSet } from "./requestGhostBase";
 
@@ -33,13 +33,17 @@ export const administratorGet = async (
           html: element.html,
           status: element.status,
           published_at: element.published_at,
-          updated_at: element.updated_at,
+          updated_at: element.updated_at
         })
       );
       res = { result: "Success", posts: posts };
       return res;
     })
     .catch((err: any) => {
+      if (err.status && err.status === 422) {
+        res = { result: "Success", posts: null };
+        return res;
+      }
       console.log(err);
       res = { result: "Failure", posts: null };
       return res;

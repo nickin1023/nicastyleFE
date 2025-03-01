@@ -9,29 +9,30 @@ const labelVariants = cva(
       variant: {
         primary: `bg-gray-200 text-primaryWhite hover:opacity-75`,
         outline: `bg-blue-500 text-red-300 border border-accent hover:opacity-75`,
-        icon: `bg-transparent hover:bg-bg-gray rounded-full p-2 h-fit`,
-      },
+        icon: `bg-transparent hover:bg-bg-gray rounded-full p-2 h-fit`
+      }
     },
     defaultVariants: {
-      variant: "primary",
-    },
+      variant: "primary"
+    }
   }
 );
 
 interface LabelProps
-  extends React.HTMLAttributes<HTMLElement>,
+  extends React.LabelHTMLAttributes<HTMLLabelElement>,
     VariantProps<typeof labelVariants> {
   variant: "primary" | "outline" | "icon" | null | undefined;
   name: string;
   required: boolean;
 }
 
-export const Label = React.forwardRef<HTMLElement, LabelProps>(
+export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
   ({ className, variant, children, name, required, ...props }, ref) => {
     return (
       <label
-        className={cn(labelVariants({ variant }))}
+        className={cn(labelVariants({ variant, className }))}
         htmlFor={name}
+        ref={ref}
         {...props}
       >
         {children}

@@ -7,7 +7,7 @@ export const initialDialogArgs: DialogArgs = {
   title: "",
   content: "",
   execButtonLabel: "",
-  onClickOk: () => {},
+  onClickOk: () => {}
 };
 
 export type DialogArgs = {
@@ -31,11 +31,11 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    background: "#FFFFFF",
+    background: "#FFFFFF"
   },
   overlay: {
-    background: "#00000099",
-  },
+    background: "#00000099"
+  }
 };
 
 export const Dialog = (params: DialogProps) => {

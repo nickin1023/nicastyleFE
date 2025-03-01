@@ -1,26 +1,31 @@
 import {
   GetPostRequest,
   GetPostsResponse,
-  Post,
+  Post
 } from "@/server/types/entity/post";
 import {
   MailMessage,
   SendMailRequest,
-  SendMailResponse,
+  SendMailResponse
 } from "@/server/types/entity/sendMail";
 import { Button } from "@/src/components/atoms/button/Button";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
+import { InternalServerError } from "@/src/components/templates/internalServerError";
+import { NotFound } from "@/src/components/templates/notFound";
+import { getBlogs } from "@/src/features/blogs/api/getBlogs";
+import { BlogContent } from "@/src/features/blogs/component/blogContent";
+import { sendMail } from "@/src/features/contact/api/sendMail";
+import { useErrorState } from "@/src/hooks/useErrorState";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { useRouter } from "next/router";
 import { KeyboardEventHandler, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { sendMail } from "../../contact/api/sendMail";
-import { getBlogs } from "../api/getBlogs";
-import { BlogContent } from "./blogContent";
 
 export const BlogDetail = () => {
-  const [status, setStatus] = useState<string>();
+  const { isError, setErrorState } = useErrorState();
+  const [isReady, setIsReady] = useState<boolean>(false);
+
   const [post, setPost] = useState<Post | null>();
   const router = useRouter();
   const { isShow, message, variant, openSnackBar } = useSnackbar();
@@ -29,21 +34,21 @@ export const BlogDetail = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    reset
   } = useForm<MailMessage>();
-
-  const getData = async (pageId: string) => {
-    const req: GetPostRequest = { id: pageId };
-    const res: GetPostsResponse = await getBlogs(req);
-    setStatus(res.result);
-    setPost(res.posts![0]);
-  };
 
   useEffect(() => {
     if (!router.isReady) return;
     const { pageId } = router.query;
+    const getData = async (pageId: string) => {
+      const req: GetPostRequest = { id: pageId };
+      const res: GetPostsResponse = await getBlogs(req);
+      setErrorState(res.result);
+      setPost(res.posts && res.posts[0]);
+      setIsReady(true);
+    };
     getData(String(pageId));
-  }, [router.isReady, router.query]);
+  }, [router.isReady, router.query, setErrorState]);
 
   const onSubmit: SubmitHandler<MailMessage> = async (mailMessage) => {
     const mailRequest: SendMailRequest = {
@@ -51,10 +56,13 @@ export const BlogDetail = () => {
       message: {
         main: mailMessage.main,
         commentInfo: {
+          // ボタン自体、記事がないと表示されないので無視
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           title: post?.title!,
-          id: post?.id!,
-        },
-      },
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+          id: post?.id!
+        }
+      }
     };
     const res: SendMailResponse = await sendMail(mailRequest);
     if (res.result === "Success") {
@@ -72,15 +80,18 @@ export const BlogDetail = () => {
     }
   };
 
+  if (!isReady) return <p>loading</p>;
+  if (isError) return <InternalServerError />;
+
   return (
     <>
       <Snackbar isShow={isShow} message={message} variant={variant} />
-      <div className="relative bg-gray-500 flex flex-col">
-        <div className="container bg-white mx-auto my-5 px-5 py-5">
-          <p>other content</p>
-        </div>
-        <div className="container mx-auto my-5 px-5 py-5 bg-white">
-          {post ? (
+      {post ? (
+        <div className="relative bg-gray-500 flex flex-col">
+          <div className="container bg-white mx-auto my-5 px-5 py-5">
+            <p>other content</p>
+          </div>
+          <div className="container mx-auto my-5 px-5 py-5 bg-white">
             <BlogContent
               title={post.title}
               featureImageUrl={post.featureImageUrl}
@@ -88,37 +99,37 @@ export const BlogDetail = () => {
               published_at={post.published_at}
               updated_at={post.updated_at}
             />
-          ) : (
-            <p>記事はありません。</p>
-          )}
+          </div>
+          <div className="container bg-white mx-auto my-5 px-5 py-5">
+            <form onKeyDown={handleFormSubmit}>
+              <TextAreaForm
+                variant={"primary"}
+                formName="comment"
+                type="text"
+                labelName="コメント"
+                rows={5}
+                required={false}
+                {...register("main", {
+                  required: "コメントを入力してください"
+                })}
+              />
+              {errors.main?.message && (
+                <p className="error-message">{errors.main?.message}</p>
+              )}
+              <Button
+                variant={"primary"}
+                className="m-5"
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+              >
+                送信
+              </Button>
+            </form>
+          </div>
         </div>
-        <div className="container bg-white mx-auto my-5 px-5 py-5">
-          <form onKeyDown={handleFormSubmit}>
-            <TextAreaForm
-              variant={"primary"}
-              formName="comment"
-              type="text"
-              labelName="コメント"
-              rows={5}
-              required={false}
-              {...register("main", {
-                required: "コメントを入力してください",
-              })}
-            />
-            {errors.main?.message && (
-              <p className="error-message">{errors.main?.message}</p>
-            )}
-            <Button
-              variant={"primary"}
-              className="m-5"
-              type="submit"
-              onClick={handleSubmit(onSubmit)}
-            >
-              送信
-            </Button>
-          </form>
-        </div>
-      </div>
+      ) : (
+        <NotFound />
+      )}
     </>
   );
 };

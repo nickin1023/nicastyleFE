@@ -1,7 +1,7 @@
 import {
   MailMessage,
   SendMailRequest,
-  SendMailResponse,
+  SendMailResponse
 } from "@/server/types/entity/sendMail";
 import { Button } from "@/src/components/atoms/button/Button";
 import { InputForm } from "@/src/components/molecules/inputForm/InputForm";
@@ -36,7 +36,7 @@ export const ContactForm = () => {
     main: string()
       .label("本文")
       .required("${label}は必須入力です")
-      .max(MAX_MAIN_LENGTH, "${label}は${max}文字以上で入力してください。"),
+      .max(MAX_MAIN_LENGTH, "${label}は${max}文字以上で入力してください。")
   });
 
   const {
@@ -44,7 +44,7 @@ export const ContactForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
+    watch
   } = useForm({ resolver: yupResolver(schema) });
 
   const nameWatch = watch("name");
@@ -58,8 +58,8 @@ export const ContactForm = () => {
         name: mailMessage.name,
         address: mailMessage.address,
         subject: mailMessage.subject,
-        main: mailMessage.main,
-      },
+        main: mailMessage.main
+      }
     };
     const res: SendMailResponse = await sendMail(mailRequest);
     if (res.result === "Success") {

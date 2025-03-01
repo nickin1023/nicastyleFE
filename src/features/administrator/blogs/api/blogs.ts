@@ -3,7 +3,7 @@ import {
   GetAdminPostRequest,
   GetAdminPostsResponse,
   MutateAdminPostsResponse,
-  SetAdminPostParams,
+  SetAdminPostParams
 } from "@/server/types/entity/adminPost";
 import axios from "axios";
 
