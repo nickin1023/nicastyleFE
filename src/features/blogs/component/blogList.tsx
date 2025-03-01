@@ -14,17 +14,16 @@ export const BlogList = () => {
   const [isReady, setIsReady] = useState<boolean>(false);
   const [posts, setPosts] = useState<Post[] | null>();
 
-  const getData = async () => {
-    const req: GetPostRequest = {};
-    const res: GetPostsResponse = await getBlogs(req);
-    setErrorState(res.result);
-    setPosts(res.posts);
-    setIsReady(true);
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      const req: GetPostRequest = {};
+      const res: GetPostsResponse = await getBlogs(req);
+      setErrorState(res.result);
+      setPosts(res.posts);
+      setIsReady(true);
+    };
     getData();
-  }, []);
+  }, [setErrorState]);
 
   if (!isReady) return <p>loading</p>;
   if (isError) return <InternalServerError />;

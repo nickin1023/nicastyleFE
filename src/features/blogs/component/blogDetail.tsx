@@ -37,19 +37,18 @@ export const BlogDetail = () => {
     reset
   } = useForm<MailMessage>();
 
-  const getData = async (pageId: string) => {
-    const req: GetPostRequest = { id: pageId };
-    const res: GetPostsResponse = await getBlogs(req);
-    setErrorState(res.result);
-    setPost(res.posts && res.posts[0]);
-    setIsReady(true);
-  };
-
   useEffect(() => {
     if (!router.isReady) return;
     const { pageId } = router.query;
+    const getData = async (pageId: string) => {
+      const req: GetPostRequest = { id: pageId };
+      const res: GetPostsResponse = await getBlogs(req);
+      setErrorState(res.result);
+      setPost(res.posts && res.posts[0]);
+      setIsReady(true);
+    };
     getData(String(pageId));
-  }, [router.isReady, router.query]);
+  }, [router.isReady, router.query, setErrorState]);
 
   const onSubmit: SubmitHandler<MailMessage> = async (mailMessage) => {
     const mailRequest: SendMailRequest = {

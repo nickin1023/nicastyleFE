@@ -4,7 +4,7 @@ import next from "next";
 import {
   administratorAddPost,
   administratorGet,
-  administratorSetPost,
+  administratorSetPost
 } from "./api/administrator/post";
 import { sendMail } from "./api/contact";
 import { getPosts } from "./api/post";

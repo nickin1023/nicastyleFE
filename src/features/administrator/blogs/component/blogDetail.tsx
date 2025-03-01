@@ -50,34 +50,6 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
   const [dialogInfo, setDialogInfo] = useState<DialogArgs>(initialDialogArgs);
   const [isPreview, setIsPreview] = useState<boolean>(false);
 
-  // 表示のデータ取得
-  const getData = async (pageId: string) => {
-    const req: GetAdminPostRequest = { id: pageId };
-    const res: GetAdminPostsResponse = await getBlogs(req);
-
-    setErrorState(res.result);
-
-    if (!res.posts) {
-      setNotFound(true);
-      setIsReady(true);
-      return;
-    }
-
-    setTitle(res.posts![0].title);
-    setId(res.posts![0].id);
-    setPostStatus(res.posts![0].status);
-    setHtml(res.posts![0].html);
-    setPublishedAt(res.posts![0].published_at);
-    setUpdatedAt(res.posts![0].updated_at);
-    setOldPost({
-      title: res.posts![0].title,
-      id: res.posts![0].id,
-      html: res.posts![0].html
-    });
-
-    setIsReady(true);
-  };
-
   // 編集、状態更新のset
   const setData = async (setParams: SetAdminPostParams) => {
     const res = await setBlog(setParams);
@@ -159,8 +131,34 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
   useEffect(() => {
     if (!router.isReady) return;
     const { pageId } = router.query;
+    const getData = async (pageId: string) => {
+      const req: GetAdminPostRequest = { id: pageId };
+      const res: GetAdminPostsResponse = await getBlogs(req);
+
+      setErrorState(res.result);
+
+      if (!res.posts) {
+        setNotFound(true);
+        setIsReady(true);
+        return;
+      }
+
+      setTitle(res.posts![0].title);
+      setId(res.posts![0].id);
+      setPostStatus(res.posts![0].status);
+      setHtml(res.posts![0].html);
+      setPublishedAt(res.posts![0].published_at);
+      setUpdatedAt(res.posts![0].updated_at);
+      setOldPost({
+        title: res.posts![0].title,
+        id: res.posts![0].id,
+        html: res.posts![0].html
+      });
+
+      setIsReady(true);
+    };
     getData(String(pageId));
-  }, [router.isReady, router.query]);
+  }, [router.isReady, router.query, setErrorState]);
 
   // set時の差分確認
   const compare = (params: ClientSetParams): ClientSetParams | null => {

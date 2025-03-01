@@ -18,17 +18,16 @@ export const AdminBlogList = () => {
   const [isReady, setIsReady] = useState<boolean>(false);
   const [posts, setPosts] = useState<AdminPost[] | null>();
 
-  const getData = async () => {
-    const req: GetAdminPostRequest = {};
-    const res: GetAdminPostsResponse = await getBlogs(req);
-    setErrorState(res.result);
-    setPosts(res.posts);
-    setIsReady(true);
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      const req: GetAdminPostRequest = {};
+      const res: GetAdminPostsResponse = await getBlogs(req);
+      setErrorState(res.result);
+      setPosts(res.posts);
+      setIsReady(true);
+    };
     getData();
-  }, []);
+  }, [setErrorState]);
 
   if (!isReady) return <p>loading</p>;
   if (isError) return <InternalServerError />;
