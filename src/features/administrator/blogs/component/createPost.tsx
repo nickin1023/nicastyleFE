@@ -10,7 +10,7 @@ import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { addBlog } from "../api/blogs";
-import { AdminBlogContent } from "./blogContent";
+import { AdminBlogContent } from "./adminBlogContent";
 
 export const CreatePost = () => {
   // 記事の情報
@@ -103,7 +103,6 @@ export const CreatePost = () => {
             setHtml={setHtml}
             title={title}
             setTitle={setTitle}
-            isEdit={true}
             isPreview={isPreview}
             publishedAt={undefined}
             updatedAt={undefined}

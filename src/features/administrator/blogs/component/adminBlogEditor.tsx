@@ -17,17 +17,15 @@ import { useSnackbar } from "@/src/hooks/useSnackbar";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getBlogs, setBlog } from "../api/blogs";
+import { getBlogs } from "../api/blogs";
 import {
   ClientSetParams,
   initialSetAdminPostParams
 } from "../consts/blogContent";
-import { AdminBlogDetailParams } from "../types/blogDetail";
-import { AdminBlogContent } from "./blogContent";
+import { useSendData } from "../hooks/useSendData";
+import { AdminBlogContent } from "./adminBlogContent";
 
-export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
-  const { isEdit } = params;
-
+export const AdminBlogEditor = () => {
   // 記事の情報
   const [title, setTitle] = useState<string>("");
   const [id, setId] = useState<string>("");
@@ -38,6 +36,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
   const [oldPost, setOldPost] = useState<ClientSetParams>(
     initialSetAdminPostParams
   );
+  const { sendData } = useSendData();
 
   // 描画準備がOKか
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -49,17 +48,6 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [dialogInfo, setDialogInfo] = useState<DialogArgs>(initialDialogArgs);
   const [isPreview, setIsPreview] = useState<boolean>(false);
-
-  // 編集、状態更新のset
-  const setData = async (setParams: SetAdminPostParams) => {
-    const res = await setBlog(setParams);
-    if (res.result == "Failure") {
-      openSnackBar("更新に失敗しました。", "warn");
-    } else {
-      openSnackBar("更新に成功しました。", "success");
-      router.reload();
-    }
-  };
 
   // 更新ボタン
   const onClickUpdate = () => {
@@ -89,43 +77,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
       ...setParams,
       updated_at: updatedAt
     };
-    setData(serverSetParams);
-  };
-
-  // 公開ボタン
-  const onClickPublish = () => {
-    setDialogInfo({
-      variant: "primary",
-      title: "公開",
-      content: "記事を公開しますか？",
-      execButtonLabel: "実行",
-      onClickOk: () => onExecSwitch("published")
-    });
-    setIsDialogOpen(true);
-  };
-
-  // 非公開ボタン
-  const onClickUnpublish = () => {
-    setDialogInfo({
-      variant: "primary",
-      title: "非公開",
-      content: "記事を非公開にしますか？",
-      execButtonLabel: "実行",
-      onClickOk: () => onExecSwitch("draft")
-    });
-    setIsDialogOpen(true);
-  };
-
-  // 公開・非公開ダイアログ実行ボタン
-  const onExecSwitch = async (toBeStatus: "published" | "draft") => {
-    setIsDialogOpen(false);
-    const serverSetParams: SetAdminPostParams = {
-      id: id,
-      status: toBeStatus,
-      updated_at: updatedAt
-    };
-    await setData(serverSetParams);
-    router.reload();
+    sendData(serverSetParams);
   };
 
   useEffect(() => {
@@ -197,11 +149,7 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
                 <Button
                   variant="primary"
                   onClick={() => {
-                    if (isEdit) {
-                      router.push(`/administrator/blogs/${id}`);
-                    } else {
-                      router.push(`/administrator/blogs`);
-                    }
+                    router.push(`/administrator/blogs/${id}`);
                   }}
                 >
                   戻る
@@ -209,54 +157,32 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
               )}
             </div>
             <div className="flex">
-              {isEdit ? (
-                <>
-                  {isPreview ? (
-                    <Button
-                      variant="primary"
-                      onClick={() => {
-                        setIsPreview(false);
-                      }}
-                    >
-                      プレビューをやめる
-                    </Button>
-                  ) : (
-                    <>
-                      <Button variant="primary" onClick={onClickUpdate}>
-                        更新
-                      </Button>
-                      <Button
-                        variant="primary"
-                        onClick={() => {
-                          setIsPreview(true);
-                        }}
-                      >
-                        プレビュー
-                      </Button>
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
+              <>
+                {isPreview ? (
                   <Button
                     variant="primary"
                     onClick={() => {
-                      router.push(`/administrator/blogs/${id}/edit`);
+                      setIsPreview(false);
                     }}
                   >
-                    編集
+                    プレビューをやめる
                   </Button>
-                  {postStatus === "draft" ? (
-                    <Button variant="primary" onClick={onClickPublish}>
-                      公開する
+                ) : (
+                  <>
+                    <Button variant="primary" onClick={onClickUpdate}>
+                      更新
                     </Button>
-                  ) : (
-                    <Button variant="primary" onClick={onClickUnpublish}>
-                      非公開にする
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setIsPreview(true);
+                      }}
+                    >
+                      プレビュー
                     </Button>
-                  )}
-                </>
-              )}
+                  </>
+                )}
+              </>
             </div>
           </div>
           <div className="container bg-white mx-auto my-2 px-5 py-5">
@@ -269,7 +195,6 @@ export const AdminBlogDetail = (params: AdminBlogDetailParams) => {
               setHtml={setHtml}
               title={title}
               setTitle={setTitle}
-              isEdit={isEdit}
               isPreview={isPreview}
               publishedAt={publishedAt}
               updatedAt={updatedAt}

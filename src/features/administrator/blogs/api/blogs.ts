@@ -10,7 +10,11 @@ import axios from "axios";
 export const getBlogs = async (
   getPostRequest: GetAdminPostRequest
 ): Promise<GetAdminPostsResponse> => {
-  const res = await axios.post("/api/administrator/blogs", getPostRequest);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+  const res = await axios.post(
+    `${baseUrl}/api/administrator/blogs`,
+    getPostRequest
+  );
   return res.data;
 };
 
