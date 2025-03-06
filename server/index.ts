@@ -37,16 +37,16 @@ const main = async () => {
     next();
   });
 
-  app.post("/api/administrator/blogs", (req: Request, res: Response) => {
+  app.post("/api/administrator/articles", (req: Request, res: Response) => {
     administratorGet(req).then((r) => {
       console.log("=====request=====", req.body);
-      console.log("server side /api/administrator/blogs");
+      console.log("server side /api/administrator/articles");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
   });
 
-  app.post("/api/administrator/setBlog", (req: Request, res: Response) => {
+  app.post("/api/administrator/setArticle", (req: Request, res: Response) => {
     administratorSetPost(req).then((r) => {
       console.log("=====request=====", req.body);
       console.log("server side /api/administrator/setBLog");
@@ -55,7 +55,7 @@ const main = async () => {
     });
   });
 
-  app.post("/api/administrator/addBlog", (req: Request, res: Response) => {
+  app.post("/api/administrator/addArticle", (req: Request, res: Response) => {
     administratorAddPost(req).then((r) => {
       console.log("=====request=====", req.body);
       console.log("server side /api/administrator/addBLog");
@@ -73,10 +73,10 @@ const main = async () => {
     });
   });
 
-  app.post("/api/blogs", (req: Request, res: Response) => {
+  app.post("/api/articles", (req: Request, res: Response) => {
     getPosts(req).then((r) => {
       console.log("=====request=====", req.body);
-      console.log("server side /api/blogs");
+      console.log("server side /api/articles");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
