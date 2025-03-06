@@ -31,7 +31,7 @@ const main = async () => {
     if (!isDev) {
       // ローカル以外からは基本的に接続されないはずだが、サーバーサイドでも塞ぐ
       console.warn("admin access from not local");
-      res.send(404).send();
+      res.sendStatus(404);
       return;
     }
     next();

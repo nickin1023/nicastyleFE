@@ -1,8 +1,4 @@
-import {
-  GetPostRequest,
-  GetPostsResponse,
-  Post
-} from "@/server/types/entity/post";
+import { Post } from "@/server/types/entity/post";
 import {
   MailMessage,
   SendMailRequest,
@@ -13,42 +9,25 @@ import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaFo
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
 import { InternalServerError } from "@/src/components/templates/internalServerError";
 import { NotFound } from "@/src/components/templates/notFound";
-import { getBlogs } from "@/src/features/blogs/api/getBlogs";
-import { BlogContent } from "@/src/features/blogs/component/blogContent";
 import { sendMail } from "@/src/features/contact/api/sendMail";
-import { useErrorState } from "@/src/hooks/useErrorState";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
-import { useRouter } from "next/router";
-import { KeyboardEventHandler, useEffect, useState } from "react";
+import { KeyboardEventHandler } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { BlogContent } from "./blogContent";
 
-export const BlogDetail = () => {
-  const { isError, setErrorState } = useErrorState();
-  const [isReady, setIsReady] = useState<boolean>(false);
+interface BlogDetailProps {
+  post?: Post | undefined;
+  isError: boolean;
+}
 
-  const [post, setPost] = useState<Post | null>();
-  const router = useRouter();
+export const BlogDetail = ({ post, isError }: BlogDetailProps) => {
   const { isShow, message, variant, openSnackBar } = useSnackbar();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset
   } = useForm<MailMessage>();
-
-  useEffect(() => {
-    if (!router.isReady) return;
-    const { pageId } = router.query;
-    const getData = async (pageId: string) => {
-      const req: GetPostRequest = { id: pageId };
-      const res: GetPostsResponse = await getBlogs(req);
-      setErrorState(res.result);
-      setPost(res.posts && res.posts[0]);
-      setIsReady(true);
-    };
-    getData(String(pageId));
-  }, [router.isReady, router.query, setErrorState]);
 
   const onSubmit: SubmitHandler<MailMessage> = async (mailMessage) => {
     const mailRequest: SendMailRequest = {
@@ -80,7 +59,6 @@ export const BlogDetail = () => {
     }
   };
 
-  if (!isReady) return <p>loading</p>;
   if (isError) return <InternalServerError />;
 
   return (

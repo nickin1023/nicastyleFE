@@ -1,9 +1,9 @@
-import { AdminBlogDetail } from "@/src/features/administrator/blogs/component/blogDetail";
+import { AdminBlogEditor } from "@/src/features/administrator/blogs/component/adminBlogEditor";
 
 export default function Page() {
   return (
     <>
-      <AdminBlogDetail isEdit={true} />
+      <AdminBlogEditor />
     </>
   );
 }

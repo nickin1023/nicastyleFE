@@ -5,16 +5,8 @@ import { useRef } from "react";
 import { AdminContentParams } from "../types/blogContent";
 
 export const AdminBlogContent = (params: AdminContentParams) => {
-  const {
-    html,
-    setHtml,
-    title,
-    setTitle,
-    isEdit,
-    isPreview,
-    publishedAt,
-    updatedAt
-  } = params;
+  const { html, setHtml, title, setTitle, isPreview, publishedAt, updatedAt } =
+    params;
 
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
@@ -33,7 +25,7 @@ export const AdminBlogContent = (params: AdminContentParams) => {
 
   return (
     <>
-      {isEdit && !isPreview ? (
+      {!isPreview ? (
         <>
           <div className="py-2">
             <p>title</p>
