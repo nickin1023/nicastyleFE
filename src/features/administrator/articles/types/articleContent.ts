@@ -1,3 +1,4 @@
+import { AdminPost } from "@/server/types/entity/adminPost";
 import { Dispatch, SetStateAction } from "react";
 
 export type AdminContentParams = {
@@ -8,4 +9,9 @@ export type AdminContentParams = {
   isPreview: boolean;
   setHtml: Dispatch<SetStateAction<string>>;
   setTitle: Dispatch<SetStateAction<string>>;
+};
+
+export type AdminArticleDetailProps = {
+  post?: AdminPost | undefined;
+  isError: boolean;
 };

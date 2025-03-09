@@ -49,7 +49,7 @@ const main = async () => {
   app.post("/api/administrator/setArticle", (req: Request, res: Response) => {
     administratorSetPost(req).then((r) => {
       console.log("=====request=====", req.body);
-      console.log("server side /api/administrator/setBLog");
+      console.log("server side /api/administrator/setArticle");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
@@ -58,7 +58,7 @@ const main = async () => {
   app.post("/api/administrator/addArticle", (req: Request, res: Response) => {
     administratorAddPost(req).then((r) => {
       console.log("=====request=====", req.body);
-      console.log("server side /api/administrator/addBLog");
+      console.log("server side /api/administrator/addArticle");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });

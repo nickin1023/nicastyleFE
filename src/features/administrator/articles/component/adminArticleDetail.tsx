@@ -1,4 +1,4 @@
-import { AdminPost, SetAdminPostParams } from "@/server/types/entity/adminPost";
+import { SetAdminPostParams } from "@/server/types/entity/adminPost";
 import { Button } from "@/src/components/atoms/button/Button";
 import {
   Dialog,
@@ -13,11 +13,7 @@ import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSendData } from "../hooks/useSendData";
-
-interface AdminArticleDetailProps {
-  post?: AdminPost | undefined;
-  isError: boolean;
-}
+import { AdminArticleDetailProps } from "../types/articleContent";
 
 export const AdminArticleDetail = ({
   post,

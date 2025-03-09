@@ -5,14 +5,13 @@ import {
 } from "@/server/types/entity/post";
 import { getArticle } from "@/src/features/articles/api/getArticle";
 import { ArticleDetail } from "@/src/features/articles/component/articleDetail";
+import { ArticleDetailProps } from "@/src/features/articles/types/articleContent";
 import { GetServerSideProps } from "next";
 
-interface BlogDetailPageProps {
-  post?: Post | undefined;
-  isError: boolean;
-}
-
-export default function BlogDetailPage({ post, isError }: BlogDetailPageProps) {
+export default function ArticleDetailPage({
+  post,
+  isError
+}: ArticleDetailProps) {
   return (
     <>
       <ArticleDetail post={post} isError={isError} />

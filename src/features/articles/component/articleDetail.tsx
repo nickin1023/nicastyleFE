@@ -1,4 +1,3 @@
-import { Post } from "@/server/types/entity/post";
 import {
   MailMessage,
   SendMailRequest,
@@ -13,12 +12,8 @@ import { sendMail } from "@/src/features/contact/api/sendMail";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { KeyboardEventHandler } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { ArticleDetailProps } from "../types/articleContent";
 import { ArticleContent } from "./articleContent";
-
-interface ArticleDetailProps {
-  post?: Post | undefined;
-  isError: boolean;
-}
 
 export const ArticleDetail = ({ post, isError }: ArticleDetailProps) => {
   const { isShow, message, variant, openSnackBar } = useSnackbar();

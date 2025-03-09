@@ -5,14 +5,13 @@ import {
 } from "@/server/types/entity/adminPost";
 import { getArticles } from "@/src/features/administrator/articles/api/articles";
 import { AdminArticleDetail } from "@/src/features/administrator/articles/component/adminArticleDetail";
+import { AdminArticleDetailProps } from "@/src/features/administrator/articles/types/articleContent";
 import { GetServerSideProps } from "next";
 
-interface AdminBlogDetailPageProps {
-  post?: AdminPost | undefined;
-  isError: boolean;
-}
-
-export default function Page({ post, isError }: AdminBlogDetailPageProps) {
+export default function AdminArticleDetailPage({
+  post,
+  isError
+}: AdminArticleDetailProps) {
   return (
     <>
       <AdminArticleDetail post={post} isError={isError} />
