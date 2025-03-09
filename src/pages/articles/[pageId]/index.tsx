@@ -1,9 +1,9 @@
 import {
   GetPostRequest,
-  GetPostsResponse,
+  GetPostResponse,
   Post
 } from "@/server/types/entity/post";
-import { getArticles } from "@/src/features/articles/api/getArticles";
+import { getArticle } from "@/src/features/articles/api/getArticle";
 import { ArticleDetail } from "@/src/features/articles/component/articleDetail";
 import { GetServerSideProps } from "next";
 
@@ -26,11 +26,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let isError = false;
   try {
     const req: GetPostRequest = { id: String(pageId) };
-    const res: GetPostsResponse = await getArticles(req);
+    const res: GetPostResponse = await getArticle(req);
     if (res.result !== "Success") {
       isError = true;
     } else {
-      post = res.posts ? res.posts[0] : null;
+      post = res.post;
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {

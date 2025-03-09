@@ -1,8 +1,4 @@
-import {
-  GetPostRequest,
-  GetPostsResponse,
-  Post
-} from "@/server/types/entity/post";
+import { GetPostsResponse, Post } from "@/server/types/entity/post";
 import { InternalServerError } from "@/src/components/templates/internalServerError";
 import { useErrorState } from "@/src/hooks/useErrorState";
 import Link from "next/link";
@@ -16,8 +12,7 @@ export const ArticleList = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const req: GetPostRequest = {};
-      const res: GetPostsResponse = await getArticles(req);
+      const res: GetPostsResponse = await getArticles();
       setErrorState(res.result);
       setPosts(res.posts);
       setIsReady(true);
