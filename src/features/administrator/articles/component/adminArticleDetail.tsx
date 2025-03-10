@@ -9,7 +9,6 @@ import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
 import { InternalServerError } from "@/src/components/templates/internalServerError";
 import { NotFound } from "@/src/components/templates/notFound";
 import { ArticleContent } from "@/src/features/articles/component/articleContent";
-import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSendData } from "../hooks/useSendData";
@@ -20,10 +19,9 @@ export const AdminArticleDetail = ({
   isError
 }: AdminArticleDetailProps) => {
   const router = useRouter();
-  const { isShow, message, variant } = useSnackbar();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [dialogInfo, setDialogInfo] = useState<DialogArgs>(initialDialogArgs);
-  const { sendData } = useSendData();
+  const { isShow, message, variant, sendData } = useSendData();
 
   // 公開ボタン
   const onClickPublish = () => {

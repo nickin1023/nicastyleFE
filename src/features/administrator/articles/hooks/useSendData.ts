@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 export const useSendData = () => {
   const router = useRouter();
-  const { openSnackBar } = useSnackbar();
+  const { isShow, message, variant, openSnackBar } = useSnackbar();
 
   const sendData = async (setParams: SetAdminPostParams) => {
     const res = await setArticle(setParams);
@@ -17,5 +17,5 @@ export const useSendData = () => {
     }
   };
 
-  return { sendData };
+  return { isShow, message, variant, sendData, openSnackBar };
 };

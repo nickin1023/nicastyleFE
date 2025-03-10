@@ -32,6 +32,7 @@ export const CreatePost = () => {
       openSnackBar("作成に失敗しました。", "warn");
     } else {
       openSnackBar("作成に成功しました。", "success");
+      router.push("/administrator/articles");
     }
   };
 

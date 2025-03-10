@@ -13,7 +13,6 @@ import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
 import { InternalServerError } from "@/src/components/templates/internalServerError";
 import { NotFound } from "@/src/components/templates/notFound";
 import { useErrorState } from "@/src/hooks/useErrorState";
-import { useSnackbar } from "@/src/hooks/useSnackbar";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -36,7 +35,7 @@ export const AdminArticleEditor = () => {
   const [oldPost, setOldPost] = useState<ClientSetParams>(
     initialSetAdminPostParams
   );
-  const { sendData } = useSendData();
+  const { isShow, message, variant, sendData, openSnackBar } = useSendData();
 
   // 描画準備がOKか
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -44,7 +43,6 @@ export const AdminArticleEditor = () => {
   const [notFound, setNotFound] = useState<boolean>(false);
 
   const router = useRouter();
-  const { isShow, message, variant, openSnackBar } = useSnackbar();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [dialogInfo, setDialogInfo] = useState<DialogArgs>(initialDialogArgs);
   const [isPreview, setIsPreview] = useState<boolean>(false);
