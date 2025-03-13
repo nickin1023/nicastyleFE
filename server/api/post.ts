@@ -5,15 +5,19 @@ import { GhostPost } from "../types/beEntity/ghost";
 import {
   GetPostRequest,
   GetPostResponse,
+  GetPostsRequest,
   GetPostsResponse,
   Post
 } from "../types/entity/post";
 
-export const getPosts = async (): Promise<GetPostsResponse> => {
+export const getPosts = async (req: Request): Promise<GetPostsResponse> => {
+  const body: GetPostsRequest = req.body;
   var res: GetPostsResponse;
   const url = `${envMap.ghost.host}/ghost/api/content/posts`;
   return await axios
-    .get(`${url}/?key=${envMap.ghost.apiKey}&limit=2`)
+    .get(
+      `${url}/?key=${envMap.ghost.apiKey}&limit=${body.limit}&page=${body.page}`
+    )
     .then((r: any) => {
       const posts: Post[] = r.data.posts.map(
         (element: GhostPost): Post => ({

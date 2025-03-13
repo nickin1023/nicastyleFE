@@ -74,7 +74,7 @@ const main = async () => {
   });
 
   app.post("/api/articles", (req: Request, res: Response) => {
-    getPosts().then((r) => {
+    getPosts(req).then((r) => {
       console.log("=====request=====", req.body);
       console.log("server side /api/articles");
       console.log("=====response=====", r);

@@ -1,11 +1,16 @@
-export type GetPostRequest = {
-  id?: string | null;
+export type GetPostsRequest = {
+  page: number;
+  limit: number;
 };
 
 export type GetPostsResponse = {
   result: "Success" | "Failure";
   posts: Post[] | null;
   pagination: Pagination | null;
+};
+
+export type GetPostRequest = {
+  id?: string | null;
 };
 
 export type GetPostResponse = {

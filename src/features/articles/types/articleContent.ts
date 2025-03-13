@@ -1,4 +1,4 @@
-import { Post } from "@/server/types/entity/post";
+import { Pagination, Post } from "@/server/types/entity/post";
 
 export type ContentParams = {
   title: string;
@@ -11,4 +11,10 @@ export type ContentParams = {
 export type ArticleDetailProps = {
   post?: Post | undefined;
   isError: boolean;
+};
+
+export type ArticleListProps = {
+  initialPosts: Post[] | null;
+  initialPagination: Pagination | null;
+  initialIsError: boolean;
 };
