@@ -1,6 +1,8 @@
 import {
   AddAdminPostParams,
   GetAdminPostRequest,
+  GetAdminPostResponse,
+  GetAdminPostsRequest,
   GetAdminPostsResponse,
   MutateAdminPostsResponse,
   SetAdminPostParams
@@ -8,11 +10,22 @@ import {
 import axios from "axios";
 
 export const getArticles = async (
-  getPostRequest: GetAdminPostRequest
+  getPostRequest: GetAdminPostsRequest
 ): Promise<GetAdminPostsResponse> => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
   const res = await axios.post(
     `${baseUrl}/api/administrator/articles`,
+    getPostRequest
+  );
+  return res.data;
+};
+
+export const getArticle = async (
+  getPostRequest: GetAdminPostRequest
+): Promise<GetAdminPostResponse> => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+  const res = await axios.post(
+    `${baseUrl}/api/administrator/article`,
     getPostRequest
   );
   return res.data;

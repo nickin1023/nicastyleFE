@@ -1,6 +1,6 @@
 import {
   GetAdminPostRequest,
-  GetAdminPostsResponse,
+  GetAdminPostResponse,
   SetAdminPostParams
 } from "@/server/types/entity/adminPost";
 import { Button } from "@/src/components/atoms/button/Button";
@@ -16,7 +16,7 @@ import { useErrorState } from "@/src/hooks/useErrorState";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getArticles } from "../api/articles";
+import { getArticle } from "../api/articles";
 import {
   ClientSetParams,
   initialSetAdminPostParams
@@ -83,26 +83,26 @@ export const AdminArticleEditor = () => {
     const { pageId } = router.query;
     const getData = async (pageId: string) => {
       const req: GetAdminPostRequest = { id: pageId };
-      const res: GetAdminPostsResponse = await getArticles(req);
+      const res: GetAdminPostResponse = await getArticle(req);
 
       setErrorState(res.result);
 
-      if (!res.posts) {
+      if (!res.post) {
         setNotFound(true);
         setIsReady(true);
         return;
       }
 
-      setTitle(res.posts![0].title);
-      setId(res.posts![0].id);
-      setPostStatus(res.posts![0].status);
-      setHtml(res.posts![0].html);
-      setPublishedAt(res.posts![0].published_at);
-      setUpdatedAt(res.posts![0].updated_at);
+      setTitle(res.post.title);
+      setId(res.post.id);
+      setPostStatus(res.post.status);
+      setHtml(res.post.html);
+      setPublishedAt(res.post.published_at);
+      setUpdatedAt(res.post.updated_at);
       setOldPost({
-        title: res.posts![0].title,
-        id: res.posts![0].id,
-        html: res.posts![0].html
+        title: res.post.title,
+        id: res.post.id,
+        html: res.post.html
       });
 
       setIsReady(true);

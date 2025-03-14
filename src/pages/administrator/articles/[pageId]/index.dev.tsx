@@ -1,9 +1,9 @@
 import {
   AdminPost,
   GetAdminPostRequest,
-  GetAdminPostsResponse
+  GetAdminPostResponse
 } from "@/server/types/entity/adminPost";
-import { getArticles } from "@/src/features/administrator/articles/api/articles";
+import { getArticle } from "@/src/features/administrator/articles/api/articles";
 import { AdminArticleDetail } from "@/src/features/administrator/articles/component/adminArticleDetail";
 import { AdminArticleDetailProps } from "@/src/features/administrator/articles/types/articleContent";
 import { GetServerSideProps } from "next";
@@ -25,11 +25,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let isError = false;
   try {
     const req: GetAdminPostRequest = { id: String(pageId) };
-    const res: GetAdminPostsResponse = await getArticles(req);
+    const res: GetAdminPostResponse = await getArticle(req);
     if (res.result !== "Success") {
       isError = true;
     } else {
-      post = res.posts ? res.posts[0] : null;
+      post = res.post;
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {

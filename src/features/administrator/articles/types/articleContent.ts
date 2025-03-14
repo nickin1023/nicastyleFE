@@ -1,4 +1,5 @@
 import { AdminPost } from "@/server/types/entity/adminPost";
+import { Pagination } from "@/server/types/entity/post";
 import { Dispatch, SetStateAction } from "react";
 
 export type AdminContentParams = {
@@ -14,4 +15,10 @@ export type AdminContentParams = {
 export type AdminArticleDetailProps = {
   post?: AdminPost | undefined;
   isError: boolean;
+};
+
+export type AdminArticleListProps = {
+  initialPosts: AdminPost[] | null;
+  initialPagination: Pagination | null;
+  initialIsError: boolean;
 };

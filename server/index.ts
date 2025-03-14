@@ -4,6 +4,7 @@ import next from "next";
 import {
   administratorAddPost,
   administratorGet,
+  administratorGetArticles,
   administratorSetPost
 } from "./api/administrator/post";
 import { sendMail } from "./api/contact";
@@ -38,9 +39,18 @@ const main = async () => {
   });
 
   app.post("/api/administrator/articles", (req: Request, res: Response) => {
-    administratorGet(req).then((r) => {
+    administratorGetArticles(req).then((r) => {
       console.log("=====request=====", req.body);
       console.log("server side /api/administrator/articles");
+      console.log("=====response=====", r);
+      res.status(200).send(r);
+    });
+  });
+
+  app.post("/api/administrator/article", (req: Request, res: Response) => {
+    administratorGet(req).then((r) => {
+      console.log("=====request=====", req.body);
+      console.log("server side /api/administrator/article");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
