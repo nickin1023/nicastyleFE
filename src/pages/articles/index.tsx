@@ -1,7 +1,7 @@
 import {
   GetPostsRequest,
   GetPostsResponse,
-  Pagination,
+  PaginationInfo,
   Post
 } from "@/server/types/entity/post";
 import { NUMBER_OF_PAGE } from "@/src/consts";
@@ -28,7 +28,7 @@ export default function ArticleListPage({
 
 export const getServerSideProps: GetServerSideProps = async () => {
   let initialPosts: Post[] | null = null;
-  let initialPagination: Pagination | null = null;
+  let initialPagination: PaginationInfo | null = null;
   let initialIsError = false;
   try {
     const req: GetPostsRequest = { page: 1, limit: NUMBER_OF_PAGE };

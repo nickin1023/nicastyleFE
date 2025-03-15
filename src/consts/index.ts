@@ -1,1 +1,1 @@
-export const NUMBER_OF_PAGE: number = 2;
+export const NUMBER_OF_PAGE: number = 1;

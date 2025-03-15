@@ -1,9 +1,10 @@
 import {
   GetPostsRequest,
   GetPostsResponse,
-  Pagination,
+  PaginationInfo,
   Post
 } from "@/server/types/entity/post";
+import { Pagination } from "@/src/components/organisms/pagination/Pagination";
 import { InternalServerError } from "@/src/components/templates/internalServerError";
 import { NUMBER_OF_PAGE } from "@/src/consts";
 import { useErrorState } from "@/src/hooks/useErrorState";
@@ -20,18 +21,18 @@ export const ArticleList = ({
   const { isError, setErrorState } = useErrorState(initialIsError);
   const [isReady, setIsReady] = useState<boolean>(true);
   const [posts, setPosts] = useState<Post[] | null>(initialPosts);
-  const [pagination, setPagination] = useState<Pagination | null>(
+  const [pagination, setPagination] = useState<PaginationInfo | null>(
     initialPagination
   );
 
-  const onClick = () => {
+  const onClick = (pageIndex: number) => {
     setIsReady(false);
     if (!pagination) {
       return;
     }
     const getData = async () => {
       const req: GetPostsRequest = {
-        page: pagination.page! + 1,
+        page: pageIndex,
         limit: NUMBER_OF_PAGE
       };
       const res: GetPostsResponse = await getArticles(req);
@@ -58,7 +59,14 @@ export const ArticleList = ({
               </li>
             ))}
           </ul>
-          <button onClick={onClick}>次</button>
+          {pagination && (
+            <Pagination
+              variant={"primary"}
+              currentPage={pagination.page}
+              totalPages={pagination.pages}
+              onClick={onClick}
+            />
+          )}
         </>
       ) : (
         <p>記事はありません。</p>

@@ -6,7 +6,7 @@ export type GetPostsRequest = {
 export type GetPostsResponse = {
   result: "Success" | "Failure";
   posts: Post[] | null;
-  pagination: Pagination | null;
+  pagination: PaginationInfo | null;
 };
 
 export type GetPostRequest = {
@@ -27,7 +27,7 @@ export type Post = {
   updated_at: string;
 };
 
-export type Pagination = {
+export type PaginationInfo = {
   page: number;
   limit: number;
   pages: number;

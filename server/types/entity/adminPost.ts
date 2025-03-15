@@ -1,4 +1,4 @@
-import { Pagination } from "./post";
+import { PaginationInfo } from "./post";
 
 export type GetAdminPostsRequest = {
   page: number;
@@ -8,7 +8,7 @@ export type GetAdminPostsRequest = {
 export type GetAdminPostsResponse = {
   result: "Success" | "Failure";
   posts: AdminPost[] | null;
-  pagination: Pagination | null;
+  pagination: PaginationInfo | null;
 };
 
 export type GetAdminPostRequest = {

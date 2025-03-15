@@ -3,7 +3,7 @@ import {
   GetAdminPostsRequest,
   GetAdminPostsResponse
 } from "@/server/types/entity/adminPost";
-import { Pagination } from "@/server/types/entity/post";
+import { PaginationInfo } from "@/server/types/entity/post";
 import { NUMBER_OF_PAGE } from "@/src/consts";
 import { getArticles } from "@/src/features/administrator/articles/api/articles";
 import { AdminArticleList } from "@/src/features/administrator/articles/component/adminArticleList";
@@ -28,7 +28,7 @@ export default function AdminArticleListPage({
 
 export const getServerSideProps: GetServerSideProps = async () => {
   let initialPosts: AdminPost[] | null = null;
-  let initialPagination: Pagination | null = null;
+  let initialPagination: PaginationInfo | null = null;
   let initialIsError = false;
   try {
     const req: GetAdminPostsRequest = { page: 1, limit: NUMBER_OF_PAGE };
