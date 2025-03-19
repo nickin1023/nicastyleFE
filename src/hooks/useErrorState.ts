@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
-export const useErrorState = () => {
-  const [isError, setIsError] = useState(false);
+export const useErrorState = (initialState?: boolean) => {
+  const [isError, setIsError] = useState(initialState);
 
   const setErrorState = useCallback((value: string) => {
     setIsError(value !== "Success");

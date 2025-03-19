@@ -29,7 +29,7 @@ const send = async (req: SendMailRequest) => {
       `Content-Transfer-Encoding: 7bit\n`,
       `to: ${params.to} \n`,
       `subject: =?UTF-8?B?${params.subject}?= \n\n`,
-      params.message,
+      params.message
     ].join("");
     return Buffer.from(str)
       .toString("base64")
@@ -43,7 +43,7 @@ const send = async (req: SendMailRequest) => {
         req.message.address ? req.message.address : "アドレス記載なし"
       }\nタイトル: ${req.message.subject}\n本文\n ${req.message.main}`;
     } else {
-      return `記事タイトル: ${req.message.commentInfo?.title}\nURL: http://localhost:${envMap.PORT}/blogs/${req.message.commentInfo?.id} \n本文\n${req.message.main}`;
+      return `記事タイトル: ${req.message.commentInfo?.title}\nURL: http://localhost:${envMap.PORT}/articles/${req.message.commentInfo?.id} \n本文\n${req.message.main}`;
     }
   };
 
@@ -54,9 +54,9 @@ const send = async (req: SendMailRequest) => {
       raw: makeBody({
         to: envMap.MAIL_ADDRESS,
         subject: req.type,
-        message: messageBody(),
-      }),
-    },
+        message: messageBody()
+      })
+    }
   });
 
   //結果を表示

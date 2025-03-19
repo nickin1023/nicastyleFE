@@ -1,10 +1,23 @@
-export type GetAdminPostRequest = {
-  id?: string | null;
+import { PaginationInfo } from "./post";
+
+export type GetAdminPostsRequest = {
+  page: number;
+  limit: number;
 };
 
 export type GetAdminPostsResponse = {
   result: "Success" | "Failure";
   posts: AdminPost[] | null;
+  pagination: PaginationInfo | null;
+};
+
+export type GetAdminPostRequest = {
+  id?: string | null;
+};
+
+export type GetAdminPostResponse = {
+  result: "Success" | "Failure";
+  post: AdminPost | null;
 };
 
 export type AddAdminPostParams = {

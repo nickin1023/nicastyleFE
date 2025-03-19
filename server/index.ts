@@ -4,10 +4,11 @@ import next from "next";
 import {
   administratorAddPost,
   administratorGet,
+  administratorGetArticles,
   administratorSetPost
 } from "./api/administrator/post";
 import { sendMail } from "./api/contact";
-import { getPosts } from "./api/post";
+import { getPost, getPosts } from "./api/post";
 import { createEnvMap } from "./envMap/createEnvMap";
 import { EnvMap } from "./envMap/envMap";
 
@@ -37,28 +38,37 @@ const main = async () => {
     next();
   });
 
-  app.post("/api/administrator/blogs", (req: Request, res: Response) => {
+  app.post("/api/administrator/articles", (req: Request, res: Response) => {
+    administratorGetArticles(req).then((r) => {
+      console.log("=====request=====", req.body);
+      console.log("server side /api/administrator/articles");
+      console.log("=====response=====", r);
+      res.status(200).send(r);
+    });
+  });
+
+  app.post("/api/administrator/article", (req: Request, res: Response) => {
     administratorGet(req).then((r) => {
       console.log("=====request=====", req.body);
-      console.log("server side /api/administrator/blogs");
+      console.log("server side /api/administrator/article");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
   });
 
-  app.post("/api/administrator/setBlog", (req: Request, res: Response) => {
+  app.post("/api/administrator/setArticle", (req: Request, res: Response) => {
     administratorSetPost(req).then((r) => {
       console.log("=====request=====", req.body);
-      console.log("server side /api/administrator/setBLog");
+      console.log("server side /api/administrator/setArticle");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
   });
 
-  app.post("/api/administrator/addBlog", (req: Request, res: Response) => {
+  app.post("/api/administrator/addArticle", (req: Request, res: Response) => {
     administratorAddPost(req).then((r) => {
       console.log("=====request=====", req.body);
-      console.log("server side /api/administrator/addBLog");
+      console.log("server side /api/administrator/addArticle");
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
@@ -73,10 +83,19 @@ const main = async () => {
     });
   });
 
-  app.post("/api/blogs", (req: Request, res: Response) => {
+  app.post("/api/articles", (req: Request, res: Response) => {
     getPosts(req).then((r) => {
       console.log("=====request=====", req.body);
-      console.log("server side /api/blogs");
+      console.log("server side /api/articles");
+      console.log("=====response=====", r);
+      res.status(200).send(r);
+    });
+  });
+
+  app.post("/api/article", (req: Request, res: Response) => {
+    getPost(req).then((r) => {
+      console.log("=====request=====", req.body);
+      console.log(`server side /api/article/${req.body.id}`);
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
