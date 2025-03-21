@@ -8,9 +8,11 @@ import {
   administratorSetPost
 } from "./api/administrator/post";
 import { sendMail } from "./api/contact";
+import { getImage } from "./api/content";
 import { getPost, getPosts } from "./api/post";
 import { createEnvMap } from "./envMap/createEnvMap";
 import { EnvMap } from "./envMap/envMap";
+import { GhostError } from "./types/entity/content";
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -99,6 +101,35 @@ const main = async () => {
       console.log("=====response=====", r);
       res.status(200).send(r);
     });
+  });
+
+  app.get("/api/images/*", async (req: Request, res: Response) => {
+    try {
+      const { headers, data } = await getImage(req);
+
+      res.set({
+        "Content-Type": headers["content-type"],
+        "Cache-Control": "public, max-age=31536000"
+      });
+
+      console.log("=====request=====");
+      console.log(`server side /api/article/${req.params[0]}`);
+      console.log("=====response=====");
+
+      data.pipe(res);
+    } catch (error) {
+      const ghostError = error as GhostError;
+      if (ghostError.statusCode) {
+        res.status(ghostError.statusCode).json({
+          error: ghostError.message
+        });
+      } else {
+        res.status(500).json({
+          error: "画像処理中に予期せぬエラーが発生しました",
+          details: error instanceof Error ? error.message : "Unknown error"
+        });
+      }
+    }
   });
 
   app.all("*", (req: Request, res: Response) => {
