@@ -2,6 +2,8 @@ import { EnvMap } from "./envMap";
 
 export const createEnvMap = (): EnvMap => {
   const envMap: EnvMap = {
+    PROTOCOL: process.env.NODE_ENV === "development" ? "http" : "https",
+    HOST: validateEnv("HOST", process.env.HOST),
     PORT: Number(process.env.PORT) || 3000,
     MAIL_ADDRESS: validateEnv("MAIL_ADDRESS", process.env.MAIL_ADDRESS),
     ghost: {
@@ -10,7 +12,7 @@ export const createEnvMap = (): EnvMap => {
       adminApiKey: validateEnv(
         "GHOST_ADMIN_API_KEY",
         process.env.GHOST_ADMIN_API_KEY
-      ),
+      )
     },
     gmail: {
       client: {
@@ -22,7 +24,7 @@ export const createEnvMap = (): EnvMap => {
         redirectUri: validateEnv(
           "GMAIL_REDIRECT_URI",
           process.env.GMAIL_REDIRECT_URI
-        ),
+        )
       },
       token: {
         access_token: validateEnv(
@@ -43,9 +45,9 @@ export const createEnvMap = (): EnvMap => {
             "GMAIL_TOKEN_EXPIRE_DATE",
             process.env.GMAIL_TOKEN_EXPIRE_DATE
           )
-        ),
-      },
-    },
+        )
+      }
+    }
   };
 
   return envMap;

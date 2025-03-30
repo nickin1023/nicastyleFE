@@ -43,7 +43,7 @@ const send = async (req: SendMailRequest) => {
         req.message.address ? req.message.address : "アドレス記載なし"
       }\nタイトル: ${req.message.subject}\n本文\n ${req.message.main}`;
     } else {
-      return `記事タイトル: ${req.message.commentInfo?.title}\nURL: http://localhost:${envMap.PORT}/articles/${req.message.commentInfo?.id} \n本文\n${req.message.main}`;
+      return `記事タイトル: ${req.message.commentInfo?.title}\nURL: ${envMap.PROTOCOL}://${envMap.HOST}:${envMap.PORT}/articles/${req.message.commentInfo?.id} \n本文\n${req.message.main}`;
     }
   };
 

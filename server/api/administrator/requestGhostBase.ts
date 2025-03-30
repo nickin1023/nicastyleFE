@@ -6,7 +6,7 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import { envMap } from "../..";
 
-const generateToken = () => {
+export const generateToken = () => {
   const key = envMap.ghost.adminApiKey;
   const [id, secret] = key.split(":");
 

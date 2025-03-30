@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import http from "http";
 import next from "next";
+import { uploadImage } from "./api/administrator/content";
 import {
   administratorAddPost,
   administratorGet,
@@ -76,6 +77,15 @@ const main = async () => {
     });
   });
 
+  app.post("/api/administrator/uploadImage", (req: Request, res: Response) => {
+    uploadImage(req).then((r) => {
+      console.log("=====request=====");
+      console.log("server side /api/administrator/uploadImage");
+      console.log("=====response=====", r);
+      res.status(200).send(r);
+    });
+  });
+
   app.post("/api/contact", (req: Request, res: Response) => {
     sendMail(req).then((r) => {
       console.log("=====request=====", req.body);
@@ -145,7 +155,7 @@ const main = async () => {
     }
 
     console.log(
-      `> Server listening at http://localhost:${envMap.PORT} as ${
+      `> Server listening at ${envMap.PROTOCOL}://${envMap.HOST}:${envMap.PORT} as ${
         isDev ? "development" : process.env.NODE_ENV
       }`
     );
