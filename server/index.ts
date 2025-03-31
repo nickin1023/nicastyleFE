@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import http from "http";
 import next from "next";
 import { uploadImage } from "./api/administrator/content";
+import { administratorPageGet } from "./api/administrator/page";
 import {
   administratorAddPost,
   administratorGet,
@@ -30,6 +31,8 @@ const main = async () => {
   const nextRequestHandler = nextApp.getRequestHandler();
 
   app.use(express.json());
+
+  // admin path start
 
   app.all("/api/administrator/*", (req: Request, res: Response, next) => {
     if (!isDev) {
@@ -94,6 +97,17 @@ const main = async () => {
       res.status(200).send(r);
     });
   });
+
+  app.post("/api/administrator/page", (req: Request, res: Response) => {
+    administratorPageGet(req).then((r) => {
+      console.log("=====request=====", req.body);
+      console.log("server side /api/administrator/page");
+      console.log("=====response=====", r);
+      res.status(200).send(r);
+    });
+  });
+
+  // admin path end
 
   app.post("/api/articles", (req: Request, res: Response) => {
     getPosts(req).then((r) => {

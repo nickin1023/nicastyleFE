@@ -1,4 +1,8 @@
 import {
+  GetAdminPostRequest,
+  GetAdminPostResponse
+} from "@/server/types/entity/adminPost";
+import {
   UploadImageRequest,
   UploadImageResponse
 } from "@/server/types/entity/content";
@@ -12,5 +16,12 @@ export const uploadImage = async (
       "Content-Type": "multipart/form-data"
     }
   });
+  return res.data;
+};
+
+export const getPage = async (
+  getPostRequest: GetAdminPostRequest
+): Promise<GetAdminPostResponse> => {
+  const res = await axios.post("/api/administrator/page", getPostRequest);
   return res.data;
 };
