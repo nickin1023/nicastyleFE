@@ -45,22 +45,36 @@ export const requestGet = async <T = any>(
 };
 
 export const requestSet = async <T = any>(
-  body: SetAdminPostParams
+  body: SetAdminPostParams,
+  type: "posts" | "pages"
 ): Promise<T> => {
-  var url = `${envMap.ghost.host}/ghost/api/admin/posts/${body.id}/?source=html`;
+  var url = `${envMap.ghost.host}/ghost/api/admin/${type}/${body.id}/?source=html`;
 
   const headers = { Authorization: `Ghost ${generateToken()}` };
-  const reqBody = {
-    posts: [
-      {
-        title: body.title,
-        featureImageUrl: body.featureImageUrl,
-        html: body.html,
-        status: body.status,
-        updated_at: body.updated_at
-      }
-    ]
-  };
+  const reqBody =
+    type === "posts"
+      ? {
+          posts: [
+            {
+              title: body.title,
+              featureImageUrl: body.featureImageUrl,
+              html: body.html,
+              status: body.status,
+              updated_at: body.updated_at
+            }
+          ]
+        }
+      : {
+          pages: [
+            {
+              title: body.title,
+              featureImageUrl: body.featureImageUrl,
+              html: body.html,
+              status: body.status,
+              updated_at: body.updated_at
+            }
+          ]
+        };
 
   return await axios
     .put(`${url}`, reqBody, { headers: headers })

@@ -1,27 +1,29 @@
 import { Request } from "express";
 import {
   AdminPost,
-  GetAdminPostRequest,
-  GetAdminPostResponse
+  GetAdminPostResponse,
+  MutateAdminPostsResponse,
+  SetAdminPostParams
 } from "../../types/entity/adminPost";
-import { requestGet } from "./requestGhostBase";
+import { requestGet, requestSet } from "./requestGhostBase";
 
-export const administratorPageGet = async (
-  req: Request
+export const getPageCore = async (
+  pageId: string
 ): Promise<GetAdminPostResponse> => {
-  const body: GetAdminPostRequest = req.body;
-  var res: GetAdminPostResponse;
-  const path = `posts/${body.id}`;
-  const params = new Map<string, string>();
-  params.set("formats", "html");
-  return await requestGet(path, params)
-    .then((r: any) => {
-      const ghostPost: AdminPost = r.data.posts[0];
-      if (!ghostPost) {
-        res = { result: "Success", post: null };
-        return res;
-      }
-      const post: AdminPost = {
+  const path = `pages/${pageId}`;
+  const params = new Map<string, string>([["formats", "html"]]);
+
+  try {
+    const response = await requestGet(path, params);
+    const ghostPost: AdminPost = response.data.pages[0];
+
+    if (!ghostPost) {
+      return { result: "Success", post: null };
+    }
+
+    return {
+      result: "Success",
+      post: {
         id: ghostPost.id,
         title: ghostPost.title,
         featureImageUrl: ghostPost.featureImageUrl,
@@ -29,17 +31,35 @@ export const administratorPageGet = async (
         status: ghostPost.status,
         published_at: ghostPost.published_at!,
         updated_at: ghostPost.updated_at
-      };
-      res = { result: "Success", post: post };
+      }
+    };
+  } catch (error: any) {
+    if (error.status === 422) {
+      return { result: "Success", post: null };
+    }
+    console.error("Core Error:", error);
+    return { result: "Failure", post: null };
+  }
+};
+
+export const administratorPageGet = async (
+  req: Request
+): Promise<GetAdminPostResponse> => {
+  return getPageCore(req.body.id);
+};
+
+export const administratorSetPageCore = async (
+  req: SetAdminPostParams
+): Promise<MutateAdminPostsResponse> => {
+  var res: MutateAdminPostsResponse;
+  return await requestSet(req, "pages")
+    .then(() => {
+      res = { result: "Success" };
       return res;
     })
     .catch((err: any) => {
-      if (err.status && err.status === 422) {
-        res = { result: "Success", post: null };
-        return res;
-      }
       console.log(err);
-      res = { result: "Failure", post: null };
+      res = { result: "Failure" };
       return res;
     });
 };
