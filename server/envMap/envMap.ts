@@ -1,6 +1,8 @@
 import { Credentials } from "google-auth-library";
 
 export type EnvMap = {
+  PROTOCOL: string;
+  HOST: string;
   PORT: number;
   MAIL_ADDRESS: string;
   ghost: {

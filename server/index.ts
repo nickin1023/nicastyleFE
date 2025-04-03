@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import http from "http";
 import next from "next";
+import { uploadImage } from "./api/administrator/content";
+import { administratorPageGet } from "./api/administrator/page";
 import {
   administratorAddPost,
   administratorGet,
@@ -8,9 +10,11 @@ import {
   administratorSetPost
 } from "./api/administrator/post";
 import { sendMail } from "./api/contact";
+import { getImage } from "./api/content";
 import { getPost, getPosts } from "./api/post";
 import { createEnvMap } from "./envMap/createEnvMap";
 import { EnvMap } from "./envMap/envMap";
+import { GhostError } from "./types/entity/content";
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -27,6 +31,8 @@ const main = async () => {
   const nextRequestHandler = nextApp.getRequestHandler();
 
   app.use(express.json());
+
+  // admin path start
 
   app.all("/api/administrator/*", (req: Request, res: Response, next) => {
     if (!isDev) {
@@ -74,6 +80,15 @@ const main = async () => {
     });
   });
 
+  app.post("/api/administrator/uploadImage", (req: Request, res: Response) => {
+    uploadImage(req).then((r) => {
+      console.log("=====request=====");
+      console.log("server side /api/administrator/uploadImage");
+      console.log("=====response=====", r);
+      res.status(200).send(r);
+    });
+  });
+
   app.post("/api/contact", (req: Request, res: Response) => {
     sendMail(req).then((r) => {
       console.log("=====request=====", req.body);
@@ -82,6 +97,17 @@ const main = async () => {
       res.status(200).send(r);
     });
   });
+
+  app.post("/api/administrator/page", (req: Request, res: Response) => {
+    administratorPageGet(req).then((r) => {
+      console.log("=====request=====", req.body);
+      console.log("server side /api/administrator/page");
+      console.log("=====response=====", r);
+      res.status(200).send(r);
+    });
+  });
+
+  // admin path end
 
   app.post("/api/articles", (req: Request, res: Response) => {
     getPosts(req).then((r) => {
@@ -101,6 +127,35 @@ const main = async () => {
     });
   });
 
+  app.get("/api/images/*", async (req: Request, res: Response) => {
+    try {
+      const { headers, data } = await getImage(req);
+
+      res.set({
+        "Content-Type": headers["content-type"],
+        "Cache-Control": "public, max-age=31536000"
+      });
+
+      console.log("=====request=====");
+      console.log(`server side /api/article/${req.params[0]}`);
+      console.log("=====response=====");
+
+      data.pipe(res);
+    } catch (error) {
+      const ghostError = error as GhostError;
+      if (ghostError.statusCode) {
+        res.status(ghostError.statusCode).json({
+          error: ghostError.message
+        });
+      } else {
+        res.status(500).json({
+          error: "画像処理中に予期せぬエラーが発生しました",
+          details: error instanceof Error ? error.message : "Unknown error"
+        });
+      }
+    }
+  });
+
   app.all("*", (req: Request, res: Response) => {
     return nextRequestHandler(req, res);
   });
@@ -114,7 +169,7 @@ const main = async () => {
     }
 
     console.log(
-      `> Server listening at http://localhost:${envMap.PORT} as ${
+      `> Server listening at ${envMap.PROTOCOL}://${envMap.HOST}:${envMap.PORT} as ${
         isDev ? "development" : process.env.NODE_ENV
       }`
     );

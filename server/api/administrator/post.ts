@@ -96,7 +96,7 @@ export const administratorSetPost = async (
 ): Promise<MutateAdminPostsResponse> => {
   const body: SetAdminPostParams = req.body;
   var res: MutateAdminPostsResponse;
-  return await requestSet(body)
+  return await requestSet(body, "posts")
     .then(() => {
       res = { result: "Success" };
       return res;
