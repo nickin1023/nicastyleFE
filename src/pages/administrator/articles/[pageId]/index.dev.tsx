@@ -3,6 +3,7 @@ import {
   GetAdminPostRequest,
   GetAdminPostResponse
 } from "@/server/types/entity/adminPost";
+import { Breadcrumb } from "@/src/components/organisms/breadcrumb/Breadcrumb";
 import { getArticle } from "@/src/features/administrator/articles/api/articles";
 import { AdminArticleDetail } from "@/src/features/administrator/articles/component/adminArticleDetail";
 import { AdminArticleDetailProps } from "@/src/features/administrator/articles/types/articleContent";
@@ -14,6 +15,7 @@ export default function AdminArticleDetailPage({
 }: AdminArticleDetailProps) {
   return (
     <>
+      <Breadcrumb />
       <AdminArticleDetail post={post} isError={isError} />
     </>
   );
