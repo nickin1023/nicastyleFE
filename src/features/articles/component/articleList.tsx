@@ -1,50 +1,21 @@
-import {
-  GetPostsRequest,
-  GetPostsResponse,
-  PaginationInfo,
-  Post
-} from "@/server/types/entity/post";
 import { Pagination } from "@/src/components/organisms/pagination/Pagination";
 import { InternalServerError } from "@/src/components/templates/internalServerError";
-import { NUMBER_OF_PAGE } from "@/src/consts";
-import { useErrorState } from "@/src/hooks/useErrorState";
 import Link from "next/link";
-import { useState } from "react";
-import { getArticles } from "../api/getArticles";
+import router from "next/router";
 import { ArticleListProps } from "../types/articleContent";
 
 export const ArticleList = ({
-  initialPosts,
-  initialPagination,
-  initialIsError
+  posts,
+  pagination,
+  isError
 }: ArticleListProps) => {
-  const { isError, setErrorState } = useErrorState(initialIsError);
-  const [isReady, setIsReady] = useState<boolean>(true);
-  const [posts, setPosts] = useState<Post[] | null>(initialPosts);
-  const [pagination, setPagination] = useState<PaginationInfo | null>(
-    initialPagination
-  );
-
   const onClick = (pageIndex: number) => {
-    setIsReady(false);
-    if (!pagination) {
-      return;
-    }
-    const getData = async () => {
-      const req: GetPostsRequest = {
-        page: pageIndex,
-        limit: NUMBER_OF_PAGE
-      };
-      const res: GetPostsResponse = await getArticles(req);
-      setErrorState(res.result);
-      setPosts(res.posts);
-      setPagination(res.pagination);
-      setIsReady(true);
-    };
-    getData();
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: pageIndex }
+    });
   };
 
-  if (!isReady) return <p>loading</p>;
   if (isError) return <InternalServerError />;
 
   return (

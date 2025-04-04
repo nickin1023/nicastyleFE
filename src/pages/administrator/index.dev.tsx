@@ -8,7 +8,7 @@ export default function AdminPage() {
       <div className="flex justify-center">
         <ul className="flex gap-10 m-5">
           <li>
-            <Link href="/administrator/articles">記事管理</Link>
+            <Link href="/administrator/articles?page=1">記事管理</Link>
           </li>
           <li>
             <Link href="/administrator/images">画像管理</Link>

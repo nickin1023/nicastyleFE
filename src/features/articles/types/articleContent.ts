@@ -14,7 +14,7 @@ export type ArticleDetailProps = {
 };
 
 export type ArticleListProps = {
-  initialPosts: Post[] | null;
-  initialPagination: PaginationInfo | null;
-  initialIsError: boolean;
+  posts: Post[] | null;
+  pagination: PaginationInfo | null;
+  isError: boolean;
 };

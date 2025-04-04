@@ -18,7 +18,7 @@ export type AdminArticleDetailProps = {
 };
 
 export type AdminArticleListProps = {
-  initialPosts: AdminPost[] | null;
-  initialPagination: PaginationInfo | null;
-  initialIsError: boolean;
+  posts: AdminPost[] | null;
+  pagination: PaginationInfo | null;
+  isError: boolean;
 };
