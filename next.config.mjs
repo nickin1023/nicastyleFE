@@ -8,7 +8,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96],
     remotePatterns: [
       {
-        protocol: process.env.NODE_ENV === "development" ? "http" : "https",
+        protocol: process.env.PROTOCOL,
         hostname: process.env.HOST,
         port: process.env.PORT,
         pathname: "/api/images/**",

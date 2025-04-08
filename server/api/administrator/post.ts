@@ -63,7 +63,7 @@ export const administratorGet = async (
   params.set("formats", "html");
   return await requestGet(path, params)
     .then((r: any) => {
-      const ghostPost: AdminPost = r.data.posts[0];
+      const ghostPost: AdminGhostPost = r.data.posts[0];
       if (!ghostPost) {
         res = { result: "Success", post: null };
         return res;
@@ -71,7 +71,7 @@ export const administratorGet = async (
       const post: AdminPost = {
         id: ghostPost.id,
         title: ghostPost.title,
-        featureImageUrl: ghostPost.featureImageUrl,
+        featureImageUrl: ghostPost.feature_image,
         html: ghostPost.html,
         status: ghostPost.status,
         published_at: ghostPost.published_at!,

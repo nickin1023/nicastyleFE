@@ -38,7 +38,7 @@ export const AdminArticleList = ({
               <Link
                 className="block bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
                 key={index}
-                href={`/articles/${post.id}`}
+                href={`/administrator/articles/${post.id}`}
                 passHref
               >
                 <div className="relative aspect-[16/9]">
@@ -56,6 +56,7 @@ export const AdminArticleList = ({
                 </div>
                 <div className="p-4">
                   <h2 className="text-lg font-semibold">{post.title}</h2>
+                  <p>{post.status}</p>
                 </div>
               </Link>
             ))}

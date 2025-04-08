@@ -1,5 +1,6 @@
 import { HtmlContent } from "@/src/components/organisms/htmlContent/HtmlContent";
 import { isoToDotDate } from "@/src/utils/dateFormatter";
+import Image from "next/image";
 import { ContentParams } from "../types/articleContent";
 
 export const ArticleContent = (params: ContentParams) => {
@@ -16,7 +17,15 @@ export const ArticleContent = (params: ContentParams) => {
           最終更新日: {updated_at ? isoToDotDate(updated_at) : "----"}
         </time>
       </p>
-      <p>{featureImageUrl}</p>
+      <div className="relative aspect-[16/9]">
+        <Image
+          src={featureImageUrl ? featureImageUrl : "/noimage.png"}
+          alt={title}
+          layout="fill"
+          objectFit="cover"
+          className="rounded-t-lg"
+        />
+      </div>
       <HtmlContent html={html} />
     </>
   );
