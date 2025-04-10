@@ -15,6 +15,9 @@ import { AdminArticleContent } from "./adminArticleContent";
 export const CreatePost = () => {
   // 記事の情報
   const [title, setTitle] = useState<string>("");
+  const [featureImageUrl, setFeatureImageUrl] = useState<string | undefined>(
+    ""
+  );
   const [html, setHtml] = useState<string>(
     "<!--kg-card-begin: html-->\n\n<!--kg-card-end: html-->"
   );
@@ -51,7 +54,7 @@ export const CreatePost = () => {
   // 更新ダイアログ
   const onExecCreate = () => {
     setIsDialogOpen(false);
-    addData({ title: title, html: html });
+    addData({ title: title, featureImageUrl: featureImageUrl, html: html });
   };
 
   return (
@@ -104,6 +107,8 @@ export const CreatePost = () => {
             setHtml={setHtml}
             title={title}
             setTitle={setTitle}
+            featureImageUrl={featureImageUrl}
+            setFeatureImageUrl={setFeatureImageUrl}
             isPreview={isPreview}
             publishedAt={undefined}
             updatedAt={undefined}

@@ -2,7 +2,7 @@ import { EnvMap } from "./envMap";
 
 export const createEnvMap = (): EnvMap => {
   const envMap: EnvMap = {
-    PROTOCOL: process.env.NODE_ENV === "development" ? "http" : "https",
+    PROTOCOL: validateEnv("PROTOCOL", process.env.PROTOCOL),
     HOST: validateEnv("HOST", process.env.HOST),
     PORT: Number(process.env.PORT) || 3000,
     MAIL_ADDRESS: validateEnv("MAIL_ADDRESS", process.env.MAIL_ADDRESS),

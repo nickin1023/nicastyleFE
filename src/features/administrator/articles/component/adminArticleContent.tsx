@@ -5,8 +5,17 @@ import { useRef } from "react";
 import { AdminContentParams } from "../types/articleContent";
 
 export const AdminArticleContent = (params: AdminContentParams) => {
-  const { html, setHtml, title, setTitle, isPreview, publishedAt, updatedAt } =
-    params;
+  const {
+    html,
+    setHtml,
+    title,
+    setTitle,
+    featureImageUrl,
+    setFeatureImageUrl,
+    isPreview,
+    publishedAt,
+    updatedAt
+  } = params;
 
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
@@ -36,6 +45,15 @@ export const AdminArticleContent = (params: AdminContentParams) => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
+          <div className="py-2">
+            <p>featureImageUrl</p>
+            <input
+              className="border border-black w-full"
+              type="text"
+              value={featureImageUrl}
+              onChange={(e) => setFeatureImageUrl(e.target.value)}
+            />
+          </div>
           <p>contents</p>
           <div className="border border-black">
             <Editor
@@ -55,6 +73,7 @@ export const AdminArticleContent = (params: AdminContentParams) => {
         <ArticleContent
           title={title}
           html={html}
+          featureImageUrl={featureImageUrl}
           published_at={publishedAt}
           updated_at={updatedAt}
         />

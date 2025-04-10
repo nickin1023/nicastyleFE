@@ -57,7 +57,7 @@ export const requestSet = async <T = any>(
           posts: [
             {
               title: body.title,
-              featureImageUrl: body.featureImageUrl,
+              feature_image: body.featureImageUrl,
               html: body.html,
               status: body.status,
               updated_at: body.updated_at
@@ -68,7 +68,7 @@ export const requestSet = async <T = any>(
           pages: [
             {
               title: body.title,
-              featureImageUrl: body.featureImageUrl,
+              feature_image: body.featureImageUrl,
               html: body.html,
               status: body.status,
               updated_at: body.updated_at
@@ -96,7 +96,7 @@ export const requestAdd = async <T = any>(
     posts: [
       {
         title: body.title,
-        featureImageUrl: body.featureImageUrl,
+        feature_image: body.featureImageUrl,
         html: body.html,
         status: "draft"
       }

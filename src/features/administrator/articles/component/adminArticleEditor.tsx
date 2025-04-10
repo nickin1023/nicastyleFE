@@ -27,6 +27,9 @@ import { AdminArticleContent } from "./adminArticleContent";
 export const AdminArticleEditor = () => {
   // 記事の情報
   const [title, setTitle] = useState<string>("");
+  const [featureImageUrl, setFeatureImageUrl] = useState<string | undefined>(
+    ""
+  );
   const [id, setId] = useState<string>("");
   const [postStatus, setPostStatus] = useState<string>("");
   const [html, setHtml] = useState<string>("");
@@ -64,6 +67,7 @@ export const AdminArticleEditor = () => {
     const setParams = compare({
       id: id,
       title: title,
+      featureImageUrl: featureImageUrl,
       html: html
     });
     setIsDialogOpen(false);
@@ -94,6 +98,7 @@ export const AdminArticleEditor = () => {
       }
 
       setTitle(res.post.title);
+      setFeatureImageUrl(res.post.featureImageUrl);
       setId(res.post.id);
       setPostStatus(res.post.status);
       setHtml(res.post.html);
@@ -193,6 +198,8 @@ export const AdminArticleEditor = () => {
               setHtml={setHtml}
               title={title}
               setTitle={setTitle}
+              featureImageUrl={featureImageUrl}
+              setFeatureImageUrl={setFeatureImageUrl}
               isPreview={isPreview}
               publishedAt={publishedAt}
               updatedAt={updatedAt}

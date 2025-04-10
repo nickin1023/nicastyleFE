@@ -103,6 +103,7 @@ export const AdminArticleDetail = ({
           <div className="container mx-auto my-2 px-5 py-5 bg-white">
             <ArticleContent
               title={post!.title}
+              featureImageUrl={post!.featureImageUrl}
               html={post!.html}
               published_at={post!.published_at}
               updated_at={post!.updated_at}
