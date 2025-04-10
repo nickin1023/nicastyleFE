@@ -96,7 +96,7 @@ export const requestAdd = async <T = any>(
     posts: [
       {
         title: body.title,
-        featureImageUrl: body.featureImageUrl,
+        feature_image: body.featureImageUrl,
         html: body.html,
         status: "draft"
       }
