@@ -6,3 +6,9 @@ body {
   margin: 0;
   padding-top: 56px; /* ヘッダーの高さ分だけ余白を確保 */
 }
+
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
