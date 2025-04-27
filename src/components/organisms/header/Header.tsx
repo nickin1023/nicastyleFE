@@ -33,15 +33,21 @@ export const Header = () => {
   return (
     <>
       <header
-        className={`fixed top-0 w-full bg-black text-white transition-transform duration-300 z-50 ${
+        className={`fixed top-0 w-full bg-black text-white transition-transform duration-300 z-50 px-7 py-5 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="container mx-auto flex justify-between p-3">
+        <nav className="container flex justify-between w-full max-w-full">
           <Link href="/">
-            <Image src="/logo.png" alt="Logo icon" width={32} height={32} />
+            <Image
+              src="/logo.png"
+              alt="Logo icon"
+              width={126}
+              height={32}
+              priority={true}
+            />
           </Link>
-          <ul className="flex gap-3">
+          <ul className="flex gap-3 font-bold justify-center text-lg pr-3">
             <li>
               <Link href="/">Top</Link>
             </li>
@@ -55,7 +61,7 @@ export const Header = () => {
               <Link href="/contact">Contact</Link>
             </li>
           </ul>
-        </div>
+        </nav>
       </header>
     </>
   );
