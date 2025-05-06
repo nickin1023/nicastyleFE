@@ -66,7 +66,7 @@ export const Header = () => {
           }
         `}
       >
-        <nav className="container flex justify-between w-full max-w-full">
+        <nav className="container flex justify-between w-full max-w-full h-[32px]">
           <Link className="hover:-translate-y-1 duration-500" href="/">
             <Image
               src="/logo.png"
