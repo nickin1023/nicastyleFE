@@ -6,13 +6,16 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
     extend: {
+      fontFamily: {
+        linejp: ["LINESeedJP", "sans-serif"]
+      },
       colors: {
         background: "var(--background)",
-        foreground: "var(--foreground)",
+        foreground: "var(--foreground)"
       },
       typography: (theme: PluginAPI["theme"]) => ({
         DEFAULT: {
@@ -21,8 +24,8 @@ const config: Config = {
             a: {
               color: "#3182ce",
               "&:hover": {
-                color: "#2c5282",
-              },
+                color: "#2c5282"
+              }
             },
             code: {
               backgroundColor: theme("colors.gray.100"),
@@ -31,16 +34,19 @@ const config: Config = {
               fontWeight: false,
               // 自分で設定した値も参照できる
               padding: `${theme("spacing[0.5]")} ${theme("spacing.1")}`,
-              borderRadius: theme("borderRadius.sm"),
+              borderRadius: theme("borderRadius.sm")
             },
             "code::before": false,
-            "code::after": false,
-          },
-        },
-      }),
-    },
+            "code::after": false
+          }
+        }
+      })
+    }
   },
   safelist: [{ pattern: /grid*/ }],
   plugins: [require("@tailwindcss/typography")],
+  future: {
+    hoverOnlyWhenSupported: true
+  }
 };
 export default config;

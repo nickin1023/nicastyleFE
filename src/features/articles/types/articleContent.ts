@@ -18,3 +18,8 @@ export type ArticleListProps = {
   pagination: PaginationInfo | null;
   isError: boolean;
 };
+
+export type ArticleCarouselProps = {
+  posts: Post[] | null;
+  isError: boolean;
+};

@@ -5,7 +5,7 @@ import {
 } from "@/server/types/entity/adminPost";
 import { PaginationInfo } from "@/server/types/entity/post";
 import { Breadcrumb } from "@/src/components/organisms/breadcrumb/Breadcrumb";
-import { NUMBER_OF_PAGE } from "@/src/consts";
+import { NUMBER_OF_PAGE } from "@/src/consts/numbers";
 import { getArticles } from "@/src/features/administrator/articles/api/articles";
 import { AdminArticleList } from "@/src/features/administrator/articles/component/adminArticleList";
 import { AdminArticleListProps } from "@/src/features/administrator/articles/types/articleContent";

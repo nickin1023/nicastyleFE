@@ -4,7 +4,7 @@ import {
   PaginationInfo,
   Post
 } from "@/server/types/entity/post";
-import { NUMBER_OF_PAGE } from "@/src/consts";
+import { NUMBER_OF_PAGE } from "@/src/consts/numbers";
 import { getArticles } from "@/src/features/articles/api/getArticles";
 import { ArticleList } from "@/src/features/articles/component/articleList";
 import { ArticleListProps } from "@/src/features/articles/types/articleContent";

@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const router = useRouter();
+  const pathname = router.pathname || "";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,32 +33,69 @@ export const Header = () => {
     };
   }, [lastScrollY]);
 
+  const navItemClass = `relative pb-1
+    after:content-['']
+    after:absolute
+    after:left-0
+    after:bottom-0
+    after:w-full
+    after:h-[2px]
+    after:bg-[#ffffff]
+    after:origin-right
+    after:scale-x-0
+    after:transition-transform
+    after:duration-300
+    after:transform
+    hover:after:scale-x-100
+    hover:after:origin-left
+    items-center`;
+
+  const navItems = [
+    { href: "/", label: "Top", match: "/" },
+    { href: "/articles?page=1", label: "Article", match: "/articles" },
+    { href: "/about", label: "About", match: "/about" },
+    { href: "/contact", label: "Contact", match: "/contact" }
+  ];
+
   return (
     <>
       <header
-        className={`fixed top-0 w-full bg-black text-white transition-transform duration-300 z-50 ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`fixed top-0 w-full bg-[repeating-conic-gradient(#000_0_25%,#222_0_50%)]
+          bg-[size:20px_20px] text-white transition-transform duration-300 z-50 px-3 py-5 md:px-7 ${
+            isVisible ? "translate-y-0" : "-translate-y-full"
+          }
+        `}
       >
-        <div className="container mx-auto flex justify-between p-3">
-          <Link href="/">
-            <Image src="/logo.png" alt="Logo icon" width={32} height={32} />
+        <nav className="container flex justify-between w-full max-w-full h-[32px]">
+          <Link className="hover:-translate-y-1 duration-500" href="/">
+            <Image
+              src="/logo.png"
+              alt="Logo icon"
+              width={126}
+              height={32}
+              priority={true}
+            />
           </Link>
-          <ul className="flex gap-3">
-            <li>
-              <Link href="/">Top</Link>
-            </li>
-            <li>
-              <Link href="/articles?page=1">Article</Link>
-            </li>
-            <li>
-              <Link href="/about">About</Link>
-            </li>
-            <li>
-              <Link href="/contact">Contact</Link>
-            </li>
+          <ul className="flex gap-3 font-bold justify-center text-sm md:text-xl px-3 items-center">
+            {navItems.map((item) => {
+              const isActive =
+                item.match === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.match);
+
+              return (
+                <li key={item.href}>
+                  <Link
+                    className={`${navItemClass} ${isActive ? "after:scale-x-100 after:origin-left" : ""}`}
+                    href={item.href}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-        </div>
+        </nav>
       </header>
     </>
   );
