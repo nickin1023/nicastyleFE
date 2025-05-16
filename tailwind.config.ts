@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        linejp: ["LINESeedJP", "sans-serif"]
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)"

@@ -20,8 +20,20 @@ export const Footer = () => {
           </li>
         </ul>
       </nav>
-      <div className="flex w-11/12 justify-center items-center pt-4 pb-12 border-t">
-        <Link href="/" className="p-2">
+      <div className="relative flex flex-col md:flex-row w-11/12 justify-center items-center pt-4 pb-12 border-t">
+        <div className="absolute top-0 bottom-0 left-0 z-20 my-auto pointer-events-none w-[100px] h-[100px]">
+          <Image
+            src={"/decoration/plant4.png"}
+            alt="decoration-plant4"
+            fill
+            style={{ objectFit: "contain" }}
+            priority
+          />
+        </div>
+        <div className="p-2 order-1 md:order-2">
+          <p>プライバシーポリシー</p>
+        </div>
+        <Link href="/" className="p-2 order-1 md:order-1">
           <Image
             src="/logo.png"
             alt="Logo icon"
@@ -30,9 +42,6 @@ export const Footer = () => {
             priority={true}
           />
         </Link>
-        <div className="p-2">
-          <p>プライバシーポリシー</p>
-        </div>
       </div>
     </footer>
   );

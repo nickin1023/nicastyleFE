@@ -5,10 +5,18 @@
 body {
   margin: 0;
   padding-top: 72px; /* ヘッダーの高さ分だけ余白を確保 */
+  background-color: #fff9e6;
 }
 
 .transition-transform {
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
+}
+
+@font-face {
+  font-family: "LINESeedJP";
+  src: url("/fonts/LINESeedJP_OTF_Rg.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
 }
