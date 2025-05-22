@@ -60,11 +60,8 @@ export const ArticleDetail = ({ post, isError }: ArticleDetailProps) => {
     <>
       <Snackbar isShow={isShow} message={message} variant={variant} />
       {post ? (
-        <div className="relative bg-gray-500 flex flex-col">
-          <div className="container bg-white mx-auto my-5 px-5 py-5">
-            <p>other content</p>
-          </div>
-          <div className="container mx-auto my-5 px-5 py-5 bg-white">
+        <div className="mx-3 md:mx-10 relative flex flex-col">
+          <div className="my-3 md:mt-10">
             <ArticleContent
               title={post.title}
               featureImageUrl={post.featureImageUrl}
@@ -73,10 +70,11 @@ export const ArticleDetail = ({ post, isError }: ArticleDetailProps) => {
               updated_at={post.updated_at}
             />
           </div>
-          <div className="container bg-white mx-auto my-5 px-5 py-5">
-            <form onKeyDown={handleFormSubmit}>
+          <div className="mb-10 bg-white rounded-lg">
+            <form onKeyDown={handleFormSubmit} className="text-xl">
               <TextAreaForm
-                variant={"primary"}
+                labelVariant={"simple"}
+                textAreaVariant={"primary"}
                 formName="comment"
                 type="text"
                 labelName="コメント"
@@ -87,11 +85,13 @@ export const ArticleDetail = ({ post, isError }: ArticleDetailProps) => {
                 })}
               />
               {errors.main?.message && (
-                <p className="error-message">{errors.main?.message}</p>
+                <p className="error-message mx-5 text-sm">
+                  {errors.main?.message}
+                </p>
               )}
               <Button
-                variant={"primary"}
-                className="m-5"
+                variant={"icon"}
+                className="m-5 ml-5"
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
               >

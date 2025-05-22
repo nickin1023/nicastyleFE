@@ -64,7 +64,7 @@ export const AdminArticleDetail = ({
     <>
       <Snackbar isShow={isShow} message={message} variant={variant} />
       {post ? (
-        <div className="relative bg-gray-500 flex flex-col">
+        <div className="relative flex flex-col">
           <div className="container mx-auto justify-between my-2 flex">
             <div>
               <Button
@@ -96,11 +96,11 @@ export const AdminArticleDetail = ({
               )}
             </div>
           </div>
-          <div className="container bg-white mx-auto my-2 px-5 py-5">
+          <div className="mx-10 bg-white my-2 px-5 py-5 rounded-lg">
             <p>id: {post!.id}</p>
             <p>status: {post!.status}</p>
           </div>
-          <div className="container mx-auto my-2 px-5 py-5 bg-white">
+          <div className="mx-10 my-2">
             <ArticleContent
               title={post!.title}
               featureImageUrl={post!.featureImageUrl}
