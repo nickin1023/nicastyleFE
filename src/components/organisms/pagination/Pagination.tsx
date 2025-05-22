@@ -2,7 +2,7 @@ import { Button } from "../../atoms/button/Button";
 import { Label } from "../../atoms/label/Label";
 
 type PaginationProps = {
-  variant: "primary" | "outline" | "icon" | null | undefined;
+  variant: "primary" | "simple" | "icon" | null | undefined;
   currentPage: number;
   totalPages: number;
   onClick: (pageNumber: number) => void;
@@ -79,7 +79,7 @@ export const Pagination = ({
   };
 
   return (
-    <div className="flex items-center gap-2 justify-center my-5">
+    <div className="flex items-center gap-2 justify-center my-5 text-lg font-bold">
       {currentPage !== 1 && (
         <Button
           variant={variant}

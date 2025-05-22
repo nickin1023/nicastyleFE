@@ -11,7 +11,7 @@ export const initialDialogArgs: DialogArgs = {
 };
 
 export type DialogArgs = {
-  variant: "primary" | "outline" | "icon" | null | undefined;
+  variant: "primary" | "simple" | "icon" | null | undefined;
   title: string;
   content: string;
   execButtonLabel: string;
