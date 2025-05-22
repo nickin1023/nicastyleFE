@@ -145,8 +145,8 @@ export const AdminArticleEditor = () => {
     <>
       <Snackbar isShow={isShow} message={message} variant={variant} />
       {!notFound ? (
-        <div className="relative bg-gray-500 flex flex-col">
-          <div className="container mx-auto justify-between my-2 flex">
+        <div className="relative flex flex-col">
+          <div className="mx-10 justify-between my-2 flex">
             <div>
               {!isPreview && (
                 <Button
@@ -188,11 +188,11 @@ export const AdminArticleEditor = () => {
               </>
             </div>
           </div>
-          <div className="container bg-white mx-auto my-2 px-5 py-5">
+          <div className="bg-white mx-10 my-2 px-5 py-5">
             <p>id: {id}</p>
             <p>status: {postStatus}</p>
           </div>
-          <div className="container mx-auto my-2 px-5 py-5 bg-white">
+          <div className="mx-10 my-2 px-5 py-5 bg-white">
             <AdminArticleContent
               html={html}
               setHtml={setHtml}

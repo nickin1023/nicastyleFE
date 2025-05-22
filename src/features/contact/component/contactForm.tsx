@@ -127,7 +127,8 @@ export const ContactForm = () => {
             {subjectWatch ? subjectWatch.length : 0} / {MAX_SUBJECT_LENGTH}
           </p>
           <TextAreaForm
-            variant={"primary"}
+            labelVariant={"simple"}
+            textAreaVariant={"primary"}
             formName="main"
             type="text"
             labelName="本文"

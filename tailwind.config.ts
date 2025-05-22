@@ -15,7 +15,9 @@ const config: Config = {
       },
       colors: {
         background: "var(--background)",
-        foreground: "var(--foreground)"
+        foreground: "var(--foreground)",
+        neumorphismBg: "#fff9e6",
+        neumorphismWhiteBg: "#ffffff"
       },
       typography: (theme: PluginAPI["theme"]) => ({
         DEFAULT: {
@@ -40,7 +42,28 @@ const config: Config = {
             "code::after": false
           }
         }
-      })
+      }),
+      boxShadow: {
+        neumorphism:
+          // シャドウサイズを大きく＆コントラスト強調
+          "12px 12px 35px rgba(180, 160, 120, 0.6), -12px -12px 35px rgba(255, 255, 255, 0.9)",
+        neumorphismInset:
+          // インセット影も対応調整
+          "inset 12px 12px 35px rgba(180, 160, 120, 0.4), inset -12px -12px 35px rgba(255, 255, 255, 0.9)",
+        neumorphismWhite:
+          "12px 12px 35px rgba(200, 200, 200, 0.6), -12px -12px 35px #fff",
+        neumorphismWhiteInset:
+          "inset 12px 12px 35px rgba(200, 200, 200, 0.4), inset -12px -12px 35px #fff"
+      },
+      transitionProperty: {
+        "box-shadow": "box-shadow"
+      },
+      padding: {
+        "50": "50px"
+      },
+      borderRadius: {
+        "10": "10px"
+      }
     }
   },
   safelist: [{ pattern: /grid*/ }],

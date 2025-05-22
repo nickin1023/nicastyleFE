@@ -122,9 +122,17 @@ export default function Home() {
           <h1 className="text-4xl font-bold mb-6 tracking-wide">
             {TOP.TOP_MESSAGE}
           </h1>
-          <div className="space-y-4 text-lg text-left">
-            <p className="indent-4">{TOP.MESSAGE1}</p>
-            <p className="indent-4">{TOP.MESSAGE2}</p>
+          <div className="text-lg text-center break-normal md:break-keep">
+            <div className="py-2">
+              {Object.entries(TOP.MESSAGE1).map(([key, value]) => (
+                <p key={key}>{value as string}</p>
+              ))}
+            </div>
+            <div className="py-2">
+              {Object.entries(TOP.MESSAGE2).map(([key, value]) => (
+                <p key={key}>{value as string}</p>
+              ))}
+            </div>
           </div>
         </div>
       </div>

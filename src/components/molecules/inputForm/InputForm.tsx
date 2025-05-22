@@ -3,7 +3,7 @@ import { Input } from "../../atoms/input/Input";
 import { Label } from "../../atoms/label/Label";
 
 type InputFormProps = {
-  variant: "primary" | "outline" | "icon" | null | undefined;
+  variant: "primary" | "simple" | "icon" | null | undefined;
   formName: string;
   type: HTMLInputTypeAttribute;
   placeholder?: string;
