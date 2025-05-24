@@ -53,7 +53,7 @@ export const AdminArticleEditor = () => {
   // 更新ボタン
   const onClickUpdate = () => {
     setDialogInfo({
-      variant: "primary",
+      variant: "icon",
       title: "更新",
       content: "記事を更新しますか？",
       execButtonLabel: "更新",

@@ -42,7 +42,7 @@ export const CreatePost = () => {
   // 更新ボタン
   const onClickCreate = () => {
     setDialogInfo({
-      variant: "primary",
+      variant: "icon",
       title: "作成",
       content: "記事を作成しますか？",
       execButtonLabel: "作成",
@@ -60,7 +60,7 @@ export const CreatePost = () => {
   return (
     <>
       <Snackbar isShow={isShow} message={message} variant={variant} />
-      <div className="relative bg-gray-500 flex flex-col">
+      <div className="relative flex flex-col">
         <div className="container mx-auto justify-between my-2 flex">
           <div>
             {!isPreview && (

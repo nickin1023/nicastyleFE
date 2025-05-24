@@ -22,7 +22,7 @@ export const AdminArticleList = ({
 
   return (
     <div className="relative">
-      <h1>ブログ一覧</h1>
+      <h1 className="text-3xl font-bold text-center pt-8 pb-4">ブログ一覧</h1>
       <Button
         variant="primary"
         onClick={() => {
