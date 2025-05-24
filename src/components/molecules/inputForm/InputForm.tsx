@@ -3,7 +3,8 @@ import { Input } from "../../atoms/input/Input";
 import { Label } from "../../atoms/label/Label";
 
 type InputFormProps = {
-  variant: "primary" | "simple" | "icon" | null | undefined;
+  labelVariant: "primary" | "simple" | "icon" | null | undefined;
+  inputVariant: "primary" | "simple" | "icon" | null | undefined;
   formName: string;
   type: HTMLInputTypeAttribute;
   placeholder?: string;
@@ -13,17 +14,26 @@ type InputFormProps = {
 
 export const InputForm = forwardRef<HTMLInputElement, InputFormProps>(
   (
-    { variant, formName, type, placeholder, labelName, required, ...props },
+    {
+      labelVariant,
+      inputVariant,
+      formName,
+      type,
+      placeholder,
+      labelName,
+      required,
+      ...props
+    },
     ref
   ) => {
     return (
-      <div className="mx-5 my-1">
-        <Label variant={variant} name={formName} required={required}>
+      <div className="mx-4 my-2">
+        <Label variant={labelVariant} name={formName} required={required}>
           {labelName}
         </Label>
         <Input
           id={formName}
-          variant={variant}
+          variant={inputVariant}
           type={type}
           placeholder={placeholder}
           {...props}

@@ -68,7 +68,7 @@ export const ArticleContent = (params: ContentParams) => {
               <span>{updated_at ? isoToDotDate(updated_at) : "----"}</span>
             </time>
           </p>
-          <div className="flex justify-center py-4">
+          <div className="flex justify-start py-4">
             <HtmlContent html={html} />
           </div>
         </div>

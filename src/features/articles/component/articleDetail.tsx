@@ -91,7 +91,7 @@ export const ArticleDetail = ({ post, isError }: ArticleDetailProps) => {
               )}
               <Button
                 variant={"icon"}
-                className="m-5 ml-5"
+                className="m-5 ml-5 text-lg"
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
               >

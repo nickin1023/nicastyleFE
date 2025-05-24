@@ -26,7 +26,7 @@ export const AdminArticleDetail = ({
   // 公開ボタン
   const onClickPublish = () => {
     setDialogInfo({
-      variant: "primary",
+      variant: "icon",
       title: "公開",
       content: "記事を公開しますか？",
       execButtonLabel: "実行",
@@ -38,7 +38,7 @@ export const AdminArticleDetail = ({
   // 非公開ボタン
   const onClickUnpublish = () => {
     setDialogInfo({
-      variant: "primary",
+      variant: "icon",
       title: "非公開",
       content: "記事を非公開にしますか？",
       execButtonLabel: "実行",

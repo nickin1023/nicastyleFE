@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { Button } from "../../atoms/button/Button";
 
 export const initialDialogArgs: DialogArgs = {
-  variant: "primary",
+  variant: "icon",
   title: "",
   content: "",
   execButtonLabel: "",
