@@ -1,6 +1,7 @@
 import { cn } from "@/src/utils/cn";
 import { cva, VariantProps } from "class-variance-authority";
 import React from "react";
+import { Badge } from "../badge/Badge";
 
 const labelVariants = cva(`flex h-10 items-center gap-2`, {
   variants: {
@@ -33,7 +34,7 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
         {...props}
       >
         {children}
-        {required && <span>必須</span>}
+        {required && <Badge variant={"red"}>必須</Badge>}
       </label>
     );
   }

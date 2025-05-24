@@ -7,6 +7,7 @@ import { Button } from "@/src/components/atoms/button/Button";
 import { InputForm } from "@/src/components/molecules/inputForm/InputForm";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
+import { CONTACT } from "@/src/consts/strings";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { KeyboardEventHandler } from "react";
@@ -80,77 +81,82 @@ export const ContactForm = () => {
   return (
     <>
       <Snackbar isShow={isShow} message={message} variant={variant} />
-      <div className="relative">
-        <h1>お問い合わせ</h1>
-        <p>
-          当サイトへのご意見やお問い合わせは下記フォームよりお願いいたします。
-          <br />
-        </p>
-        <form onKeyDown={handleFormSubmit}>
-          <InputForm
-            variant={"primary"}
-            formName="name"
-            type="text"
-            labelName="お名前 (ニックネーム)"
-            required={true}
-            {...register("name")}
-          />
-          {errors.name?.message && (
-            <p className="error-message">{errors.name?.message}</p>
-          )}
-          <p className="flex justify-end px-5">
-            {nameWatch ? nameWatch.length : 0} / {MAX_NAME_LENGTH}
-          </p>
-          <InputForm
-            variant={"primary"}
-            formName="address"
-            type="text"
-            labelName="メールアドレス"
-            required={true}
-            {...register("address")}
-          />
-          {errors.address?.message && (
-            <p className="error-message">{errors.address?.message}</p>
-          )}
-          <InputForm
-            variant={"primary"}
-            formName="subject"
-            type="text"
-            labelName="タイトル"
-            required={false}
-            {...register("subject")}
-          />
-          {errors.subject?.message && (
-            <p className="error-message">{errors.subject?.message}</p>
-          )}
-          <p className="flex justify-end px-5">
-            {subjectWatch ? subjectWatch.length : 0} / {MAX_SUBJECT_LENGTH}
-          </p>
-          <TextAreaForm
-            labelVariant={"simple"}
-            textAreaVariant={"primary"}
-            formName="main"
-            type="text"
-            labelName="本文"
-            rows={5}
-            required={true}
-            {...register("main")}
-          />
-          {errors.main?.message && (
-            <p className="error-message">{errors.main?.message}</p>
-          )}
-          <p className="flex justify-end px-5">
-            {mainWatch ? mainWatch.length : 0} / {MAX_MAIN_LENGTH}
-          </p>
-          <Button
-            variant={"primary"}
-            className="m-5"
-            type="submit"
-            onClick={handleSubmit(onSubmit)}
-          >
-            送信
-          </Button>
-        </form>
+      <div className="relative mx-3 md:mx-auto md:max-w-4xl pb-4">
+        <h1 className="text-3xl font-bold text-center pt-8 pb-4">
+          お問い合わせ
+        </h1>
+        <div className="bg-white rounded-lg my-4 py-4">
+          <p className="mx-4 py-2">{CONTACT.DESCRIPTION1}</p>
+          <p className="mx-4 py-2">{CONTACT.DESCRIPTION2}</p>
+          <form onKeyDown={handleFormSubmit}>
+            <InputForm
+              labelVariant={"simple"}
+              inputVariant={"primary"}
+              formName="name"
+              type="text"
+              labelName="お名前 (ニックネーム)"
+              required={true}
+              {...register("name")}
+            />
+            {errors.name?.message && (
+              <p className="error-message mx-4">{errors.name?.message}</p>
+            )}
+            <p className="flex justify-end px-5">
+              {nameWatch ? nameWatch.length : 0} / {MAX_NAME_LENGTH}
+            </p>
+            <InputForm
+              labelVariant={"simple"}
+              inputVariant={"primary"}
+              formName="address"
+              type="text"
+              labelName="メールアドレス"
+              required={true}
+              {...register("address")}
+            />
+            {errors.address?.message && (
+              <p className="error-message mx-4">{errors.address?.message}</p>
+            )}
+            <InputForm
+              labelVariant={"simple"}
+              inputVariant={"primary"}
+              formName="subject"
+              type="text"
+              labelName="タイトル"
+              required={false}
+              {...register("subject")}
+            />
+            {errors.subject?.message && (
+              <p className="error-message mx-4">{errors.subject?.message}</p>
+            )}
+            <p className="flex justify-end px-5">
+              {subjectWatch ? subjectWatch.length : 0} / {MAX_SUBJECT_LENGTH}
+            </p>
+            <TextAreaForm
+              labelVariant={"simple"}
+              textAreaVariant={"primary"}
+              formName="main"
+              type="text"
+              labelName="本文"
+              rows={5}
+              required={true}
+              {...register("main")}
+            />
+            {errors.main?.message && (
+              <p className="error-message mx-4">{errors.main?.message}</p>
+            )}
+            <p className="flex justify-end px-5">
+              {mainWatch ? mainWatch.length : 0} / {MAX_MAIN_LENGTH}
+            </p>
+            <Button
+              variant={"icon"}
+              className="ml-4 text-lg"
+              type="submit"
+              onClick={handleSubmit(onSubmit)}
+            >
+              送信
+            </Button>
+          </form>
+        </div>
       </div>
     </>
   );
