@@ -31,7 +31,7 @@ export const Footer = () => {
           />
         </div>
         <div className="p-2 order-1 md:order-2">
-          <p>プライバシーポリシー</p>
+          <Link href="/privacy">プライバシーポリシー</Link>
         </div>
         <Link href="/" className="p-2 order-1 md:order-1">
           <Image

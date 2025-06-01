@@ -1,6 +1,6 @@
+import { TOP } from "@/src/consts/strings";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { TOP } from "../consts/strings";
 
 export default function Home() {
   const images = [
