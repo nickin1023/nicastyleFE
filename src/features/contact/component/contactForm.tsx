@@ -10,6 +10,7 @@ import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
 import { CONTACT } from "@/src/consts/strings";
 import { useSnackbar } from "@/src/hooks/useSnackbar";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Link from "next/link";
 import { KeyboardEventHandler } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { object, string } from "yup";
@@ -87,7 +88,14 @@ export const ContactForm = () => {
         </h1>
         <div className="bg-white rounded-lg my-4 py-4">
           <p className="mx-4 py-2">{CONTACT.DESCRIPTION1}</p>
-          <p className="mx-4 py-2">{CONTACT.DESCRIPTION2}</p>
+          <p className="mx-4 py-2">
+            <span>{CONTACT.DESCRIPTION2}</span>
+            <span>{CONTACT.DESCRIPTION3}</span>
+            <Link href="/privacy" className="underline underline-offset-1">
+              {CONTACT.DESCRIPTION4}
+            </Link>
+            <span>{CONTACT.DESCRIPTION5}</span>
+          </p>
           <form onKeyDown={handleFormSubmit}>
             <InputForm
               labelVariant={"simple"}
