@@ -6,9 +6,9 @@ import { Badge } from "../badge/Badge";
 const labelVariants = cva(`flex h-10 items-center gap-2`, {
   variants: {
     variant: {
-      primary: `rounded-full underline underline-offset-4`,
+      primary: `rounded-10 underline underline-offset-4 bg-amber-300 px-4`,
       simple: `font-bold`,
-      icon: `bg-transparent hover:bg-bg-gray rounded-full p-2 h-fit`
+      icon: `bg-transparent hover:bg-gray rounded-full p-2 h-fit`
     }
   },
   defaultVariants: {
