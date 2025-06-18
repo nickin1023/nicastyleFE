@@ -28,7 +28,6 @@ export default function PrivacyPage() {
               )
             )}
           </div>
-          <h2 className="text-2xl font-bold py-4">2. Cookieについて</h2>
         </div>
       </div>
     </div>
