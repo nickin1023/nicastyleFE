@@ -34,6 +34,16 @@ const main = async () => {
 
   // admin path start
 
+  // 本番環境（!isDev）では、管理画面のすべてのページ（/administrator*）へのアクセスを完全に遮断する
+  app.all("/administrator*", (req: Request, res: Response, next) => {
+    if (!isDev) {
+      console.warn("admin page access from not local");
+      res.sendStatus(404);
+      return;
+    }
+    next();
+  });
+
   app.all("/api/administrator/*", (req: Request, res: Response, next) => {
     if (!isDev) {
       // ローカル以外からは基本的に接続されないはずだが、サーバーサイドでも塞ぐ
