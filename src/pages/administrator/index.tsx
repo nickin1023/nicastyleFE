@@ -13,6 +13,9 @@ export default function AdminPage() {
           <li>
             <Link href="/administrator/images">画像管理</Link>
           </li>
+          <li>
+            <Link href="/administrator/style-guide">スタイルガイド (Storybook風)</Link>
+          </li>
         </ul>
       </div>
     </>
