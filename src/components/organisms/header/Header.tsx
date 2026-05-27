@@ -60,13 +60,12 @@ export const Header = () => {
   return (
     <>
       <header
-        className={`fixed top-0 w-full bg-[repeating-conic-gradient(#000_0_25%,#222_0_50%)]
-          bg-[size:20px_20px] text-white transition-transform duration-300 z-50 px-3 py-5 md:px-7 ${
+        className={`fixed top-0 w-full bg-neutral-900/85 backdrop-blur-md border-b border-neutral-800/50 text-neutral-100 transition-transform duration-300 z-50 px-4 py-4 md:px-8 ${
             isVisible ? "translate-y-0" : "-translate-y-full"
           }
         `}
       >
-        <nav className="container flex justify-between w-full max-w-full h-[32px]">
+        <nav className="mx-auto flex justify-between items-center w-full max-w-7xl h-[32px]">
           <Link className="hover:-translate-y-1 duration-500" href="/">
             <Image
               src="/logo.png"
