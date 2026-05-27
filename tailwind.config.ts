@@ -1,3 +1,4 @@
+import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
 import { PluginAPI } from "tailwindcss/types/config";
 
@@ -22,21 +23,42 @@ const config: Config = {
       typography: (theme: PluginAPI["theme"]) => ({
         DEFAULT: {
           css: {
-            color: "#333",
+            h1: {
+              fontSize: theme("fontSize.3xl")
+            },
+            h2: {
+              fontSize: theme("fontSize.2xl")
+            },
+            h3: {
+              fontSize: theme("fontSize.xl")
+            },
+            h4: {
+              fontSize: theme("fontSize.lg")
+            },
+            h5: {
+              fontSize: theme("fontSize.base")
+            },
+            h6: {
+              fontSize: theme("fontSize.sm")
+            },
+            color: "#1f2937", /* gray-800 */
+            lineHeight: "1.8",
             a: {
-              color: "#3182ce",
+              color: "#d97706", /* amber-600 */
+              textDecoration: "underline",
+              fontWeight: "600",
               "&:hover": {
-                color: "#2c5282"
+                color: "#b45309" /* amber-700 */
               }
             },
             code: {
-              backgroundColor: theme("colors.gray.100"),
-              color: "#964a91",
+              backgroundColor: theme("colors.neutral.100"),
+              color: "#dc2626", /* red-600 */
               // セレクタ内のプロパティを削除
-              fontWeight: false,
+              fontWeight: "500",
               // 自分で設定した値も参照できる
               padding: `${theme("spacing[0.5]")} ${theme("spacing.1")}`,
-              borderRadius: theme("borderRadius.sm")
+              borderRadius: theme("borderRadius.md")
             },
             "code::before": false,
             "code::after": false
@@ -67,7 +89,7 @@ const config: Config = {
     }
   },
   safelist: [{ pattern: /grid*/ }],
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [typography],
   future: {
     hoverOnlyWhenSupported: true
   }
