@@ -29,7 +29,8 @@ export const AdminArticleContent = (params: AdminContentParams) => {
     scrollbar: {
       alwaysConsumeMouseWheel: false
     },
-    wordWrap: "on" as "on" | "off" | "wordWrapColumn" | "bounded"
+    wordWrap: "on" as "on" | "off" | "wordWrapColumn" | "bounded",
+    fontFamily: "'MS ゴシック'"
   };
 
   return (
@@ -59,7 +60,7 @@ export const AdminArticleContent = (params: AdminContentParams) => {
             <Editor
               height="90vh"
               defaultLanguage="html"
-              defaultValue={html}
+              value={html}
               onMount={handleEditorDidMount}
               onChange={(newValue) => {
                 setHtml(newValue!);

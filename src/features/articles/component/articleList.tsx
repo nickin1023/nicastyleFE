@@ -21,19 +21,19 @@ export const ArticleList = ({
   if (isError) return <InternalServerError />;
 
   return (
-    <div className="relative">
-      <h1 className="text-3xl font-bold text-center pt-8 pb-4">記事一覧</h1>
+    <div className="relative max-w-7xl mx-auto px-4 md:px-8 pb-16 animate-fade-in-up">
+      <h1 className="text-3xl md:text-4xl font-extrabold text-center pt-12 pb-6 text-neutral-900">記事一覧</h1>
       {posts && posts.length ? (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 m-5 px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 my-8">
             {posts.map((post, index) => (
               <Link
-                className="block bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                className="group block bg-white rounded-2xl border border-neutral-100 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.015)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.05)] hover:-translate-y-1 hover:border-neutral-200/60 transition-all duration-300"
                 key={index}
                 href={`/articles/${post.id}`}
                 passHref
               >
-                <div className="relative aspect-[16/9]">
+                <div className="relative aspect-[16/10] overflow-hidden bg-neutral-100">
                   <Image
                     src={
                       post.featureImageUrl
@@ -43,24 +43,25 @@ export const ArticleList = ({
                     alt={post.title}
                     layout="fill"
                     objectFit="cover"
-                    className="rounded-t-lg"
+                    className="transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="py-2 px-4">
-                  <h2 className="text-xl font-bold">{post.title}</h2>
-                  <p className="flex items-center gap-1 text-[15px] text-gray-500">
+                <div className="p-6">
+                  <h2 className="text-lg md:text-xl font-bold text-neutral-800 group-hover:text-amber-600 transition-colors duration-300 line-clamp-2 leading-snug mb-3">{post.title}</h2>
+                  <p className="flex items-center gap-1.5 text-sm text-neutral-400 font-medium">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="1.25em"
                       height="1.25em"
                       viewBox="0 0 24 24"
+                      className="text-neutral-400"
                     >
                       {/* Icon from MingCute Icon by MingCute Design - https://github.com/Richard9394/MingCute/blob/main/LICENSE */}
                       <g fill="none">
                         <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"></path>
                         <path
-                          fill="currentColor"
-                          d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 6H5v10h14zM8.5 15a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2zm4 0a1 1 0 0 1 .117 1.993L12.5 17h-1a1 1 0 0 1-.117-1.993L11.5 15zm-4-4a1 1 0 0 1 .117 1.993L8.5 13h-1a1 1 0 0 1-.117-1.993L7.5 11zm4 0a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2zm4 0a1 1 0 0 1 .117 1.993L16.5 13h-1a1 1 0 0 1-.117-1.993L15.5 11zM19 5H5v2h14z"
+                           fill="currentColor"
+                           d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 6H5v10h14zM8.5 15a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2zm4 0a1 1 0 0 1 .117 1.993L12.5 17h-1a1 1 0 0 1-.117-1.993L11.5 15zm-4-4a1 1 0 0 1 .117 1.993L8.5 13h-1a1 1 0 0 1-.117-1.993L7.5 11zm4 0a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2zm4 0a1 1 0 0 1 .117 1.993L16.5 13h-1a1 1 0 0 1-.117-1.993L15.5 11zM19 5H5v2h14z"
                         ></path>
                       </g>
                     </svg>
@@ -71,7 +72,7 @@ export const ArticleList = ({
             ))}
           </div>
           {pagination && (
-            <div className="py-4">
+            <div className="py-8">
               <Pagination
                 variant={"primary"}
                 currentPage={pagination.page}
@@ -82,7 +83,9 @@ export const ArticleList = ({
           )}
         </>
       ) : (
-        <p>記事はありません。</p>
+        <div className="text-center py-16 bg-white border border-neutral-100 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.015)] my-8">
+          <p className="text-neutral-400 font-medium">記事はありません。</p>
+        </div>
       )}
     </div>
   );
