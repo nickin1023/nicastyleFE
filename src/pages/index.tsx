@@ -44,8 +44,9 @@ export default function Home() {
   return (
     <>
       <div className="relative aspect-[3/4] md:aspect-[16/8] bg-gradient-to-br from-amber-500/5 via-stone-50/20 to-emerald-500/5 border-b border-stone-200/40 overflow-hidden">
-        {/* Background Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none"></div>
+        {/* Background Pattern and Glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1.5px,transparent_1.5px)] [background-size:32px_32px] opacity-70 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.08)_0%,transparent_65%)] pointer-events-none"></div>
         <div className="absolute top-4 left-4 z-10 pointer-events-none w-[128px] h-[128px] md:w-[160px] md:h-[160px] animate-float">
           <Image
             src={"/decoration/plant1.png"}

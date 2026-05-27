@@ -1,15 +1,11 @@
-import { Button } from "../../atoms/button/Button";
-import { Label } from "../../atoms/label/Label";
-
 type PaginationProps = {
-  variant: "primary" | "simple" | "icon" | null | undefined;
+  variant?: "primary" | "simple" | "icon" | null | undefined;
   currentPage: number;
   totalPages: number;
   onClick: (pageNumber: number) => void;
 };
 
 export const Pagination = ({
-  variant,
   currentPage,
   totalPages,
   onClick
@@ -19,37 +15,31 @@ export const Pagination = ({
   const renderItem = (page: number | string, index?: number) => {
     if (typeof page === "string") {
       return (
-        <Label
+        <span
           key={`ellipsis-${index}`}
-          variant={variant}
-          name="ellipsis"
-          required={false}
-          className="mx-1"
+          className="mx-1 px-2 text-stone-400 font-semibold select-none text-base"
         >
           {page}
-        </Label>
+        </span>
       );
     }
 
     return page === currentPage ? (
-      <Label
+      <span
         key={page}
-        variant={variant}
-        name="currentPage"
-        required={false}
-        className="mx-1"
+        className="mx-1 flex h-10 w-10 items-center justify-center rounded-full bg-amber-500 text-white font-bold shadow-md shadow-amber-500/20 select-none text-base"
       >
         {page}
-      </Label>
+      </span>
     ) : (
-      <Button
+      <button
         key={page}
-        variant={variant}
-        className="mx-1"
+        type="button"
+        className="mx-1 flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 font-semibold hover:bg-stone-50 hover:text-stone-900 hover:border-stone-300 transition-all duration-200 text-base"
         onClick={() => onClick(page)}
       >
         {page}
-      </Button>
+      </button>
     );
   };
 
@@ -81,25 +71,25 @@ export const Pagination = ({
   return (
     <div className="flex items-center gap-2 justify-center my-5 text-lg font-bold">
       {currentPage !== 1 && (
-        <Button
-          variant={variant}
-          className="mx-1"
+        <button
+          type="button"
+          className="mx-1 flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 font-semibold hover:bg-stone-50 hover:text-stone-900 hover:border-stone-300 transition-all duration-200 text-base"
           onClick={() => onClick(currentPage - 1)}
         >
           {"<"}
-        </Button>
+        </button>
       )}
 
       {getPaginationRange().map(renderItem)}
 
       {currentPage !== totalPages && (
-        <Button
-          variant={variant}
-          className="mx-1"
+        <button
+          type="button"
+          className="mx-1 flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 font-semibold hover:bg-stone-50 hover:text-stone-900 hover:border-stone-300 transition-all duration-200 text-base"
           onClick={() => onClick(currentPage + 1)}
         >
           {">"}
-        </Button>
+        </button>
       )}
     </div>
   );
