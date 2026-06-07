@@ -1,0 +1,28 @@
+name: Node.js CI # ワークフローの名前
+
+# トリガー設定：どのイベントでCIを動かすか
+on:
+  push:
+    branches: ["main"] # mainブランチにPushされたとき
+  pull_request:
+    branches: ["main"] # mainブランチにPRが飛んできたとき
+
+# 実行する具体的な処理（ジョブ）
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # 実行するOS環境（Linux環境を指定）
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4 # コードをCI環境にダウンロードする公式Action
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4 # Node.jsの環境をセットアップする公式Action
+        with:
+          node-version: "20" # 使用するバージョンを指定
+
+      - name: Install dependencies
+        run: npm ci # 依存ライブラリの厳密なインストール
+
+      - name: Run tests
+        run: npm test # テストの実行（スクリプトに合わせて変更）
