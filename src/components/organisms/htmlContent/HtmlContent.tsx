@@ -5,7 +5,11 @@ type htmlContentParams = {
 };
 
 export const HtmlContent = (params: htmlContentParams) => {
-  return <article className="prose max-w-full">{parse(params.html)}</article>;
+  return (
+    <article className="prose max-w-full !text-inherit">
+      {params && params.html && parse(params.html)}
+    </article>
+  );
 };
 
 HtmlContent.displayName = "HtmlContent";

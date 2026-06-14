@@ -1,7 +1,36 @@
+import Link from "next/link";
+
 export const NotFound = () => {
   return (
-    <div className="flex justify-center aspect-[3/4] md:aspect-[16/8] text-lg md:text-2xl items-center">
-      <p>お探しのページは見つかりませんでした。</p>
+    <div className="min-h-[70vh] flex items-center justify-center p-4 animate-fade-in-up">
+      <div className="max-w-md w-full bg-white border border-neutral-100 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.02)] p-8 md:p-12 text-center">
+        {/* NotFound Icon */}
+        <div className="w-16 h-16 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="2.5em"
+            height="2.5em"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2m1 15h-2v-6h2zm0-8h-2V7h2z"
+            />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-extrabold text-neutral-800 mb-3">
+          ページが見つかりませんでした
+        </h2>
+        <p className="text-neutral-500 text-sm md:text-base leading-relaxed mb-8">
+          お探しのページは削除されたか、URLアドレスが変更された可能性があります。
+        </p>
+        <Link
+          href="/"
+          className="h-11 px-8 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold flex items-center justify-center gap-2 transition-all duration-200 w-full shadow-md shadow-amber-500/10 active:scale-98"
+        >
+          トップページへ戻る
+        </Link>
+      </div>
     </div>
   );
 };

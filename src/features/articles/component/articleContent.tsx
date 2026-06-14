@@ -7,29 +7,30 @@ export const ArticleContent = (params: ContentParams) => {
   const { title, featureImageUrl, html, published_at, updated_at } = params;
   return (
     <>
-      <div className="relative aspect-[16/9]">
+      <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.015)] bg-neutral-100">
         <Image
           src={featureImageUrl ? featureImageUrl : "/noimage.png"}
           alt={title}
           layout="fill"
           objectFit="cover"
-          className="rounded-lg"
+          className="transition-transform duration-500 hover:scale-101"
         />
       </div>
-      <div className="bg-white my-2 md:my-5 rounded-lg">
-        <div className="mx-4 py-4 md:px-8">
-          <h1 className="text-3xl font-bold">{title}</h1>
-          <p className="flex justify-end">
+      <div className="bg-white border border-neutral-100/90 my-6 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.015)]">
+        <div className="p-6 md:p-10">
+          <h1 className="text-2xl md:text-4xl font-extrabold text-neutral-900 leading-tight mb-6">{title}</h1>
+          <div className="flex flex-wrap items-center justify-end gap-4 border-b border-neutral-100 pb-6 mb-8 text-sm text-neutral-400 font-medium">
             <time
               dateTime={published_at}
               itemProp="datePublished"
-              className="flex items-center gap-1"
+              className="flex items-center gap-1.5"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="1.25em"
-                height="1.25em"
+                width="1.2em"
+                height="1.2em"
                 viewBox="0 0 24 24"
+                className="text-neutral-400"
               >
                 {/* Icon from MingCute Icon by MingCute Design - https://github.com/Richard9394/MingCute/blob/main/LICENSE */}
                 <g fill="none">
@@ -40,20 +41,19 @@ export const ArticleContent = (params: ContentParams) => {
                   ></path>
                 </g>
               </svg>
-              <span>{published_at ? isoToDotDate(published_at) : "----"}</span>
+              <span>公開: {published_at ? isoToDotDate(published_at) : "----"}</span>
             </time>
-            &ensp;
             <time
               dateTime={updated_at}
               itemProp="dateModified"
-              className="flex items-center gap-1"
+              className="flex items-center gap-1.5"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="1.25em"
-                height="1.25em"
+                width="1.2em"
+                height="1.2em"
                 viewBox="0 0 24 24"
-                className="inline-block"
+                className="text-neutral-400"
               >
                 {/* Icon from Google Material Icons by Material Design Authors - https://github.com/material-icons/material-icons/blob/master/LICENSE */}
                 <path
@@ -65,10 +65,10 @@ export const ArticleContent = (params: ContentParams) => {
                   d="M12.5 7H11v6l5.25 3.15l.75-1.23l-4.5-2.67z"
                 />
               </svg>
-              <span>{updated_at ? isoToDotDate(updated_at) : "----"}</span>
+              <span>更新: {updated_at ? isoToDotDate(updated_at) : "----"}</span>
             </time>
-          </p>
-          <div className="flex justify-start py-4">
+          </div>
+          <div className="flex justify-start py-2">
             <HtmlContent html={html} />
           </div>
         </div>

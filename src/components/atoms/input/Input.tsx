@@ -7,7 +7,7 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        primary: `bg-white text-primaryWhite hover:opacity-75 border border-gray`,
+        primary: `bg-white text-neutral-800 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all duration-200`,
         simple: ``,
         icon: `bg-transparent hover:bg-bg-gray rounded-full p-2 h-fit`
       }

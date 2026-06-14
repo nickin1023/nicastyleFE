@@ -82,86 +82,100 @@ export const ContactForm = () => {
   return (
     <>
       <Snackbar isShow={isShow} message={message} variant={variant} />
-      <div className="relative mx-3 md:mx-auto md:max-w-4xl pb-4">
-        <h1 className="text-3xl font-bold text-center pt-8 pb-4">
+      <div className="relative max-w-3xl mx-auto px-4 md:px-0 pb-16 animate-fade-in-up">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-center pt-12 pb-6 text-neutral-900">
           お問い合わせ
         </h1>
-        <div className="bg-white rounded-lg my-4 py-4">
-          <p className="mx-4 py-2">{CONTACT.DESCRIPTION1}</p>
-          <p className="mx-4 py-2">
-            <span>{CONTACT.DESCRIPTION2}</span>
-            <span>{CONTACT.DESCRIPTION3}</span>
-            <Link href="/privacy" className="underline underline-offset-1">
-              {CONTACT.DESCRIPTION4}
-            </Link>
-            <span>{CONTACT.DESCRIPTION5}</span>
-          </p>
-          <form onKeyDown={handleFormSubmit}>
-            <InputForm
-              labelVariant={"simple"}
-              inputVariant={"primary"}
-              formName="name"
-              type="text"
-              labelName="お名前 (ニックネーム)"
-              required={true}
-              {...register("name")}
-            />
-            {errors.name?.message && (
-              <p className="error-message mx-4">{errors.name?.message}</p>
-            )}
-            <p className="flex justify-end px-5">
-              {nameWatch ? nameWatch.length : 0} / {MAX_NAME_LENGTH}
+        <div className="bg-white border border-neutral-100 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.015)] p-6 md:p-10 my-6">
+          <div className="text-neutral-500 mb-8 space-y-3 text-sm md:text-base leading-relaxed border-b border-neutral-100 pb-6">
+            <p>{CONTACT.DESCRIPTION1}</p>
+            <p>
+              <span>{CONTACT.DESCRIPTION2}</span>
+              <span>{CONTACT.DESCRIPTION3}</span>
+              <Link href="/privacy" className="text-amber-600 hover:text-amber-700 hover:underline transition-colors font-semibold">
+                {CONTACT.DESCRIPTION4}
+              </Link>
+              <span>{CONTACT.DESCRIPTION5}</span>
             </p>
-            <InputForm
-              labelVariant={"simple"}
-              inputVariant={"primary"}
-              formName="address"
-              type="text"
-              labelName="メールアドレス"
-              required={true}
-              {...register("address")}
-            />
-            {errors.address?.message && (
-              <p className="error-message mx-4">{errors.address?.message}</p>
-            )}
-            <InputForm
-              labelVariant={"simple"}
-              inputVariant={"primary"}
-              formName="subject"
-              type="text"
-              labelName="タイトル"
-              required={false}
-              {...register("subject")}
-            />
-            {errors.subject?.message && (
-              <p className="error-message mx-4">{errors.subject?.message}</p>
-            )}
-            <p className="flex justify-end px-5">
-              {subjectWatch ? subjectWatch.length : 0} / {MAX_SUBJECT_LENGTH}
-            </p>
-            <TextAreaForm
-              labelVariant={"simple"}
-              textAreaVariant={"primary"}
-              formName="main"
-              type="text"
-              labelName="本文"
-              rows={5}
-              required={true}
-              {...register("main")}
-            />
-            {errors.main?.message && (
-              <p className="error-message mx-4">{errors.main?.message}</p>
-            )}
-            <p className="flex justify-end px-5">
-              {mainWatch ? mainWatch.length : 0} / {MAX_MAIN_LENGTH}
-            </p>
+          </div>
+          <form onKeyDown={handleFormSubmit} className="space-y-6">
+            <div>
+              <InputForm
+                labelVariant={"simple"}
+                inputVariant={"primary"}
+                formName="name"
+                type="text"
+                labelName="お名前 (ニックネーム)"
+                required={true}
+                {...register("name")}
+              />
+              {errors.name?.message && (
+                <p className="error-message mx-4 text-sm text-red-500 font-medium mt-1">{errors.name?.message}</p>
+              )}
+              <p className="flex justify-end px-5 text-xs text-neutral-400 mt-1">
+                {nameWatch ? nameWatch.length : 0} / {MAX_NAME_LENGTH}
+              </p>
+            </div>
+
+            <div>
+              <InputForm
+                labelVariant={"simple"}
+                inputVariant={"primary"}
+                formName="address"
+                type="text"
+                labelName="メールアドレス"
+                required={true}
+                {...register("address")}
+              />
+              {errors.address?.message && (
+                <p className="error-message mx-4 text-sm text-red-500 font-medium mt-1">{errors.address?.message}</p>
+              )}
+            </div>
+
+            <div>
+              <InputForm
+                labelVariant={"simple"}
+                inputVariant={"primary"}
+                formName="subject"
+                type="text"
+                labelName="タイトル"
+                required={false}
+                {...register("subject")}
+              />
+              {errors.subject?.message && (
+                <p className="error-message mx-4 text-sm text-red-500 font-medium mt-1">{errors.subject?.message}</p>
+              )}
+              <p className="flex justify-end px-5 text-xs text-neutral-400 mt-1">
+                {subjectWatch ? subjectWatch.length : 0} / {MAX_SUBJECT_LENGTH}
+              </p>
+            </div>
+
+            <div>
+              <TextAreaForm
+                labelVariant={"simple"}
+                textAreaVariant={"primary"}
+                formName="main"
+                type="text"
+                labelName="本文"
+                rows={5}
+                required={true}
+                {...register("main")}
+              />
+              {errors.main?.message && (
+                <p className="error-message mx-4 text-sm text-red-500 font-medium mt-1">{errors.main?.message}</p>
+              )}
+              <p className="flex justify-end px-5 text-xs text-neutral-400 mt-1">
+                {mainWatch ? mainWatch.length : 0} / {MAX_MAIN_LENGTH}
+              </p>
+            </div>
+
             <Button
-              variant={"icon"}
-              className="ml-4 text-lg"
+              variant={"simple"}
+              className="h-11 px-8 rounded-xl bg-amber-500 text-white font-semibold shadow-md hover:bg-amber-600 active:scale-98 transition-all duration-200 flex items-center justify-center gap-2 mx-4 mt-6"
               type="submit"
               onClick={handleSubmit(onSubmit)}
             >
-              送信
+              送信する
             </Button>
           </form>
         </div>

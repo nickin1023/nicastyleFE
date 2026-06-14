@@ -60,7 +60,7 @@ export const ArticleDetail = ({ post, isError }: ArticleDetailProps) => {
     <>
       <Snackbar isShow={isShow} message={message} variant={variant} />
       {post ? (
-        <div className="mx-3 md:mx-10 relative flex flex-col">
+        <div className="max-w-4xl mx-auto px-4 md:px-0 relative flex flex-col pb-16 animate-fade-in-up">
           <div className="my-3 md:mt-10">
             <ArticleContent
               title={post.title}
@@ -70,14 +70,20 @@ export const ArticleDetail = ({ post, isError }: ArticleDetailProps) => {
               updated_at={post.updated_at}
             />
           </div>
-          <div className="mb-10 bg-white rounded-lg">
-            <form onKeyDown={handleFormSubmit} className="text-xl">
+          <div className="mb-10 bg-white border border-neutral-100 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.015)] p-6 md:p-10 mt-8">
+            <h3 className="text-xl font-bold mb-6 text-neutral-800 border-b border-neutral-100 pb-3 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" className="text-neutral-500">
+                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12c0 2.2.8 4.2 2.1 5.8L3 21l3.2-.9c1.6 1.3 3.6 2.1 5.8 2.1c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.87 0-3.62-.62-5.04-1.67L5 19l.7-2.1C4.62 15.62 4 13.87 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8z"/>
+              </svg>
+              コメントを残す
+            </h3>
+            <form onKeyDown={handleFormSubmit} className="space-y-4">
               <TextAreaForm
                 labelVariant={"simple"}
                 textAreaVariant={"primary"}
                 formName="comment"
                 type="text"
-                labelName="コメント"
+                labelName="コメント本文"
                 rows={5}
                 required={false}
                 {...register("main", {
@@ -85,17 +91,17 @@ export const ArticleDetail = ({ post, isError }: ArticleDetailProps) => {
                 })}
               />
               {errors.main?.message && (
-                <p className="error-message mx-5 text-sm">
+                <p className="error-message mx-4 text-sm text-red-500 font-medium">
                   {errors.main?.message}
                 </p>
               )}
               <Button
-                variant={"icon"}
-                className="m-5 ml-5 text-lg"
+                variant={"simple"}
+                className="h-11 px-8 rounded-xl bg-amber-500 text-white font-semibold shadow-md hover:bg-amber-600 active:scale-98 transition-all duration-200 flex items-center justify-center gap-2 mx-4 my-2"
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
               >
-                送信
+                コメントを送信
               </Button>
             </form>
           </div>
