@@ -32,7 +32,9 @@ export const getImage = async (req: Request): Promise<GhostImageResponse> => {
 
   return {
     headers: {
-      "content-type": response.headers["content-type"]
+      "content-type": typeof response.headers["content-type"] === "string"
+        ? response.headers["content-type"]
+        : "image/png"
     },
     data: response.data
   };
