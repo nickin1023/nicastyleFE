@@ -67,21 +67,6 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Card 4 */}
-          <div className="bg-white border border-neutral-100 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.015)] p-6 md:p-10 mb-8">
-            <h2 className="text-2xl md:text-3xl font-extrabold py-4 text-center text-neutral-800 mb-6 border-b border-neutral-100">
-              {ABOUT.CONTENT4.TITLE}
-            </h2>
-            <div className="space-y-4 text-neutral-600 leading-loose text-base md:text-lg">
-              {Object.entries(ABOUT.CONTENT4.CONTENT).map(
-                ([messageKey, messageValue]) => (
-                  <p key={messageKey} className="py-1">
-                    {messageValue}
-                  </p>
-                )
-              )}
-            </div>
-          </div>
         </div>
 
         {/* Sidebar Column */}

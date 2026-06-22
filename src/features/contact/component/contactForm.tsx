@@ -4,6 +4,7 @@ import {
   SendMailResponse
 } from "@/server/types/entity/sendMail";
 import { Button } from "@/src/components/atoms/button/Button";
+import { Label } from "@/src/components/atoms/label/Label";
 import { InputForm } from "@/src/components/molecules/inputForm/InputForm";
 import { TextAreaForm } from "@/src/components/molecules/textAreaForm/TextAreaForm";
 import { Snackbar } from "@/src/components/organisms/snackbar/Snackbar";
@@ -31,6 +32,12 @@ export const ContactForm = () => {
       .label("メールアドレス")
       .required("${label}は必須入力です")
       .email("${label}の形式が不正です。"),
+    inquiryType: string()
+      .label("ご相談内容")
+      .required("${label}は必須入力です"),
+    budget: string()
+      .label("ご予算感")
+      .required("${label}は必須入力です"),
     subject: string().max(
       MAX_SUBJECT_LENGTH,
       "${label}は${max}文字以内で入力してください。"
@@ -60,7 +67,9 @@ export const ContactForm = () => {
         name: mailMessage.name,
         address: mailMessage.address,
         subject: mailMessage.subject,
-        main: mailMessage.main
+        main: mailMessage.main,
+        inquiryType: mailMessage.inquiryType,
+        budget: mailMessage.budget
       }
     };
     const res: SendMailResponse = await sendMail(mailRequest);
@@ -105,7 +114,7 @@ export const ContactForm = () => {
                 inputVariant={"primary"}
                 formName="name"
                 type="text"
-                labelName="お名前 (ニックネーム)"
+                labelName="お名前 (必須)"
                 required={true}
                 {...register("name")}
               />
@@ -123,12 +132,68 @@ export const ContactForm = () => {
                 inputVariant={"primary"}
                 formName="address"
                 type="text"
-                labelName="メールアドレス"
+                labelName="メールアドレス (必須)"
                 required={true}
                 {...register("address")}
               />
               {errors.address?.message && (
                 <p className="error-message mx-4 text-sm text-red-500 font-medium mt-1">{errors.address?.message}</p>
+              )}
+            </div>
+
+            <div>
+              <div className="mx-4 my-2">
+                <Label variant="simple" name="inquiryType" required={true}>
+                  ご相談内容
+                </Label>
+                <select
+                  id="inquiryType"
+                  className="flex w-full h-10 items-center justify-center gap-2 px-4 bg-white text-neutral-800 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all duration-200 font-medium text-sm md:text-base cursor-pointer"
+                  defaultValue=""
+                  {...register("inquiryType")}
+                >
+                  <option value="" disabled hidden>選択してください</option>
+                  <option value="広告×LINE公式アカウント統合コンサルティング">
+                    広告×LINE公式アカウント統合コンサルティング
+                  </option>
+                  <option value="広告運用のみ">広告運用のみ</option>
+                  <option value="LINE公式アカウント構築・運用のみ">
+                    LINE公式アカウント構築・運用のみ
+                  </option>
+                  <option value="その他">その他</option>
+                </select>
+              </div>
+              {errors.inquiryType?.message && (
+                <p className="error-message mx-4 text-sm text-red-500 font-medium mt-1">
+                  {errors.inquiryType?.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <div className="mx-4 my-2">
+                <Label variant="simple" name="budget" required={true}>
+                  ご予算感 (月額)
+                </Label>
+                <select
+                  id="budget"
+                  className="flex w-full h-10 items-center justify-center gap-2 px-4 bg-white text-neutral-800 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all duration-200 font-medium text-sm md:text-base cursor-pointer"
+                  defaultValue=""
+                  {...register("budget")}
+                >
+                  <option value="" disabled hidden>選択してください</option>
+                  <option value="月30万円以上（推奨・統合プラン）">
+                    月30万円以上（推奨・統合プラン）
+                  </option>
+                  <option value="月10万〜30万円">月10万〜30万円</option>
+                  <option value="月10万円未満">月10万円未満</option>
+                  <option value="スポット（構築のみ等）">スポット（構築のみ等）</option>
+                </select>
+              </div>
+              {errors.budget?.message && (
+                <p className="error-message mx-4 text-sm text-red-500 font-medium mt-1">
+                  {errors.budget?.message}
+                </p>
               )}
             </div>
 
@@ -156,7 +221,7 @@ export const ContactForm = () => {
                 textAreaVariant={"primary"}
                 formName="main"
                 type="text"
-                labelName="本文"
+                labelName="本文 (必須)"
                 rows={5}
                 required={true}
                 {...register("main")}
@@ -171,7 +236,7 @@ export const ContactForm = () => {
 
             <Button
               variant={"simple"}
-              className="h-11 px-8 rounded-xl bg-amber-500 text-white font-semibold shadow-md hover:bg-amber-600 active:scale-98 transition-all duration-200 flex items-center justify-center gap-2 mx-4 mt-6"
+              className="h-11 px-8 rounded-xl bg-amber-500 text-white font-semibold shadow-md hover:bg-amber-600 active:scale-98 transition-all duration-200 flex items-center justify-center gap-2 mx-4 mt-6 cursor-pointer"
               type="submit"
               onClick={handleSubmit(onSubmit)}
             >
