@@ -39,9 +39,12 @@ const send = async (req: SendMailRequest) => {
 
   const messageBody = () => {
     if (req.type === "Contact") {
-      return `${req.message.name}さんより お問い合わせ \nメールアドレス: ${
-        req.message.address ? req.message.address : "アドレス記載なし"
-      }\nタイトル: ${req.message.subject}\n本文\n ${req.message.main}`;
+      return `${req.message.name}さんより お問い合わせ \n` +
+        `メールアドレス: ${req.message.address ? req.message.address : "アドレス記載なし"}\n` +
+        `ご相談内容: ${req.message.inquiryType ? req.message.inquiryType : "選択なし"}\n` +
+        `ご予算感: ${req.message.budget ? req.message.budget : "選択なし"}\n` +
+        `タイトル: ${req.message.subject}\n` +
+        `本文\n ${req.message.main}`;
     } else {
       return `記事タイトル: ${req.message.commentInfo?.title}\nURL: ${envMap.PROTOCOL}://${envMap.HOST}:${envMap.PORT}/articles/${req.message.commentInfo?.id} \n本文\n${req.message.main}`;
     }

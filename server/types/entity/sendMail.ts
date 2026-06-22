@@ -8,6 +8,8 @@ export type MailMessage = {
   address?: string | undefined;
   subject?: string | undefined;
   main: string;
+  inquiryType?: string | undefined;
+  budget?: string | undefined;
   commentInfo?: CommentInfo;
 };
 
